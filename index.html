@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Startup Registration Portal - AUPP Technology Center. Apply for enrollment in the upcoming cohort.">
+  <title>ATC Startup Accelerator Program | Enrollment Portal</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <div class="app-container">
+
+    <!-- Left Brand Panel -->
+    <div class="brand-panel">
+      <div class="brand-logo-container">
+        <img src="assets/ATC_Reserse_11.png" alt="AUPP Technology Center Logo" class="brand-logo">
+      </div>
+
+      <div class="brand-content">
+        <h1>ATC Startup<br>Accelerator</h1>
+        <p>Empowering the next generation of global startup innovators. Submit your application details securely and
+          launch your venture to new heights.</p>
+
+        <!-- Step Indicator -->
+        <div class="step-tracker" id="stepTracker">
+          <div class="step-item" data-step="1">
+            <div class="step-dot"></div>
+            <span>Startup Identity</span>
+          </div>
+          <div class="step-item" data-step="2">
+            <div class="step-dot"></div>
+            <span>Origins & Location</span>
+          </div>
+          <div class="step-item" data-step="3">
+            <div class="step-dot"></div>
+            <span>Stage & Team</span>
+          </div>
+          <div class="step-item" data-step="4">
+            <div class="step-dot"></div>
+            <span>Overview & Assets</span>
+          </div>
+          <div class="step-item" data-step="5">
+            <div class="step-dot"></div>
+            <span>Contact Details</span>
+          </div>
+          <div class="step-item" data-step="6">
+            <div class="step-dot"></div>
+            <span>Founders</span>
+          </div>
+          <div class="step-item" data-step="7">
+            <div class="step-dot"></div>
+            <span>Verticals & Traction</span>
+          </div>
+          <div class="step-item" data-step="8">
+            <div class="step-dot"></div>
+            <span>Funding</span>
+          </div>
+          <div class="step-item" data-step="9">
+            <div class="step-dot"></div>
+            <span>Goals & Objectives</span>
+          </div>
+          <div class="step-item" data-step="10">
+            <div class="step-dot"></div>
+            <span>Review & Submit</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="brand-footer">
+        &copy; 2026 AUPP Technology Center. All rights reserved.
+      </div>
+
+      <!-- Aesthetic Floating Background Squares -->
+      <div class="brand-squares">
+        <div class="square square-1"></div>
+        <div class="square square-2"></div>
+        <div class="square square-3"></div>
+        <div class="square square-4"></div>
+      </div>
+    </div>
+
+    <!-- Right Interactive Form Panel -->
+    <div class="form-panel">
+      <!-- Progress Bar -->
+      <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <div class="progress-text" id="progressText">0% Complete</div>
+
+      <!-- Slides Wrapper -->
+      <div class="slides-wrapper" id="slidesWrapper">
+
+        <!-- Slide 0: Welcome Screen -->
+        <div class="slide active" id="slide-0">
+          <div class="slide-content-card welcome-slide">
+            <span class="welcome-badge">✦ ATC COHORT 2026 REGISTRATION</span>
+            <h2 class="welcome-title">Startup Accelerator<br>Enrollment Portal</h2>
+            <p class="welcome-subtitle">Welcome to the secure enrollment portal. We'll ask about your startup identity,
+              team, financials, and goals to evaluate your cohort fit. This takes about 10 minutes.</p>
+
+            <div class="welcome-stats-strip">
+              <div class="stat-item">
+                <span class="stat-num">10</span>
+                <span class="stat-label">Steps</span>
+              </div>
+              <div class="stat-divider"></div>
+              <div class="stat-item">
+                <span class="stat-num">~10</span>
+                <span class="stat-label">Minutes</span>
+              </div>
+            </div>
+
+            <div class="nav-controls" style="justify-content: center;">
+              <button class="btn-primary" id="btn-start" onclick="nextSlide()">
+                Start Application
+                <svg width="18" height="18" style="margin-left:8px;" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+            </div>
+            <p style="font-size:0.8rem;color:var(--color-text-secondary);margin-top:15px;">Progress auto-saves in your
+              browser session</p>
+          </div>
+        </div>
+
+        <!-- Slide 1: Basic Information -->
+        <div class="slide" id="slide-1">
+          <div class="slide-content-card">
+            <div class="question-number"><span>01</span> &rarr; BASIC IDENTITY</div>
+            <h2 class="question-label">What is your startup's official name?<span class="required-star">*</span></h2>
+            <p class="question-desc">Use the registered name or primary trade name.</p>
+
+            <div class="input-wrapper">
+              <input type="text" class="form-input-text" id="startup_name" placeholder="Type your startup name here..."
+                required autocomplete="off">
+              <span class="input-focus-bar"></span>
+            </div>
+
+            <div class="question-number" style="margin-top: 40px;">&rarr; THE ONE-LINER</div>
+            <h2 class="question-label">Describe your startup in one simple sentence.<span class="required-star">*</span>
+            </h2>
+            <p class="question-desc">Keep it clean and easy to understand. Max 120 characters.</p>
+
+            <div class="input-wrapper">
+              <input type="text" class="form-input-text" id="startup_oneliner"
+                placeholder="e.g. We simplify university enrollment for students while digitizing administration for institutions."
+                maxlength="120" required autocomplete="off">
+              <span class="input-focus-bar"></span>
+            </div>
+
+            <div class="error-msg" id="error-slide-1">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span>Please fill in both required fields.</span>
+            </div>
+
+            <div class="nav-controls">
+              <button class="btn-back-arrow" onclick="prevSlide()">&larr;</button>
+              <button class="btn-primary" onclick="validateSlide1()">
+                Next
+                <span class="keyboard-hint">press Enter ↵</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2: Founded & Location -->
+        <div class="slide" id="slide-2">
+          <div class="slide-content-card">
+            <div class="question-number"><span>02</span> → ORIGINS</div>
+
+            <h2 class="question-label">When was your startup founded?<span class="required-star">*</span></h2>
+            <p class="question-desc">Select the date of incorporation or when operations began.</p>
+            <div class="input-wrapper">
+              <input type="date" class="form-input-text" id="founded_date" required>
+              <span class="input-focus-bar"></span>
+            </div>
+
+            <h2 class="question-label" style="margin-top: 40px;">Which country is your startup based in?<span
+                class="required-star">*</span></h2>
+            <p class="question-desc">Where is your main entity incorporated or primarily operating?</p>
+            <div class="input-wrapper">
+              <input type="text" class="form-input-text" id="startup_country"
+                placeholder="e.g. Cambodia, Singapore, Thailand..." required autocomplete="off">
+              <span class="input-focus-bar"></span>
+            </div>
+
+            <h2 class="question-label" style="margin-top: 40px;">Does your startup have international presence?</h2>
+            <p class="question-desc">Offices, partnerships, or active operations outside your home country.</p>
+            <div class="choices-grid" id="intl-choices" style="margin-bottom: 20px;">
+              <div class="choice-card" data-val="yes" onclick="selectChoiceSingle('international_presence', this)">
+                <div class="choice-letter">A</div>
+                <div class="choice-label">Yes — we operate or have partnerships in other countries</div>
+              </div>
+              <div class="choice-card" data-val="no" onclick="selectChoiceSingle('international_presence', this)">
+                <div class="choice-letter">B</div>
+                <div class="choice-label">No — we currently operate only in our home market</div>
+              </div>
+            </div>
+
+            <div class="error-msg" id="error-slide-2">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span>Please fill in a valid date and country.</span>
+            </div>
+
+            <div class="nav-controls">
+              <button class="btn-back-arrow" onclick="prevSlide()">&larr;</button>
+              <button class="btn-primary" onclick="validateSlide2()">
+                Next
+                <span class="keyboard-hint">press Enter ↵</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3: Stage & Scale -->
+        <div class="slide" id="slide-3">
+          <div class="slide-content-card">
+            <div class="question-number"><span>03</span> → STAGE & SCALE</div>
+            
+            <h2 class="question-label">What is the current stage of your startup?<span class="required-star">*</span>
+            </h2>
+            <p class="question-desc">Choose the option that matches your current progress.</p>
+
+            <div class="choices-grid" id="stage-choices">
+              <div class="choice-card" data-val="Ideation" onclick="selectChoice('stage', this)">
+                <div class="choice-letter">A</div>
+                <div class="choice-label"><strong>Ideation</strong> &ndash; We are researching, planning and formulating
+                  the concept. No product yet.</div>
+              </div>
+              <div class="choice-card" data-val="MVP" onclick="selectChoice('stage', this)">
+                <div class="choice-letter">B</div>
+                <div class="choice-label"><strong>MVP / Prototype</strong> &ndash; We have a working minimum product and
+                  are starting testing or initial pilot.</div>
+              </div>
+              <div class="choice-card" data-val="Operation" onclick="selectChoice('stage', this)">
+                <div class="choice-letter">C</div>
+                <div class="choice-label"><strong>Operation / Scaling</strong> &ndash; We are actively operating,
+                  generating traction/revenue, and seeking growth.</div>
+              </div>
+            </div>
+
+            <h2 class="question-label" style="margin-top: 40px;">How many people are in your core team?<span
+                class="required-star">*</span></h2>
+            <p class="question-desc">Count full-time founders, employees, and dedicated contractors.</p>
+
+            <div class="choices-grid" id="team-choices">
+              <div class="choice-card" data-val="&lt;10" onclick="selectChoice('team_size', this)">
+                <div class="choice-letter">A</div>
+                <div class="choice-label">Fewer than 10 team members</div>
+              </div>
+              <div class="choice-card" data-val="10-50" onclick="selectChoice('team_size', this)">
+                <div class="choice-letter">B</div>
+                <div class="choice-label">Between 10 and 50 team members</div>
+              </div>
+              <div class="choice-card" data-val="50-100" onclick="selectChoice('team_size', this)">
+                <div class="choice-letter">C</div>
+                <div class="choice-label">Between 50 and 100 team members</div>
+              </div>
+              <div class="choice-card" data-val="100+" onclick="selectChoice('team_size', this)">
+                <div class="choice-letter">D</div>
+                <div class="choice-label">More than 100 team members</div>
+              </div>
+            </div>
+
+            <div class="error-msg" id="error-slide-3">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span>Please select an option for both questions.</span>
+            </div>
+
+            <div class="nav-controls">
+              <button class="btn-back-arrow" onclick="prevSlide()">&larr;</button>
+              <button class="btn-primary" onclick="validateSlide3()">
+                Next
+                <span class="keyboard-hint">press Enter ↵</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 4: Startup Overview & Assets -->
+        <div class="slide" id="slide-4">
+          <div class="slide-content-card">
+            <div class="question-number"><span>04</span> &rarr; COMPANY SUMMARY & ASSETS</div>
+
+            <h2 class="question-label">Provide a detailed overview of your startup.<span class="required-star">*</span>
+            </h2>
+            <p class="question-desc">Explain your target problem, product solution, and business model. (Max 300 words)
+            </p>
+            <div class="input-wrapper">
+              <textarea class="form-textarea" id="startup_overview"
+                placeholder="Tell us what you build, who you build it for, and how it works..."></textarea>
+            </div>
+
+            <h2 class="question-label" style="margin-top: 30px;">Logo Link (Optional)</h2>
+            <p class="question-desc">Link to your logo file (Google Drive, Dropbox, website image, etc.)</p>
+            <div class="input-wrapper">
+              <input type="url" class="form-input-text" id="logo_link" placeholder="https://..." autocomplete="off">
+              <span class="input-focus-bar"></span>
+            </div>
+
+            <h2 class="question-label" style="margin-top: 30px;">Pitch Deck Link (Optional)</h2>
+            <p class="question-desc">Link to your presentation slides. Make sure link permissions are set to public
+              viewing.</p>
+            <div class="input-wrapper">
+              <input type="text" class="form-input-text" id="pitch_deck_link" placeholder="https://drive.google.com/..."
+                autocomplete="off">
+              <span class="input-focus-bar"></span>
+            </div>
+
+            <div class="error-msg" id="error-slide-4">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span>Please fill in the overview. Links must be in valid URL format (e.g. https://...).</span>
+            </div>
+
+            <div class="nav-controls">
+              <button class="btn-back-arrow" onclick="prevSlide()">&larr;</button>
+              <button class="btn-primary" onclick="validateSlide4()">
+                Next
+                <span class="keyboard-hint">press Enter ↵</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 5: Contacts -->
+        <div class="slide" id="slide-5">
+          <div class="slide-content-card">
+            <div class="question-number"><span>05</span> &rarr; CONTACT CHANNELS</div>
+
+            <h2 class="question-label">Main headquarters address</h2>
+            <p class="question-desc">Where is your primary office located?</p>
+            <div class="input-wrapper">
+              <input type="text" class="form-input-text" id="headquarters" placeholder="Street, Building, City, Country"
+                autocomplete="off">
+              <span class="input-focus-bar"></span>
+            </div>
+
+            <h2 class="question-label" style="margin-top: 30px;">Company website URL</h2>
+            <p class="question-desc">Enter your primary landing page. (Optional)</p>
+            <div class="input-wrapper">
+              <input type="url" class="form-input-text" id="website" placeholder="https://..." autocomplete="off">
+              <span class="input-focus-bar"></span>
+            </div>
+
+            <div class="founder-grid">
+              <div class="mini-input-group">
+                <label class="mini-label" for="contact_email">Email Address<span class="required-star">*</span></label>
+                <input type="email" class="mini-input" id="contact_email" placeholder="hello@yourstartup.com" required
+                  autocomplete="off">
+              </div>
+              <div class="mini-input-group">
+                <label class="mini-label" for="contact_phone">Phone Number<span class="required-star">*</span></label>
+                <input type="tel" class="mini-input" id="contact_phone" placeholder="+855 12 345 678" required
+                  autocomplete="off">
+              </div>
+              <div class="mini-input-group full-width" style="margin-top: 10px;">
+                <label class="mini-label" for="contact_telegram">Telegram Contact Username / Link<span
+                    class="required-star">*</span></label>
+                <input type="text" class="mini-input" id="contact_telegram" placeholder="@username or t.me/username"
+                  required autocomplete="off">
+              </div>
+            </div>
+
+            <div class="error-msg" id="error-slide-5" style="margin-top: 20px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span>Please enter a valid email, phone, and Telegram handle.</span>
+            </div>
+
+            <div class="nav-controls" style="margin-top: 25px;">
+              <button class="btn-back-arrow" onclick="prevSlide()">&larr;</button>
+              <button class="btn-primary" onclick="validateSlide5()">
+                Next
+                <span class="keyboard-hint">press Enter ↵</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 6: Founders -->
+        <div class="slide" id="slide-6">
+          <div class="slide-content-card">
+            <div class="question-number"><span>06</span> &rarr; THE FOUNDERS</div>
+            <h2 class="question-label">Add details of the founding team members.<span class="required-star">*</span>
+            </h2>
+            <p class="question-desc">Add at least one active founder. We will send invitations to all founders.</p>
+
+            <div class="founders-list-container" id="foundersList">
+              <!-- Founder cards will be loaded dynamically here -->
+            </div>
+
+            <button type="button" class="btn-secondary" onclick="addFounderCard()">
+              + Add Another Founder
+            </button>
+
+            <div class="error-msg" id="error-slide-6" style="margin-top: 20px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span>Please enter full details for at least one founder. Verify emails are correct.</span>
+            </div>
+
+            <div class="nav-controls" style="margin-top: 25px;">
+              <button class="btn-back-arrow" onclick="prevSlide()">&larr;</button>
+              <button class="btn-primary" onclick="validateSlide6()">
+                Next
+                <span class="keyboard-hint">press Enter ↵</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 7: Business & Verticals -->
+        <div class="slide" id="slide-7">
+          <div class="slide-content-card">
+            <div class="question-number"><span>07</span> &rarr; VERTICALS & FOCUS AREAS</div>
+
+            <h2 class="question-label">Which verticals describe your business? (Select all that apply)<span
+                class="required-star">*</span></h2>
+            <p class="question-desc">Pick tags matching your main operational models.</p>
+
+            <div class="pills-container" id="verticals-pills">
+              <div class="pill-item" onclick="togglePill(this, 'verticals')">B2B (product)</div>
+              <div class="pill-item" onclick="togglePill(this, 'verticals')">B2B (service)</div>
+              <div class="pill-item" onclick="togglePill(this, 'verticals')">B2C (product)</div>
+              <div class="pill-item" onclick="togglePill(this, 'verticals')">B2C (service)</div>
+              <div class="pill-item" onclick="togglePill(this, 'verticals')">SaaS</div>
+              <div class="pill-item" onclick="togglePill(this, 'verticals')">EdTech</div>
+              <div class="pill-item" onclick="togglePill(this, 'verticals')">AgriTech</div>
+              <div class="pill-item" onclick="togglePill(this, 'verticals')">FinTech</div>
+              <div class="pill-item" onclick="togglePill(this, 'verticals')">Logistics</div>
+              <div class="pill-item" onclick="togglePill(this, 'verticals')">AI & Data</div>
+            </div>
+
+            <h2 class="question-label" style="margin-top: 30px;">Core tech focus areas</h2>
+            <p class="question-desc">Which technologies do you build? (e.g. AI-driven forecasting, cold-chain API,
+              blockchain, IoT)</p>
+            <div class="input-wrapper">
+              <input type="text" class="form-input-text" id="focus_areas"
+                placeholder="Type tech focus areas (comma separated)..." autocomplete="off">
+              <span class="input-focus-bar"></span>
+            </div>
+
+            <h2 class="question-label" style="margin-top: 30px;">Key Traction & Current Clients</h2>
+            <p class="question-desc">Mention notable clients, partnership pilot schemes, or active sales leads.</p>
+            <div class="input-wrapper">
+              <textarea class="form-textarea" id="current_clients"
+                placeholder="List active corporate partners, total transactions, or early customers..."></textarea>
+            </div>
+
+            <div class="error-msg" id="error-slide-7">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span>Please select at least one vertical.</span>
+            </div>
+
+            <div class="nav-controls">
+              <button class="btn-back-arrow" onclick="prevSlide()">&larr;</button>
+              <button class="btn-primary" onclick="validateSlide7()">
+                Next
+                <span class="keyboard-hint">press Enter ↵</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 8: Funding & Valuation -->
+        <div class="slide" id="slide-8">
+          <div class="slide-content-card">
+            <div class="question-number"><span>08</span> &rarr; FUNDING & FINANCIALS</div>
+
+            <h2 class="question-label">Estimated pre-money valuation (USD)</h2>
+            <p class="question-desc">What is your current valuation? Enter 0 if not yet valued.</p>
+            <div class="input-wrapper">
+              <input type="text" class="form-input-text" id="valuation" placeholder="e.g. 1,500,000" autocomplete="off"
+                oninput="formatCurrency(this)">
+              <span class="input-focus-bar"></span>
+            </div>
+
+            <h2 class="question-label" style="margin-top: 30px;">Target round size to raise (USD)</h2>
+            <p class="question-desc">How much capital are you seeking in your active or next funding round?</p>
+            <div class="input-wrapper">
+              <input type="text" class="form-input-text" id="round_size" placeholder="e.g. 250,000" autocomplete="off"
+                oninput="formatCurrency(this)">
+              <span class="input-focus-bar"></span>
+            </div>
+
+            <h2 class="question-label" style="margin-top: 30px;">Round Closing Target Date</h2>
+            <p class="question-desc">When do you expect to close your active round?</p>
+            <div class="input-wrapper">
+              <input type="date" class="form-input-text" id="round_deadline">
+              <span class="input-focus-bar"></span>
+            </div>
+
+            <h2 class="question-label" style="margin-top: 30px;">Grants secured</h2>
+            <p class="question-desc">Mention any non-dilutive grants, competition prizes, or subsidies secured.
+              (Optional)</p>
+            <div class="input-wrapper">
+              <input type="text" class="form-input-text" id="grants" placeholder="e.g. USD 50,000 government grant"
+                autocomplete="off">
+              <span class="input-focus-bar"></span>
+            </div>
+
+            <div class="nav-controls">
+              <button class="btn-back-arrow" onclick="prevSlide()">&larr;</button>
+              <button class="btn-primary" onclick="nextSlide()">
+                Next
+                <span class="keyboard-hint">press Enter ↵</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 9: Program Objectives -->
+        <div class="slide" id="slide-9">
+          <div class="slide-content-card">
+            <div class="question-number"><span>09</span> &rarr; OBJECTIVES & ENGAGEMENT</div>
+
+            <h2 class="question-label">What are your primary objectives in joining the ATC Accelerator? (Select all that
+              apply)<span class="required-star">*</span></h2>
+            <p class="question-desc">We will tailor resources based on your chosen objectives.</p>
+
+            <div class="pills-container" id="objectives-pills">
+              <div class="pill-item" onclick="togglePill(this, 'objectives')">Looking for Investment</div>
+              <div class="pill-item" onclick="togglePill(this, 'objectives')">Expanding Network</div>
+              <div class="pill-item" onclick="togglePill(this, 'objectives')">Rising Brand/Product Awareness</div>
+              <div class="pill-item" onclick="togglePill(this, 'objectives')">Partnerships & Collaborations</div>
+              <div class="pill-item" onclick="togglePill(this, 'objectives')">Finding Pilot Markets</div>
+              <div class="pill-item" onclick="togglePill(this, 'objectives')">Mentorship & Guidance</div>
+            </div>
+
+            <h2 class="question-label" style="margin-top: 30px;">Expansion targets (geographical)</h2>
+            <p class="question-desc">Which countries/regions are you planning to scale into? (e.g. Singapore, Vietnam,
+              Regional)</p>
+            <div class="input-wrapper">
+              <input type="text" class="form-input-text" id="expansion_targets"
+                placeholder="e.g. Singapore, regional markets..." autocomplete="off">
+              <span class="input-focus-bar"></span>
+            </div>
+
+            <h2 class="question-label" style="margin-top: 30px;">Mentor matching preferences</h2>
+            <p class="question-desc">What expertise do you need most? (e.g. fundraising, logistics, SaaS pricing,
+              enterprise sales)</p>
+            <div class="input-wrapper">
+              <textarea class="form-textarea" id="mentor_pref"
+                placeholder="What background should your matched mentor have?"></textarea>
+            </div>
+
+            <div class="error-msg" id="error-slide-9">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span>Please select at least one program objective.</span>
+            </div>
+
+            <div class="nav-controls">
+              <button class="btn-back-arrow" onclick="prevSlide()">&larr;</button>
+              <button class="btn-primary" onclick="validateSlide9()">
+                Next
+                <span class="keyboard-hint">press Enter ↵</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 10: Review & Submit -->
+        <div class="slide" id="slide-10">
+          <div class="slide-content-card" style="max-width: 720px;">
+            <div class="question-number"><span>10</span> &rarr; REVIEW & SUBMIT</div>
+            <h2 class="question-label">Review your application information</h2>
+            <p class="question-desc">Click any category header below to inspect the details. Adjust if necessary.</p>
+
+            <div class="review-container">
+
+              <!-- Accordion Section 1 -->
+              <div class="review-section">
+                <div class="review-header" onclick="toggleAccordion('review-sec-1')">
+                  <span>1. Startup Identity</span>
+                  <span class="review-edit-indicator" onclick="goToSlide(1); event.stopPropagation();">Edit</span>
+                </div>
+                <div class="review-body" id="review-sec-1">
+                  <div class="review-row">
+                    <div class="review-label">Startup Name:</div>
+                    <div class="review-val" id="rev-name">-</div>
+                  </div>
+                  <div class="review-row">
+                    <div class="review-label">One-liner:</div>
+                    <div class="review-val" id="rev-oneliner">-</div>
+                  </div>
+                  <div class="review-row">
+                    <div class="review-label">Founded Date:</div>
+                    <div class="review-val" id="rev-founded">-</div>
+                  </div>
+                  <div class="review-row">
+                    <div class="review-label">Country:</div>
+                    <div class="review-val" id="rev-country">-</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Accordion Section 2 -->
+              <div class="review-section">
+                <div class="review-header" onclick="toggleAccordion('review-sec-2')">
+                  <span>2. Details & Assets</span>
+                  <span class="review-edit-indicator" onclick="goToSlide(3); event.stopPropagation();">Edit</span>
+                </div>
+                <div class="review-body" id="review-sec-2">
+                  <div class="review-row">
+                    <div class="review-label">Stage:</div>
+                    <div class="review-val" id="rev-stage">-</div>
+                  </div>
+                  <div class="review-row">
+                    <div class="review-label">Team Size:</div>
+                    <div class="review-val" id="rev-teamsize">-</div>
+                  </div>
+                  <div class="review-row">
+                    <div class="review-label">Overview:</div>
+                    <div class="review-val" id="rev-overview">-</div>
+                  </div>
+                  <div class="review-row">
+                    <div class="review-label">Logo Link:</div>
+                    <div class="review-val" id="rev-logolink">-</div>
+                  </div>
+                  <div class="review-row">
+                    <div class="review-label">Pitch Deck:</div>
+                    <div class="review-val" id="rev-pitchlink">-</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Accordion Section 3 -->
+              <div class="review-section">
+                <div class="review-header" onclick="toggleAccordion('review-sec-3')">
+                  <span>3. Contacts & Founders</span>
+                  <span class="review-edit-indicator" onclick="goToSlide(5); event.stopPropagation();">Edit</span>
+                </div>
+                <div class="review-body" id="review-sec-3">
+                  <div class="review-row">
+                    <div class="review-label">Contact Email:</div>
+                    <div class="review-val" id="rev-email">-</div>
+                  </div>
+                  <div class="review-row">
+                    <div class="review-label">Contact Phone:</div>
+                    <div class="review-val" id="rev-phone">-</div>
+                  </div>
+                  <div class="review-row">
+                    <div class="review-label">Telegram Handle:</div>
+                    <div class="review-val" id="rev-telegram">-</div>
+                  </div>
+                  <div class="review-row">
+                    <div class="review-label">HQ Address:</div>
+                    <div class="review-val" id="rev-hq">-</div>
+                  </div>
+                  <div class="review-row">
+                    <div class="review-label">Founders:</div>
+                    <div class="review-val" id="rev-founders-list">-</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Accordion Section 4 -->
+              <div class="review-section">
+                <div class="review-header" onclick="toggleAccordion('review-sec-4')">
+                  <span>4. Financials & Goals</span>
+                  <span class="review-edit-indicator" onclick="goToSlide(8); event.stopPropagation();">Edit</span>
+                </div>
+                <div class="review-body" id="review-sec-4">
+                  <div class="review-row">
+                    <div class="review-label">Valuation:</div>
+                    <div class="review-val" id="rev-val">-</div>
+                  </div>
+                  <div class="review-row">
+                    <div class="review-label">Round Size:</div>
+                    <div class="review-val" id="rev-round">-</div>
+                  </div>
+                  <div class="review-row">
+                    <div class="review-label">Round Closing:</div>
+                    <div class="review-val" id="rev-rounddeadline">-</div>
+                  </div>
+                  <div class="review-row">
+                    <div class="review-label">Grants secured:</div>
+                    <div class="review-val" id="rev-grants">-</div>
+                  </div>
+                  <div class="review-row">
+                    <div class="review-label">Objectives:</div>
+                    <div class="review-val" id="rev-objectives">-</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Secure Policy Disclaimer Checkbox -->
+            <div class="security-agreement-box">
+              <input type="checkbox" id="securityAgreement">
+              <label for="securityAgreement">
+                I verify that all submitted startup data is accurate. I understand that ATC protects all company
+                information using <strong>end-to-end client-side encryption</strong> during transmission to protect
+                proprietary IP.
+              </label>
+            </div>
+
+            <div class="error-msg" id="error-slide-10">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span>Please agree to the data verification and security terms to submit.</span>
+            </div>
+
+            <div class="nav-controls">
+              <button class="btn-back-arrow" onclick="prevSlide()">&larr;</button>
+              <button class="btn-primary" onclick="submitApplication()"
+                style="background-color: var(--color-green); box-shadow: 0 4px 14px rgba(95, 179, 67, 0.25);">
+                Encrypt & Submit Application
+                <span class="keyboard-hint">press Enter ↵</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 11: Success Screen -->
+        <div class="slide" id="slide-11">
+          <div class="slide-content-card success-slide">
+            <div class="success-check-container">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <h2 class="success-title">Application Submitted!</h2>
+            <p class="success-desc">Thank you. Your startup application was received successfully. We have processed
+              your submission securely and generated your enrollment ticket below.</p>
+
+            <div class="success-summary-card">
+              <div class="success-row">
+                <span class="success-label">Startup:</span>
+                <span class="success-val" id="ticket-name">-</span>
+              </div>
+              <div class="success-row">
+                <span class="success-label">Confirmation ID:</span>
+                <span class="success-val" id="ticket-id">-</span>
+              </div>
+              <div class="success-row">
+                <span class="success-label">Submitted On:</span>
+                <span class="success-val" id="ticket-date">-</span>
+              </div>
+              <div class="success-row">
+                <span class="success-label">Data Security Status:</span>
+                <span class="success-val" style="color: var(--color-green);">AES-256 Encrypted</span>
+              </div>
+            </div>
+
+            <div class="nav-controls" style="justify-content: center;">
+              <button class="btn-primary" onclick="window.print()">Print Receipt</button>
+              <button class="btn-secondary" onclick="restartApplication()"
+                style="border-style: solid; font-weight: normal; margin-left: 10px;">Apply for Another Startup</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Secure Submission Overlay (Visualization) -->
+      <div class="security-overlay" id="securityOverlay">
+        <div class="shield-icon-container">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+        </div>
+        <div class="visualizer-title" id="securityOverlayTitle">Encrypting Data Package</div>
+        <div class="visualizer-subtitle">Securing proprietary startup intellectual property with local AES-256 keys
+        </div>
+
+        <div class="cipher-matrix" id="cipherMatrix">
+          Initializing AES-256 Cryptographic Subsystem...
+        </div>
+
+        <div class="security-progress">
+          <div class="security-progress-fill" id="securityProgressFill"></div>
+        </div>
+        <div class="security-status-text" id="securityStatusText">Preparing local buffer...</div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

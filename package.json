@@ -1,0 +1,14 @@
+{
+  "name": "atc-registration-website",
+  "version": "1.0.0",
+  "description": "Secure Startup Registration Portal - AUPP Technology Center",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server -p 3000",
+    "dev": "npx http-server -p 3000"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
