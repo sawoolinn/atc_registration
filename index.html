@@ -13,7 +13,7 @@
 
 <body>
   <div class="app-container">
-        <div class="form-panel">
+      <div class="form-panel">
       <!-- Centered Header with White Logos -->
       <div class="global-header">
         <div class="header-logo-container">
@@ -28,10 +28,11 @@
         <!-- Slide 0: Welcome -->
         <div class="slide active" id="slide-0">
           <div class="slide-content-card welcome-slide">
-            <span class="welcome-badge">&#x2726; INAUGURAL BATCH 2026</span>
-            <h2 class="welcome-title">Plug and Play<br>VC Academy</h2>
-            <p class="welcome-subtitle">This program equips you with the knowledge, network, and practical tools needed
-              to drive startup investments. Complete the form below to secure your spot.</p>
+            <span class="welcome-badge">&#x2726; BATCH 2026</span>
+            <h2 class="welcome-title">Plug AND Play VC Academy:  <br> Enrollment Form</h2> 
+            <p class="welcome-subtitle"> <strong>Welcome to the Plug and Play VC Academy!</strong> This program is designed to equip you with the
+              knowledge, network, and practical tools needed to drive startup investments. Please complete the form below to secure
+              your spot.</p>
 
             <div class="nav-controls" style="justify-content: center;">
               <button class="btn-primary" id="btn-start" onclick="nextSlide()">
@@ -155,8 +156,7 @@
           <div class="slide-content-card">
             <div class="question-number"><span>04</span> &#x2192; ATTENDEE PROFILE</div>
             <h2 class="question-label">Which profile best describes you?<span class="required-star">*</span></h2>
-            <p class="question-desc">Select the one option that best matches your current role. This helps us tailor the
-              learning experience.</p>
+            <p class="question-desc">To help us tailor the learning experience, please select the profile that best describes your current role:</p>
             <div class="choices-grid" id="profile-choices">
               <div class="choice-card" data-val="corporate" onclick="selectChoiceSingle('profile', this)">
                 <div class="choice-letter">A</div>
@@ -204,11 +204,12 @@
         <!-- Slide 5: Program Selection & Pricing -->
         <div class="slide" id="slide-5">
           <div class="slide-content-card">
-            <div class="question-number"><span>05</span> &#x2192; PROGRAM SELECTION</div>
+            <div class="question-number"><span>05</span> &#x2192; PROGRAM SELECTION & PRICING</div>
             <h2 class="question-label">Select your enrollment option(s)<span class="required-star">*</span></h2>
-            <p class="question-desc">Choose one or more programs. Selecting both Level 1 &amp; Level 2 workshops
-              <strong>plus</strong> at least one immersion trip qualifies you for a <strong
-                style="color:var(--color-primary-red)">50% inaugural discount</strong> on workshop fees.
+            <p class="question-desc">The VC Academy offers flexible attendance formats. Please select your preferred enrollment option 
+              <br>
+              <strong style="color:var(--color-primary-red)">(a 50% inaugural batch discount will be applied to workshop fees if both level 1 and 2 workshops and immersion
+              trips are selected)</strong>
             </p>
             <div class="choices-grid" id="program-choices" style="gap:12px;">
               <div class="choice-card program-card" data-val="level1" data-price="2000"
@@ -216,8 +217,9 @@
                 <div class="choice-letter" id="chk-level1">&#x2610;</div>
                 <div class="choice-label">
                   <strong>Option 1: Level 1 &mdash; Deal Origination</strong>
-                  <div style="font-size:0.85rem;color:var(--color-text-secondary);margin-top:4px;">Foundational
-                    workshop: VC business model, investment process, deal sourcing &amp; instruments.</div>
+                  <div style="font-size:0.85rem;color:var(--color-text-secondary);margin-top:4px;">
+                    Foundational workshop series covering the VC business model, investment process, deal sourcing, and investment instruments.
+                  </div>
                   <div style="font-size:1rem;font-weight:bold;color:var(--color-primary-red);margin-top:6px;">US$ 2,000
                   </div>
                 </div>
@@ -227,8 +229,9 @@
                 <div class="choice-letter" id="chk-level2">&#x2610;</div>
                 <div class="choice-label">
                   <strong>Option 2: Level 2 &mdash; Deal Closing</strong>
-                  <div style="font-size:0.85rem;color:var(--color-text-secondary);margin-top:4px;">Advanced workshop:
-                    closing deals, due diligence, venture deal terms &amp; legal DD.</div>
+                  <div style="font-size:0.85rem;color:var(--color-text-secondary);margin-top:4px;">
+                    Level 2 workshop series covering the process of closing investment deals, due diligence, venture deal terms and legal due diligence
+                  </div>
                   <div style="font-size:1rem;font-weight:bold;color:var(--color-primary-red);margin-top:6px;">US$ 2,000
                   </div>
                 </div>
@@ -239,7 +242,9 @@
                 <div class="choice-label">
                   <strong>Option 3: Singapore Immersion Trip</strong>
                   <div style="font-size:0.85rem;color:var(--color-text-secondary);margin-top:4px;">Oct 26&ndash;30, 2026
-                    &middot; PNP APAC Summit, VC &amp; tech giant visits, ground transport included.</div>
+                    <i>Includes:</i> Week long trip to Singapore during Plug and Play’s APAC Summit week, gain access to the summit, side events
+                    and networking mixers and visits to VCs and tech giants. Ground transportation between venues will be covered
+                  </div>
                   <div style="font-size:1rem;font-weight:bold;color:var(--color-primary-red);margin-top:6px;">US$ 3,000
                   </div>
                 </div>
@@ -250,7 +255,9 @@
                 <div class="choice-label">
                   <strong>Option 4: Silicon Valley Immersion Trip</strong>
                   <div style="font-size:0.85rem;color:var(--color-text-secondary);margin-top:4px;">Nov 16&ndash;20, 2026
-                    &middot; PNP Summit, VC &amp; tech giant visits, ground transport included.</div>
+                    <i>Includes:</i> Week long trip to Silicon Valley during Plug and Play’s Summit week, gain access to the summit, side events
+                    and networking mixers and visits to VCs and tech giants. Ground transportation between venues will be covered
+                  </div>
                   <div style="font-size:1rem;font-weight:bold;color:var(--color-primary-red);margin-top:6px;">US$ 6,000
                   </div>
                 </div>
@@ -263,7 +270,7 @@
                 <span id="price-discount" style="color:#16a34a;">-US$ 0</span>
               </div>
               <div class="pricing-row pricing-total"><span>Total</span><span id="price-total">US$ 0</span></div>
-              <div id="discount-notice" style="display:none;font-size:0.82rem;color:#16a34a;margin-top:8px;">&#x1F389;
+              <div id="discount-notice" style="display:none;font-size:0.82rem;color:#16a34a;margin-top:8px;">
                 You qualify for the 50% inaugural batch discount on workshop fees!</div>
             </div>
             <div class="error-msg" id="error-slide-5">
@@ -288,11 +295,10 @@
           <div class="slide-content-card">
             <div class="question-number"><span>06</span> &#x2192; GOALS &amp; EXPECTATIONS</div>
             <h2 class="question-label">What is your primary goal?<span class="required-star">*</span></h2>
-            <p class="question-desc">What do you hope to gain from attending the VC Academy?</p>
             <textarea class="form-textarea" id="primary_goal"
-              placeholder="Share your main objective for joining the program..." rows="3" maxlength="1000"></textarea>
+              placeholder="Share your main objective for attending the VC Academy..." rows="3" maxlength="1000"></textarea>
             <h2 class="question-label" style="margin-top:36px;">Dietary or accessibility requirements</h2>
-            <p class="question-desc">Any dietary restrictions or special needs for in-person events? Leave blank if
+            <p class="question-desc">Do you have any dietary restrictions or special accessibility requirements for in-person events? Leave blank if
               none.</p>
             <textarea class="form-textarea" id="dietary" placeholder="e.g. Vegetarian, Wheelchair access needed..."
               rows="2" maxlength="500"></textarea>

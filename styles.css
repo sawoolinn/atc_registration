@@ -51,7 +51,7 @@
 
 /* Color Variables and Tokens */
 :root {
-  --color-primary-red: #74C0EB;
+  --color-primary-red: #027cc3;
   /* Light Blue for Dark Background */
   --color-primary-dark: #1269A2;
   /* ATC Primary Blue */
@@ -63,13 +63,13 @@
   /* Deep Midnight Blue */
   --color-card-bg: transparent;
   /* Full screen, not in a box */
-  --color-text-primary: #ffffff;
+  --color-text-primary: #000000;
   /* White text for contrast */
-  --color-text-secondary: #94a3b8;
+  --color-text-secondary: #26374e;
   /* Light blue-gray for subtext */
-  --color-text-light: #ffffff;
-  --color-input-border: rgba(255, 255, 255, 0.2);
-  --color-input-focus: #74C0EB;
+  --color-text-light: #475d7b;
+  --color-input-border: rgba(51, 51, 51, 0.2);
+  --color-input-focus: #0478bb;
 
   --font-family-sans: 'Protipo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --transition-smooth: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
@@ -707,7 +707,7 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-input-focus);
+  background-color:  #1e87ca;
   color: #ffffff;
   border: none;
   padding: 14px 28px;
@@ -732,7 +732,7 @@ body {
 
 .keyboard-hint {
   font-size: 0.8rem;
-  color: var(--color-text-secondary);
+  color: var(--color-bg-main);
   opacity: 0.8;
   margin-left: 10px;
 }
@@ -765,7 +765,7 @@ body {
 .welcome-badge {
   display: inline-block;
   background-color: rgba(18, 105, 162, 0.08);
-  color: var(--color-primary-red);
+  color: var(--color-primary-dark);
   font-weight: bold;
   font-size: 0.85rem;
   padding: 6px 16px;
@@ -789,6 +789,12 @@ body {
   margin: 0 auto 40px auto;
   line-height: 1.6;
   font-weight: 300;
+}
+
+/* Ensure strong inside welcome subtitle appears bold */
+.welcome-subtitle strong {
+  font-weight: 700;
+  color: inherit;
 }
 
 /* Error States */
@@ -1418,7 +1424,7 @@ body {
 .global-header {
   width: 100%;
   max-width: 680px;
-  margin: 0 auto 30px auto;
+  margin: 0 0 30px auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1434,8 +1440,11 @@ body {
   height: 38px;
   width: auto;
   object-fit: contain;
-  filter: none; /* Show actual colored logos */
+  filter: none; 
+  /* Show actual colored logos */
 }
+
+
 
 .header-logo-container .brand-logo-divider {
   width: 1px;
