@@ -1117,67 +1117,31 @@ body {
 }
 
 /* Sidebar Toggle for Desktop/Mobile layouts */
+/* ── Tablet (≤850px) ─────────────────────────────────────────── */
 @media (max-width: 850px) {
-  .app-container {
-    flex-direction: column;
-  }
-
-  .brand-panel {
-    flex: 0 0 auto;
-    width: 100%;
-    padding: 20px 30px;
-    flex-direction: row;
-    align-items: center;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    height: 70px;
-  }
-
-  .brand-panel::before {
-    background-image: none;
-    /* Disable image on mobile header */
-  }
-
-  .brand-logo {
-    width: 120px;
-  }
-
-  .brand-content,
-  .brand-footer,
-  .brand-squares {
-    display: none;
-  }
-
   .form-panel {
-    flex: 1;
-    height: calc(100vh - 70px);
-  }
-
-  .progress-container {
-    top: 0;
-  }
-
-  .progress-text {
-    top: 12px;
-    right: 20px;
-    font-size: 0.75rem;
+    max-width: 100%;
+    padding: 24px 16px;
   }
 
   .slide {
-    padding: 40px 20px;
+    padding: 20px 0;
   }
 
+  .slide-content-card {
+    padding: 12px 0;
+  }
 
   .welcome-title {
-    font-size: 2rem;
+    font-size: 2.2rem;
   }
 
   .welcome-subtitle {
     font-size: 1rem;
-    margin-bottom: 30px;
   }
 
   .question-label {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
   }
 
   .form-input-text {
@@ -1397,26 +1361,185 @@ body {
   cursor: pointer;
 }
 
-/* ─── Mobile responsive ─── */
-@media (max-width: 768px) {
-  .brand-panel {
-    display: none;
+/* ── Mobile / Small Tablet (≤640px) ─────────────────────────── */
+@media (max-width: 640px) {
+  .app-container {
+    min-height: 100svh;
+    overflow-y: auto;
+    align-items: flex-start;
   }
 
   .form-panel {
     width: 100%;
+    max-width: 100%;
+    min-height: 100svh;
+    padding: 20px 16px 40px;
+    justify-content: flex-start;
   }
 
-  .pnp-logo-text {
-    font-size: 0.9rem;
+  .global-header {
+    max-width: 100%;
+    margin: 0 0 20px 0;
+    justify-content: center;
+  }
+
+  .header-logo-container .brand-logo {
+    height: 28px;
+  }
+
+  .slides-wrapper {
+    position: static;
+    height: auto;
+  }
+
+  .slide {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    display: none;
+    padding: 0;
+  }
+
+  .slide.active {
+    display: flex;
+  }
+
+  .slide-content-card {
+    max-width: 100%;
+    padding: 8px 0;
+    margin: 0;
   }
 
   .welcome-title {
-    font-size: 2rem;
+    font-size: 1.9rem;
+    line-height: 1.2;
+  }
+
+  .welcome-subtitle {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .welcome-badge {
+    font-size: 0.78rem;
+    padding: 5px 12px;
+  }
+
+  .question-label {
+    font-size: 1.3rem;
+    line-height: 1.35;
+  }
+
+  .question-number {
+    font-size: 0.95rem;
+  }
+
+  .question-desc {
+    font-size: 0.9rem;
+  }
+
+  .form-input-text {
+    font-size: 1rem;
+  }
+
+  .form-textarea {
+    font-size: 1rem;
+    min-height: 80px;
+  }
+
+  .choice-card {
+    padding: 13px 14px;
+    gap: 10px;
+  }
+
+  .choice-text {
+    font-size: 0.9rem;
+  }
+
+  .choice-desc {
+    font-size: 0.8rem;
+  }
+
+  .btn-primary {
+    padding: 13px 22px;
+    font-size: 0.95rem;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .btn-secondary {
+    padding: 11px 18px;
+    font-size: 0.9rem;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .nav-controls {
+    flex-direction: column-reverse;
+    gap: 10px;
+  }
+
+  .keyboard-hint {
+    display: none;
   }
 
   .pricing-calculator {
+    padding: 12px 14px;
+  }
+
+  .pricing-row {
+    font-size: 0.88rem;
+  }
+
+  .cf-turnstile {
+    transform: scale(0.9);
+    transform-origin: left center;
+  }
+
+  .success-title {
+    font-size: 1.7rem;
+  }
+
+  .success-desc {
+    font-size: 0.95rem;
+  }
+
+  .success-summary-card {
+    padding: 15px;
+  }
+
+  .review-header {
+    font-size: 0.9rem;
+    padding: 13px 15px;
+  }
+
+  .review-body {
     padding: 12px 15px;
+  }
+}
+
+/* ── Small Phone (≤400px) ────────────────────────────────────── */
+@media (max-width: 400px) {
+  .welcome-title {
+    font-size: 1.6rem;
+  }
+
+  .question-label {
+    font-size: 1.15rem;
+  }
+
+  .header-logo-container .brand-logo {
+    height: 24px;
+  }
+
+  .header-logo-container {
+    gap: 12px;
+  }
+
+  .cf-turnstile {
+    transform: scale(0.82);
+    transform-origin: left center;
   }
 }
 
