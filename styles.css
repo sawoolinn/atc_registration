@@ -895,6 +895,37 @@ body {
   gap: 4px;
 }
 
+/* Global Header (Co-branding logos) */
+.global-header {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 0 30px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-logo-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-logo-container .brand-logo {
+  height: clamp(24px, 3.2vw, 38px);
+  width: auto;
+  max-width: min(42vw, 180px);
+  object-fit: contain;
+  filter: none; 
+  /* Show actual colored logos */
+}
+
+.header-logo-container .brand-logo-divider {
+  width: 1px;
+  height: 28px;
+  background-color: rgba(0, 0, 0, 0.15); /* Dark divider for light theme */
+}
+
 @media (min-width: 500px) {
   .review-row {
     grid-template-columns: 200px 1fr;
@@ -1119,13 +1150,61 @@ body {
 /* Sidebar Toggle for Desktop/Mobile layouts */
 /* ── Tablet (≤850px) ─────────────────────────────────────────── */
 @media (max-width: 850px) {
+  html, body {
+    height: auto !important;
+    min-height: 100% !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+  }
+
+  .choice-card {
+    align-items: flex-start !important;
+  }
+
+  .choice-letter {
+    flex-shrink: 0 !important;
+    margin-top: 2px !important;
+  }
+
+  .app-container {
+    min-height: 100svh;
+    overflow-y: auto;
+    align-items: flex-start;
+  }
+
   .form-panel {
     max-width: 100%;
-    padding: 24px 16px;
+    min-height: 100svh;
+    padding: 24px 16px 40px;
+    justify-content: flex-start;
+  }
+
+  .global-header {
+    max-width: 100%;
+    margin: 0 0 20px 0;
+    justify-content: center;
+  }
+
+  .slides-wrapper {
+    position: static;
+    flex: none;
+    height: auto;
   }
 
   .slide {
-    padding: 20px 0;
+    position: static;
+    width: 100%;
+    height: auto;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    display: none;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .slide.active {
+    display: flex;
   }
 
   .slide-content-card {
@@ -1361,8 +1440,15 @@ body {
   cursor: pointer;
 }
 
-/* ── Mobile / Small Tablet (≤640px) ─────────────────────────── */
-@media (max-width: 640px) {
+/* ── Mobile (≤480px) ─────────────────────────────────────────── */
+@media (max-width: 480px) {
+  html, body {
+    height: auto !important;
+    min-height: 100% !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+  }
+
   .app-container {
     min-height: 100svh;
     overflow-y: auto;
@@ -1383,8 +1469,30 @@ body {
     justify-content: center;
   }
 
+  .header-logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 0 10px;
+  }
+
   .header-logo-container .brand-logo {
-    height: 28px;
+    height: 24px;
+    width: auto;
+    max-width: 42%;
+    object-fit: contain;
+    filter: none;
+  }
+
+  .header-logo-container .brand-logo-divider {
+    width: 1px;
+    height: 18px;
+    background-color: rgba(0, 0, 0, 0.15);
+    flex-shrink: 0;
   }
 
   .slides-wrapper {
@@ -1412,7 +1520,7 @@ body {
   }
 
   .welcome-title {
-    font-size: 1.9rem;
+    font-size: 1.8rem;
     line-height: 1.2;
   }
 
@@ -1427,7 +1535,7 @@ body {
   }
 
   .question-label {
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     line-height: 1.35;
   }
 
@@ -1493,12 +1601,12 @@ body {
   }
 
   .cf-turnstile {
-    transform: scale(0.9);
+    transform: scale(0.85);
     transform-origin: left center;
   }
 
   .success-title {
-    font-size: 1.7rem;
+    font-size: 1.6rem;
   }
 
   .success-desc {
@@ -1519,58 +1627,3 @@ body {
   }
 }
 
-/* ── Small Phone (≤400px) ────────────────────────────────────── */
-@media (max-width: 400px) {
-  .welcome-title {
-    font-size: 1.6rem;
-  }
-
-  .question-label {
-    font-size: 1.15rem;
-  }
-
-  .header-logo-container .brand-logo {
-    height: 24px;
-  }
-
-  .header-logo-container {
-    gap: 12px;
-  }
-
-  .cf-turnstile {
-    transform: scale(0.82);
-    transform-origin: left center;
-  }
-}
-
-/* Global Header (Co-branding logos) */
-.global-header {
-  width: 100%;
-  max-width: 680px;
-  margin: 0 0 30px auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.header-logo-container {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.header-logo-container .brand-logo {
-  height: 38px;
-  width: auto;
-  object-fit: contain;
-  filter: none; 
-  /* Show actual colored logos */
-}
-
-
-
-.header-logo-container .brand-logo-divider {
-  width: 1px;
-  height: 28px;
-  background-color: rgba(0, 0, 0, 0.15); /* Dark divider for light theme */
-}
