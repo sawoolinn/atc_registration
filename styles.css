@@ -51,19 +51,26 @@
 
 /* Color Variables and Tokens */
 :root {
-  --color-primary-red: #74C0EB; /* Light Blue for Dark Background */
-  --color-primary-dark: #1269A2; /* ATC Primary Blue */
-  --color-primary-black: #013171; /* ATC Deep Dark Blue */
+  --color-primary-red: #74C0EB;
+  /* Light Blue for Dark Background */
+  --color-primary-dark: #1269A2;
+  /* ATC Primary Blue */
+  --color-primary-black: #013171;
+  /* ATC Deep Dark Blue */
   --color-accent-red-hover: #1e87ca;
-  
-  --color-bg-main: #08101d; /* Deep Midnight Blue */
-  --color-card-bg: transparent; /* Full screen, not in a box */
-  --color-text-primary: #ffffff; /* White text for contrast */
-  --color-text-secondary: #94a3b8; /* Light blue-gray for subtext */
+
+  --color-bg-main: #ecf1f8;
+  /* Deep Midnight Blue */
+  --color-card-bg: transparent;
+  /* Full screen, not in a box */
+  --color-text-primary: #ffffff;
+  /* White text for contrast */
+  --color-text-secondary: #94a3b8;
+  /* Light blue-gray for subtext */
   --color-text-light: #ffffff;
   --color-input-border: rgba(255, 255, 255, 0.2);
   --color-input-focus: #74C0EB;
-  
+
   --font-family-sans: 'Protipo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --transition-smooth: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
   --shadow-premium: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
@@ -83,7 +90,7 @@ body {
   height: 100%;
   width: 100%;
   font-family: var(--font-family-sans);
-  background-color: var(--color-bg-main);
+  background-color: white;
   color: var(--color-text-primary);
   overflow: hidden;
   -webkit-font-smoothing: antialiased;
@@ -98,7 +105,7 @@ body {
   min-height: 100vh;
   width: 100vw;
   position: relative;
-  background: radial-gradient(circle at top, #111e36 0%, #060b13 100%);
+  background: radial-gradient(circle at top, #f8fafc 0%, #e2e8f0 100%);
   overflow-y: auto;
 }
 
@@ -347,15 +354,19 @@ body {
 
 /* Slide Content formatting */
 .slide-content-card {
-  max-width: 800px; /* Expand naturally */
+  max-width: 800px;
+  /* Expand naturally */
   width: 100%;
   margin: auto;
   position: relative;
-  background-color: transparent; /* No box background */
+  background-color: transparent;
+  /* No box background */
   border-radius: 0;
   padding: 20px 0;
-  box-shadow: none; /* No shadow */
-  border: none; /* No border box */
+  box-shadow: none;
+  /* No shadow */
+  border: none;
+  /* No border box */
   box-sizing: border-box;
 }
 
@@ -471,7 +482,8 @@ body {
   display: flex;
   align-items: center;
   padding: 16px 20px;
-  background-color: rgba(255, 255, 255, 0.03); /* Translucent dark background */
+  background-color: rgba(255, 255, 255, 0.03);
+  /* Translucent dark background */
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 8px;
   cursor: pointer;
@@ -499,12 +511,12 @@ body {
   justify-content: center;
   width: 24px;
   height: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid var(--color-input-border);
   border-radius: 4px;
   font-size: 0.8rem;
   font-weight: bold;
-  color: #94a3b8;
-  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--color-text-secondary);
+  background-color: #f1f5f9;
   margin-right: 15px;
   transition: var(--transition-smooth);
 }
@@ -752,7 +764,7 @@ body {
 
 .welcome-badge {
   display: inline-block;
-  background-color: rgba(116, 192, 235, 0.12);
+  background-color: rgba(18, 105, 162, 0.08);
   color: var(--color-primary-red);
   font-weight: bold;
   font-size: 0.85rem;
@@ -1067,12 +1079,12 @@ body {
   max-width: 480px;
   width: 100%;
   margin: 0 auto 30px auto;
-  background-color: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: #ffffff;
+  border: 1px solid var(--color-input-border);
   border-radius: 8px;
   padding: 20px;
   text-align: left;
-  box-shadow: none;
+  box-shadow: var(--shadow-premium);
 }
 
 .success-row {
@@ -1312,8 +1324,8 @@ body {
 /* ─── Pricing Calculator ─── */
 .pricing-calculator {
   margin-top: 20px;
-  background-color: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: #f8fafc;
+  border: 1px solid var(--color-input-border);
   border-radius: 10px;
   padding: 16px 20px;
   display: flex;
@@ -1338,7 +1350,7 @@ body {
   font-size: 1.05rem;
   font-weight: bold;
   color: var(--color-text-primary);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--color-input-border);
   padding-top: 10px;
   margin-top: 2px;
 }
@@ -1384,19 +1396,24 @@ body {
   .brand-panel {
     display: none;
   }
+
   .form-panel {
     width: 100%;
   }
+
   .pnp-logo-text {
     font-size: 0.9rem;
   }
+
   .welcome-title {
     font-size: 2rem;
   }
+
   .pricing-calculator {
     padding: 12px 15px;
   }
 }
+
 /* Global Header (Co-branding logos) */
 .global-header {
   width: 100%;
@@ -1417,11 +1434,11 @@ body {
   height: 38px;
   width: auto;
   object-fit: contain;
-  filter: brightness(0) invert(1);
+  filter: none; /* Show actual colored logos */
 }
 
 .header-logo-container .brand-logo-divider {
   width: 1px;
   height: 28px;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(0, 0, 0, 0.15); /* Dark divider for light theme */
 }
