@@ -400,56 +400,20 @@ function submitApplication() {
     showError(7, 'Please complete the Cloudflare security check first.');
     return;
   }
-  runSecuritySimulation();
-}
 
-function runSecuritySimulation() {
-  const overlay = document.getElementById('securityOverlay');
-  const title = document.getElementById('securityOverlayTitle');
-  const matrix = document.getElementById('cipherMatrix');
-  const fill = document.getElementById('securityProgressFill');
-  const statusText = document.getElementById('securityStatusText');
+  // Show loading state on button
+  const btn = document.getElementById('btn-submit');
+  const originalText = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = 'Submitting...';
 
-  overlay.classList.add('visible');
-
-  const steps = [
-    { title: 'Verifying Turnstile token...', desc: 'Cloudflare challenge response being validated' },
-    { title: 'Sanitizing submission data...', desc: 'Checking inputs for malicious content' },
-    { title: 'Encrypting payload...', desc: 'Preparing secure HTTPS transmission' },
-    { title: 'Transmitting to secure server...', desc: 'Sending to Google Apps Script backend' },
-    { title: 'Server-side validation running...', desc: 'Backend verifying fields and pricing' },
-    { title: 'Storing enrollment data...', desc: 'Writing verified data to Google Sheets' },
-    { title: 'Enrollment confirmed!', desc: 'All checks passed successfully' }
-  ];
-
-  let step = 0;
-  const interval = setInterval(() => {
-    if (step >= steps.length) {
-      clearInterval(interval);
-      const payload = collectFormPayload();
-      sendToGoogleSheets(payload).then(result => {
-        setTimeout(() => {
-          overlay.classList.remove('visible');
-          showSuccessScreen(payload);
-          sessionStorage.removeItem('pnp_vc_form');
-        }, 800);
-      });
-      return;
-    }
-    const s = steps[step];
-    title.textContent = s.title;
-    statusText.textContent = s.desc;
-    fill.style.width = ((step + 1) / steps.length * 100) + '%';
-    matrix.textContent = generateCipherText();
-    step++;
-  }, 700);
-}
-
-function generateCipherText() {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-  let out = '';
-  for (let i = 0; i < 80; i++) out += chars[Math.floor(Math.random() * chars.length)];
-  return out;
+  const payload = collectFormPayload();
+  sendToGoogleSheets(payload).then(result => {
+    btn.disabled = false;
+    btn.innerHTML = originalText;
+    showSuccessScreen(payload);
+    sessionStorage.removeItem('pnp_vc_form');
+  });
 }
 
 function showSuccessScreen(payload) {
