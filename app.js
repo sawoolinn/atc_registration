@@ -1,769 +1,482 @@
-/* ATC Startup Registration Portal Javascript Controller */
+'use strict';
 
-// Global State
+// ─────────────────────────────────────────────────────────────────
+// DATABASE LINK — Google Apps Script Web App URL:
+// ─────────────────────────────────────────────────────────────────
+const SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycby9Jt9LINcDkqtDLH3FNMYaaphDH39ac8ajWdGiETEW_qqkYYrIgC2ZEVHpHMeZVE1U/exec';
+
+// ─────────────────────────────────────────────────────────────────
+// FORM STATE
+// ─────────────────────────────────────────────────────────────────
+const TOTAL_SLIDES = 9; // 0-8 (0=welcome, 8=success)
+const PROGRAM_PRICES = { level1: 2000, level2: 2000, singapore: 3000, silicon_valley: 6000 };
+const PROFILE_LABELS = {
+  corporate: 'Corporate Innovation & Venture Professional',
+  angel: 'Angel Investor, HNWI',
+  family_office: 'Family Office, Businesses',
+  aspiring_vc: 'Aspiring Investor or Venture Capitalist',
+  business_pro: 'Business Professional or Strategist'
+};
+
 let currentSlideIndex = 0;
-const totalSlides = 12; // 0 to 11
-let selectedStage = '';
-let selectedTeamSize = '';
-let selectedInternationalPresence = '';
-const selectedVerticals = new Set();
-const selectedObjectives = new Set();
-let founderCount = 0;
+let selectedProfile = null;
+let selectedPrograms = new Set();
+let turnstileToken = null;
 
-// On Page Load
-document.addEventListener('DOMContentLoaded', () => {
-  // Add first founder card automatically
-  addFounderCard();
+// ─────────────────────────────────────────────────────────────────
+// TURNSTILE CALLBACKS (called by Cloudflare's script)
+// ─────────────────────────────────────────────────────────────────
+function onTurnstileSuccess(token) {
+  turnstileToken = token;
+}
 
-  // Load saved state if any
-  loadSessionProgress();
+function onTurnstileExpired() {
+  turnstileToken = null;
+}
 
-  // Initialize progress bar
-  updateProgress();
-
-  // Keybindings listener
-  document.addEventListener('keydown', handleGlobalKeydown);
-
-  // Auto-focus on active inputs on load
-  focusActiveInput();
-});
-
-// Clean input helper to prevent XSS
+// ─────────────────────────────────────────────────────────────────
+// SECURITY HELPERS
+// ─────────────────────────────────────────────────────────────────
 function sanitizeHTML(str) {
-  if (!str) return '';
+  if (typeof str !== 'string') return '';
   return str
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
+    .replace(/'/g, '&#x27;')
+    .replace(/\//g, '&#x2F;');
 }
 
-// Focus on first input of current slide
-function focusActiveInput() {
-  setTimeout(() => {
-    const activeSlide = document.querySelector('.slide.active');
-    if (!activeSlide) return;
-    
-    const textInput = activeSlide.querySelector('input[type="text"]:not(.mini-input), textarea');
-    if (textInput) {
-      textInput.focus();
-    }
-  }, 100);
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim());
 }
 
-// Slide Navigation
+function isValidLinkedIn(url) {
+  return /^https?:\/\/(www\.)?linkedin\.com\/(in|pub|company)\/[^\s/]+\/?$/i.test(url.trim());
+}
+
+// ─────────────────────────────────────────────────────────────────
+// NAVIGATION
+// ─────────────────────────────────────────────────────────────────
 function goToSlide(index) {
-  if (index < 0 || index >= totalSlides) return;
-  
-  const currentSlide = document.getElementById(`slide-${currentSlideIndex}`);
-  const nextSlide = document.getElementById(`slide-${index}`);
-  
-  if (currentSlide && nextSlide) {
-    // Hide error messages
-    const activeError = currentSlide.querySelector('.error-msg');
-    if (activeError) activeError.classList.remove('visible');
+  const slides = document.querySelectorAll('.slide');
+  const current = slides[currentSlideIndex];
+  const next = slides[index];
+  if (!next) return;
 
-    // Handle slide classes for transitions
-    if (index > currentSlideIndex) {
-      currentSlide.classList.remove('active');
-      currentSlide.classList.add('exit-up');
-      
-      nextSlide.classList.remove('exit-down', 'exit-up');
-      nextSlide.classList.add('active');
-    } else {
-      currentSlide.classList.remove('active');
-      currentSlide.classList.add('exit-down');
-      
-      nextSlide.classList.remove('exit-down', 'exit-up');
-      nextSlide.classList.add('active');
-    }
+  const goingForward = index > currentSlideIndex;
+  current.classList.remove('active');
+  current.classList.add(goingForward ? 'exit-up' : 'exit-down');
 
-    currentSlideIndex = index;
-    updateProgress();
-    saveSessionProgress();
-    focusActiveInput();
+  setTimeout(() => {
+    current.classList.remove('exit-up', 'exit-down');
+  }, 600);
 
-    // Scroll the slide panel back to the top on navigation
-    setTimeout(() => {
-      const activeSlide = document.getElementById(`slide-${currentSlideIndex}`);
-      if (activeSlide) activeSlide.scrollTop = 0;
-    }, 50);
+  next.style.transform = goingForward ? 'translateY(40px)' : 'translateY(-40px)';
+  next.classList.add('active');
+  next.scrollTop = 0;
+  currentSlideIndex = index;
 
-    // If on review slide, compile data
-    if (currentSlideIndex === 10) {
-      compileReviewData();
-    }
-  }
+  updateProgressBar();
+  updateStepTracker();
+  focusActiveInput();
+  saveSessionProgress();
 }
 
-function nextSlide() {
-  goToSlide(currentSlideIndex + 1);
-}
+function nextSlide() { goToSlide(currentSlideIndex + 1); }
+function prevSlide() { goToSlide(currentSlideIndex - 1); }
 
-function prevSlide() {
-  goToSlide(currentSlideIndex - 1);
-}
-
-// Keyboard shortcuts (Enter, Arrows)
-function handleGlobalKeydown(e) {
-  // Avoid interfering if user is focused inside textarea or dynamic list inputs
-  const activeEl = document.activeElement;
-  const isTextarea = activeEl && activeEl.tagName === 'TEXTAREA';
-  
-  if (e.key === 'Enter') {
-    if (isTextarea) return; // Allow newlines in textareas
-    e.preventDefault();
-    
-    // Trigger next slide validation depending on current slide
-    triggerNextValidation();
-  }
-}
-
-// Route next validation depending on step
-function triggerNextValidation() {
-  switch (currentSlideIndex) {
-    case 0:
-      nextSlide();
-      break;
-    case 1:
-      validateSlide1();
-      break;
-    case 2:
-      validateSlide2();
-      break;
-    case 3:
-      validateSlide3();
-      break;
-    case 4:
-      validateSlide4();
-      break;
-    case 5:
-      validateSlide5();
-      break;
-    case 6:
-      validateSlide6();
-      break;
-    case 7:
-      validateSlide7();
-      break;
-    case 8:
-      nextSlide(); // Valuation optional
-      break;
-    case 9:
-      validateSlide9();
-      break;
-    case 10:
-      submitApplication();
-      break;
-  }
-}
-
-// Progress calculations
-function updateProgress() {
-  // Exclude success slide (11) from percentage calculation
-  const percentage = Math.round((currentSlideIndex / (totalSlides - 1)) * 100);
-  
+function updateProgressBar() {
+  const pct = Math.round((currentSlideIndex / 7) * 100);
   const bar = document.getElementById('progressBar');
   const text = document.getElementById('progressText');
-  
-  if (bar) bar.style.width = `${percentage}%`;
-  if (text) text.innerText = `${percentage}% Complete`;
-
-  updateStepTracker();
+  if (bar) bar.style.width = Math.min(pct, 100) + '%';
+  if (text) text.textContent = Math.min(pct, 100) + '% Complete';
 }
 
-// Animate step tracker in the brand sidebar
 function updateStepTracker() {
-  const stepItems = document.querySelectorAll('.step-tracker .step-item');
-  stepItems.forEach(item => {
-    const step = parseInt(item.getAttribute('data-step'));
+  document.querySelectorAll('.step-item').forEach(item => {
+    const step = parseInt(item.dataset.step);
     item.classList.remove('active-step', 'completed');
-
-    if (step === currentSlideIndex) {
-      item.classList.add('active-step');
-    } else if (step < currentSlideIndex) {
-      item.classList.add('completed');
-    }
+    if (step === currentSlideIndex) item.classList.add('active-step');
+    else if (step < currentSlideIndex) item.classList.add('completed');
   });
 }
 
-// Show validation error helper
-function showError(slideNum, message) {
-  const errorBox = document.getElementById(`error-slide-${slideNum}`);
-  const slideEl = document.getElementById(`slide-${slideNum}`);
-  
-  if (errorBox) {
-    if (message) errorBox.querySelector('span').innerText = message;
-    errorBox.classList.add('visible');
-  }
-  
-  if (slideEl) {
-    const card = slideEl.querySelector('.slide-content-card');
-    if (card) {
-      card.classList.add('shake');
-      setTimeout(() => card.classList.remove('shake'), 400);
-    }
-  }
+function focusActiveInput() {
+  setTimeout(() => {
+    const slide = document.getElementById('slide-' + currentSlideIndex);
+    if (!slide) return;
+    const input = slide.querySelector('input:not([type=checkbox]), textarea');
+    if (input) input.focus();
+  }, 350);
 }
 
-// Currency Formatting Helper
-function formatCurrency(input) {
-  let val = input.value.replace(/[^0-9]/g, '');
-  if (val) {
-    input.value = Number(val).toLocaleString('en-US');
-  } else {
-    input.value = '';
+// ─────────────────────────────────────────────────────────────────
+// KEYBOARD NAVIGATION
+// ─────────────────────────────────────────────────────────────────
+document.addEventListener('keydown', function(e) {
+  if (currentSlideIndex === 0 && e.key === 'Enter') { nextSlide(); return; }
+  if (currentSlideIndex >= 1 && currentSlideIndex <= 6 && e.key === 'Enter') {
+    const fns = [null, validateSlide1, validateSlide2, validateSlide3, validateSlide4, validateSlide5, validateSlide6];
+    if (fns[currentSlideIndex]) fns[currentSlideIndex]();
   }
-}
+});
 
-// Choice Card Selections (Stage, Team Size — MULTI-choice groups)
-function selectChoice(type, card) {
-  const containerId = type === 'stage' ? 'stage-choices' : 'team-choices';
-  const container = document.getElementById(containerId);
-  
-  if (container) {
-    // Unselect all others
-    container.querySelectorAll('.choice-card').forEach(item => {
-      item.classList.remove('selected');
-    });
-    
-    // Select this
-    card.classList.add('selected');
-    
-    const val = card.getAttribute('data-val');
-    if (type === 'stage') {
-      selectedStage = val;
-    } else {
-      selectedTeamSize = val;
-    }
-    
-    saveSessionProgress();
-    
-    // Auto-advance slightly after choice selection for better UX
-    setTimeout(() => {
-      // Only advance if both selections on slide 3 are completed
-      if (currentSlideIndex === 3 && selectedStage && selectedTeamSize) {
-        validateSlide3();
-      }
-    }, 300);
-  }
-}
-
-// Single-select choice (International presence, etc.)
-function selectChoiceSingle(type, card) {
-  // Find parent choices grid and deselect siblings
-  const parent = card.closest('.choices-grid');
-  if (parent) {
-    parent.querySelectorAll('.choice-card').forEach(item => item.classList.remove('selected'));
-  }
+// ─────────────────────────────────────────────────────────────────
+// SINGLE-SELECT (Attendee Profile)
+// ─────────────────────────────────────────────────────────────────
+function selectChoiceSingle(category, card) {
+  document.querySelectorAll('#profile-choices .choice-card').forEach(c => c.classList.remove('selected'));
   card.classList.add('selected');
-  
-  const val = card.getAttribute('data-val');
-  if (type === 'international_presence') {
-    selectedInternationalPresence = val;
-  }
-  saveSessionProgress();
+  selectedProfile = card.dataset.val;
 }
 
-// Pills Selector (Verticals, Objectives)
-function togglePill(pill, category) {
-  const label = pill.innerText.trim();
-  const targetSet = category === 'verticals' ? selectedVerticals : selectedObjectives;
-  
-  if (targetSet.has(label)) {
-    targetSet.delete(label);
-    pill.classList.remove('active');
+// ─────────────────────────────────────────────────────────────────
+// MULTI-SELECT + LIVE PRICING (Program Options)
+// ─────────────────────────────────────────────────────────────────
+function toggleProgramOption(card) {
+  const val = card.dataset.val;
+  const chk = document.getElementById('chk-' + val);
+
+  if (selectedPrograms.has(val)) {
+    selectedPrograms.delete(val);
+    card.classList.remove('selected');
+    if (chk) chk.textContent = '\u2610';
   } else {
-    targetSet.add(label);
-    pill.classList.add('active');
+    selectedPrograms.add(val);
+    card.classList.add('selected');
+    if (chk) chk.textContent = '\u2611';
   }
-  
-  saveSessionProgress();
+  calculatePricing();
 }
 
-// Founder Card Dynamic Manager
-function addFounderCard() {
-  founderCount++;
-  const container = document.getElementById('foundersList');
-  if (!container) return;
-  
-  const cardId = `founder-card-${founderCount}`;
-  const card = document.createElement('div');
-  card.className = 'founder-card';
-  card.id = cardId;
-  
-  card.innerHTML = `
-    <div class="founder-card-header">
-      <span class="founder-title">Founder #${founderCount}</span>
-      ${founderCount > 1 ? `<button type="button" class="btn-remove-founder" onclick="removeFounderCard('${cardId}')">Remove</button>` : ''}
-    </div>
-    <div class="founder-grid">
-      <div class="mini-input-group">
-        <label class="mini-label">Full Name*</label>
-        <input type="text" class="mini-input founder-name" placeholder="e.g. John Doe" required autocomplete="off">
-      </div>
-      <div class="mini-input-group">
-        <label class="mini-label">Email Address*</label>
-        <input type="email" class="mini-input founder-email" placeholder="e.g. john@startup.com" required autocomplete="off">
-      </div>
-      <div class="mini-input-group full-width" style="margin-top: 10px;">
-        <label class="mini-label">Telegram Handle*</label>
-        <input type="text" class="mini-input founder-telegram" placeholder="e.g. @john_doe" required autocomplete="off">
-      </div>
-    </div>
-  `;
-  
-  container.appendChild(card);
-}
+function calculatePricing() {
+  const calc = document.getElementById('pricingCalculator');
+  if (!calc) return;
 
-function removeFounderCard(cardId) {
-  const card = document.getElementById(cardId);
-  if (card) {
-    card.remove();
-    // Renumber remaining cards
-    const cards = document.querySelectorAll('.founder-card');
-    founderCount = 0;
-    cards.forEach((item, index) => {
-      founderCount++;
-      item.id = `founder-card-${founderCount}`;
-      item.querySelector('.founder-title').innerText = `Founder #${founderCount}`;
-    });
-    saveSessionProgress();
+  if (selectedPrograms.size === 0) { calc.style.display = 'none'; return; }
+  calc.style.display = 'block';
+
+  let subtotal = 0;
+  selectedPrograms.forEach(key => { subtotal += PROGRAM_PRICES[key] || 0; });
+
+  // Discount: Level1 + Level2 + at least one immersion trip
+  const hasLevel1 = selectedPrograms.has('level1');
+  const hasLevel2 = selectedPrograms.has('level2');
+  const hasTrip = selectedPrograms.has('singapore') || selectedPrograms.has('silicon_valley');
+  const discountEligible = hasLevel1 && hasLevel2 && hasTrip;
+  const discountAmount = discountEligible ? 2000 : 0; // 50% of 4000 workshops
+  const total = subtotal - discountAmount;
+
+  document.getElementById('price-subtotal').textContent = 'US$ ' + subtotal.toLocaleString();
+  document.getElementById('price-total').textContent = 'US$ ' + total.toLocaleString();
+
+  const discountRow = document.getElementById('discount-row');
+  const discountNotice = document.getElementById('discount-notice');
+  if (discountEligible) {
+    document.getElementById('price-discount').textContent = '-US$ ' + discountAmount.toLocaleString();
+    discountRow.style.display = 'flex';
+    discountNotice.style.display = 'block';
+  } else {
+    discountRow.style.display = 'none';
+    discountNotice.style.display = 'none';
   }
 }
 
-function getFoundersData() {
-  const cards = document.querySelectorAll('.founder-card');
-  const data = [];
-  cards.forEach(card => {
-    const name = card.querySelector('.founder-name').value.trim();
-    const email = card.querySelector('.founder-email').value.trim();
-    const telegram = card.querySelector('.founder-telegram').value.trim();
-    data.push({ name, email, telegram });
-  });
-  return data;
+// ─────────────────────────────────────────────────────────────────
+// VALIDATION
+// ─────────────────────────────────────────────────────────────────
+function showError(slideNum, message) {
+  const errEl = document.getElementById('error-slide-' + slideNum);
+  if (!errEl) return;
+  errEl.querySelector('span').textContent = message;
+  errEl.classList.add('visible');
+  const slide = document.getElementById('slide-' + slideNum);
+  if (slide) { slide.classList.add('shake'); setTimeout(() => slide.classList.remove('shake'), 400); }
+  setTimeout(() => errEl.classList.remove('visible'), 5000);
 }
 
-// Validators for Steps
 function validateSlide1() {
-  const name = document.getElementById('startup_name').value.trim();
-  const oneliner = document.getElementById('startup_oneliner').value.trim();
-  
-  if (!name || !oneliner) {
-    showError(1, "Please enter both the Startup Name and a One-liner description.");
-    return;
-  }
+  const first = document.getElementById('first_name').value.trim();
+  const last = document.getElementById('last_name').value.trim();
+  if (!first || !last) { showError(1, 'Please enter both your first and last name.'); return; }
+  if (first.length < 2) { showError(1, 'First name must be at least 2 characters.'); return; }
   nextSlide();
 }
 
 function validateSlide2() {
-  const dateVal = document.getElementById('founded_date').value;
-  const country = document.getElementById('startup_country').value.trim();
-  
-  if (!dateVal) {
-    showError(2, "Please select your founding date.");
-    return;
-  }
-  
-  const selectedDate = new Date(dateVal);
-  const today = new Date();
-  if (selectedDate > today) {
-    showError(2, "Founding date cannot be in the future.");
-    return;
-  }
-  
-  if (!country) {
-    showError(2, "Please specify your startup's headquarters country.");
-    return;
-  }
-  
+  const title = document.getElementById('job_title').value.trim();
+  const company = document.getElementById('company').value.trim();
+  if (!title || !company) { showError(2, 'Please enter your job title and company name.'); return; }
   nextSlide();
 }
 
 function validateSlide3() {
-  if (!selectedStage || !selectedTeamSize) {
-    showError(3, "Please select options for both startup stage and core team size.");
-    return;
-  }
+  const email = document.getElementById('email').value.trim();
+  const linkedin = document.getElementById('linkedin').value.trim();
+  if (!isValidEmail(email)) { showError(3, 'Please enter a valid professional email address.'); return; }
+  if (!isValidLinkedIn(linkedin)) { showError(3, 'Please enter a valid LinkedIn URL (e.g. https://linkedin.com/in/your-name).'); return; }
   nextSlide();
 }
 
 function validateSlide4() {
-  const overview = document.getElementById('startup_overview').value.trim();
-  const logo = document.getElementById('logo_link').value.trim();
-  const pitch = document.getElementById('pitch_deck_link').value.trim();
-  
-  if (!overview) {
-    showError(4, "Please describe your startup overview.");
-    return;
-  }
-  
-  // Basic URL regex checks
-  const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/i;
-  
-  if (logo && !urlRegex.test(logo)) {
-    showError(4, "Logo link must be a valid website URL (e.g. https://domain.com/image.png).");
-    return;
-  }
-  
-  if (pitch && !urlRegex.test(pitch)) {
-    showError(4, "Pitch Deck link must be a valid website URL (e.g. https://drive.google.com/...).");
-    return;
-  }
-  
+  if (!selectedProfile) { showError(4, 'Please select the profile that best describes you.'); return; }
   nextSlide();
 }
 
 function validateSlide5() {
-  const email = document.getElementById('contact_email').value.trim();
-  const phone = document.getElementById('contact_phone').value.trim();
-  const telegram = document.getElementById('contact_telegram').value.trim();
-  
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  // Allows basic phone characters: digits, spaces, hyphens, plus sign
-  const phoneRegex = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/;
-  
-  if (!email || !emailRegex.test(email)) {
-    showError(5, "Please enter a valid primary email address.");
-    return;
-  }
-  
-  if (!phone || !phoneRegex.test(phone)) {
-    showError(5, "Please enter a valid phone number (digits and spacing only).");
-    return;
-  }
-  
-  if (!telegram) {
-    showError(5, "Please input your Telegram username or link.");
-    return;
-  }
-  
+  if (selectedPrograms.size === 0) { showError(5, 'Please select at least one program option.'); return; }
   nextSlide();
 }
 
 function validateSlide6() {
-  const founders = getFoundersData();
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  
-  if (founders.length === 0) {
-    showError(6, "Please add at least one founder.");
-    return;
-  }
-  
-  for (let i = 0; i < founders.length; i++) {
-    const f = founders[i];
-    if (!f.name || !f.email || !f.telegram) {
-      showError(6, `Founder #${i+1} has incomplete details. All fields are required.`);
-      return;
-    }
-    if (!emailRegex.test(f.email)) {
-      showError(6, `Founder #${i+1} email address is invalid.`);
-      return;
-    }
-    if (f.telegram.charAt(0) !== '@' && !f.telegram.includes('t.me/')) {
-      showError(6, `Founder #${i+1} Telegram handle must start with @ or contain a direct telegram link.`);
-      return;
-    }
-  }
-  
+  const goal = document.getElementById('primary_goal').value.trim();
+  if (!goal || goal.length < 10) { showError(6, 'Please share your primary goal (at least 10 characters).'); return; }
+  populateReview();
   nextSlide();
 }
 
-function validateSlide7() {
-  if (selectedVerticals.size === 0) {
-    showError(7, "Please select at least one business vertical.");
-    return;
-  }
-  nextSlide();
-}
+// ─────────────────────────────────────────────────────────────────
+// REVIEW SCREEN POPULATION
+// ─────────────────────────────────────────────────────────────────
+function populateReview() {
+  const first = document.getElementById('first_name').value.trim();
+  const last = document.getElementById('last_name').value.trim();
+  document.getElementById('rev-name').textContent = first + ' ' + last;
+  document.getElementById('rev-title').textContent = document.getElementById('job_title').value.trim();
+  document.getElementById('rev-company').textContent = document.getElementById('company').value.trim();
+  document.getElementById('rev-email').textContent = document.getElementById('email').value.trim();
+  document.getElementById('rev-linkedin').textContent = document.getElementById('linkedin').value.trim();
+  document.getElementById('rev-profile').textContent = PROFILE_LABELS[selectedProfile] || '-';
+  document.getElementById('rev-goal').textContent = document.getElementById('primary_goal').value.trim();
+  document.getElementById('rev-dietary').textContent = document.getElementById('dietary').value.trim() || 'None';
 
-function validateSlide9() {
-  if (selectedObjectives.size === 0) {
-    showError(9, "Please select at least one primary program objective.");
-    return;
-  }
-  nextSlide();
-}
-
-// Accordion Control for Review Screen
-function toggleAccordion(bodyId) {
-  const body = document.getElementById(bodyId);
-  if (body) {
-    const isOpen = body.classList.contains('open');
-    // Close all
-    document.querySelectorAll('.review-body').forEach(item => item.classList.remove('open'));
-    
-    // Toggle current
-    if (!isOpen) {
-      body.classList.add('open');
-    }
-  }
-}
-
-// Compile Review Page
-function compileReviewData() {
-  document.getElementById('rev-name').innerText = document.getElementById('startup_name').value || '-';
-  document.getElementById('rev-oneliner').innerText = document.getElementById('startup_oneliner').value || '-';
-  document.getElementById('rev-founded').innerText = document.getElementById('founded_date').value || '-';
-  document.getElementById('rev-country').innerText = document.getElementById('startup_country').value || '-';
-  
-  document.getElementById('rev-stage').innerText = selectedStage || '-';
-  document.getElementById('rev-teamsize').innerText = selectedTeamSize || '-';
-  document.getElementById('rev-overview').innerText = document.getElementById('startup_overview').value || '-';
-  document.getElementById('rev-logolink').innerText = document.getElementById('logo_link').value || 'Not provided';
-  document.getElementById('rev-pitchlink').innerText = document.getElementById('pitch_deck_link').value || 'Not provided';
-  
-  document.getElementById('rev-email').innerText = document.getElementById('contact_email').value || '-';
-  document.getElementById('rev-phone').innerText = document.getElementById('contact_phone').value || '-';
-  document.getElementById('rev-telegram').innerText = document.getElementById('contact_telegram').value || '-';
-  document.getElementById('rev-hq').innerText = document.getElementById('headquarters').value || 'Not provided';
-  
-  // Format founders list
-  const founders = getFoundersData();
-  const foundersListContainer = document.getElementById('rev-founders-list');
-  foundersListContainer.innerHTML = '';
-  if (founders.length > 0) {
-    founders.forEach((f, idx) => {
-      const div = document.createElement('div');
-      div.style.marginBottom = '6px';
-      div.innerHTML = `<strong>#${idx+1}: ${sanitizeHTML(f.name)}</strong> &ndash; ${sanitizeHTML(f.email)} (${sanitizeHTML(f.telegram)})`;
-      foundersListContainer.appendChild(div);
-    });
-  } else {
-    foundersListContainer.innerText = '-';
-  }
-
-  // Format financials & goals
-  document.getElementById('rev-val').innerText = document.getElementById('valuation').value ? `$${document.getElementById('valuation').value}` : 'Not provided';
-  document.getElementById('rev-round').innerText = document.getElementById('round_size').value ? `$${document.getElementById('round_size').value}` : 'Not provided';
-  document.getElementById('rev-rounddeadline').innerText = document.getElementById('round_deadline').value || 'Not provided';
-  document.getElementById('rev-grants').innerText = document.getElementById('grants').value || 'None';
-  
-  document.getElementById('rev-objectives').innerText = Array.from(selectedObjectives).join(', ') || '-';
-}
-
-// Session auto-save state
-function saveSessionProgress() {
-  const data = {
-    currentSlideIndex,
-    startup_name: document.getElementById('startup_name').value,
-    startup_oneliner: document.getElementById('startup_oneliner').value,
-    founded_date: document.getElementById('founded_date').value,
-    startup_country: document.getElementById('startup_country').value,
-    selectedStage,
-    selectedTeamSize,
-    selectedInternationalPresence,
-    startup_overview: document.getElementById('startup_overview').value,
-    logo_link: document.getElementById('logo_link').value,
-    pitch_deck_link: document.getElementById('pitch_deck_link').value,
-    headquarters: document.getElementById('headquarters').value,
-    website: document.getElementById('website').value,
-    contact_email: document.getElementById('contact_email').value,
-    contact_phone: document.getElementById('contact_phone').value,
-    contact_telegram: document.getElementById('contact_telegram').value,
-    founders: getFoundersData(),
-    selectedVerticals: Array.from(selectedVerticals),
-    focus_areas: document.getElementById('focus_areas').value,
-    current_clients: document.getElementById('current_clients').value,
-    valuation: document.getElementById('valuation').value,
-    round_size: document.getElementById('round_size').value,
-    round_deadline: document.getElementById('round_deadline').value,
-    grants: document.getElementById('grants').value,
-    selectedObjectives: Array.from(selectedObjectives),
-    expansion_targets: document.getElementById('expansion_targets').value,
-    mentor_pref: document.getElementById('mentor_pref').value
+  // Programs
+  const programNames = {
+    level1: 'Level 1 - Deal Origination',
+    level2: 'Level 2 - Deal Closing',
+    singapore: 'Singapore Immersion Trip',
+    silicon_valley: 'Silicon Valley Immersion Trip'
   };
-  
-  // Safe storage in sessionStorage (cleared when browser closes)
-  sessionStorage.setItem('atc_form_progress', JSON.stringify(data));
+  const selectedList = Array.from(selectedPrograms).map(k => programNames[k]).join(', ');
+  document.getElementById('rev-programs').textContent = selectedList || '-';
+
+  // Pricing
+  let subtotal = 0;
+  selectedPrograms.forEach(k => subtotal += PROGRAM_PRICES[k] || 0);
+  const hasLevel1 = selectedPrograms.has('level1');
+  const hasLevel2 = selectedPrograms.has('level2');
+  const hasTrip = selectedPrograms.has('singapore') || selectedPrograms.has('silicon_valley');
+  const discountEligible = hasLevel1 && hasLevel2 && hasTrip;
+  const discountAmount = discountEligible ? 2000 : 0;
+  const total = subtotal - discountAmount;
+
+  document.getElementById('rev-subtotal').textContent = 'US$ ' + subtotal.toLocaleString();
+  document.getElementById('rev-total').textContent = 'US$ ' + total.toLocaleString();
+
+  const discRow = document.getElementById('rev-discount-row');
+  if (discountEligible) {
+    document.getElementById('rev-discount').textContent = '-US$ ' + discountAmount.toLocaleString();
+    discRow.style.display = 'grid';
+  } else {
+    discRow.style.display = 'none';
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// ACCORDION
+// ─────────────────────────────────────────────────────────────────
+function toggleAccordion(id) {
+  const body = document.getElementById(id);
+  if (!body) return;
+  body.classList.toggle('open');
+}
+
+// ─────────────────────────────────────────────────────────────────
+// SESSION PERSISTENCE
+// ─────────────────────────────────────────────────────────────────
+function saveSessionProgress() {
+  try {
+    const state = {
+      currentSlideIndex,
+      selectedProfile,
+      selectedPrograms: Array.from(selectedPrograms),
+      first_name: document.getElementById('first_name') ? document.getElementById('first_name').value : '',
+      last_name: document.getElementById('last_name') ? document.getElementById('last_name').value : '',
+      job_title: document.getElementById('job_title') ? document.getElementById('job_title').value : '',
+      company: document.getElementById('company') ? document.getElementById('company').value : '',
+      email: document.getElementById('email') ? document.getElementById('email').value : '',
+      linkedin: document.getElementById('linkedin') ? document.getElementById('linkedin').value : '',
+      primary_goal: document.getElementById('primary_goal') ? document.getElementById('primary_goal').value : '',
+      dietary: document.getElementById('dietary') ? document.getElementById('dietary').value : ''
+    };
+    sessionStorage.setItem('pnp_vc_form', JSON.stringify(state));
+  } catch (e) { /* silent */ }
 }
 
 function loadSessionProgress() {
-  const saved = sessionStorage.getItem('atc_form_progress');
-  if (!saved) return;
-  
   try {
-    const data = JSON.parse(saved);
-    
-    // Fill text inputs
-    document.getElementById('startup_name').value = data.startup_name || '';
-    document.getElementById('startup_oneliner').value = data.startup_oneliner || '';
-    document.getElementById('founded_date').value = data.founded_date || '';
-    document.getElementById('startup_country').value = data.startup_country || '';
-    document.getElementById('startup_overview').value = data.startup_overview || '';
-    document.getElementById('logo_link').value = data.logo_link || '';
-    document.getElementById('pitch_deck_link').value = data.pitch_deck_link || '';
-    document.getElementById('headquarters').value = data.headquarters || '';
-    document.getElementById('website').value = data.website || '';
-    document.getElementById('contact_email').value = data.contact_email || '';
-    document.getElementById('contact_phone').value = data.contact_phone || '';
-    document.getElementById('contact_telegram').value = data.contact_telegram || '';
-    document.getElementById('focus_areas').value = data.focus_areas || '';
-    document.getElementById('current_clients').value = data.current_clients || '';
-    document.getElementById('valuation').value = data.valuation || '';
-    document.getElementById('round_size').value = data.round_size || '';
-    document.getElementById('round_deadline').value = data.round_deadline || '';
-    document.getElementById('grants').value = data.grants || '';
-    document.getElementById('expansion_targets').value = data.expansion_targets || '';
-    document.getElementById('mentor_pref').value = data.mentor_pref || '';
-    
-    // Load stage
-    if (data.selectedStage) {
-      selectedStage = data.selectedStage;
-      const card = document.querySelector(`#stage-choices .choice-card[data-val="${selectedStage}"]`);
-      if (card) card.classList.add('selected');
-    }
-    
-    // Load team size
-    if (data.selectedTeamSize) {
-      selectedTeamSize = data.selectedTeamSize;
-      const card = document.querySelector(`#team-choices .choice-card[data-val="${selectedTeamSize}"]`);
+    const raw = sessionStorage.getItem('pnp_vc_form');
+    if (!raw) return;
+    const data = JSON.parse(raw);
+
+    const fields = ['first_name', 'last_name', 'job_title', 'company', 'email', 'linkedin', 'primary_goal', 'dietary'];
+    fields.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && data[id]) el.value = data[id];
+    });
+
+    if (data.selectedProfile) {
+      selectedProfile = data.selectedProfile;
+      const card = document.querySelector('#profile-choices [data-val="' + selectedProfile + '"]');
       if (card) card.classList.add('selected');
     }
 
-    // Load international presence
-    if (data.selectedInternationalPresence) {
-      selectedInternationalPresence = data.selectedInternationalPresence;
-      const card = document.querySelector(`#intl-choices .choice-card[data-val="${selectedInternationalPresence}"]`);
-      if (card) card.classList.add('selected');
-    }
-    
-    // Load verticals
-    if (data.selectedVerticals) {
-      data.selectedVerticals.forEach(v => {
-        selectedVerticals.add(v);
-        const pills = document.querySelectorAll('#verticals-pills .pill-item');
-        pills.forEach(pill => {
-          if (pill.innerText.trim() === v) pill.classList.add('active');
-        });
+    if (Array.isArray(data.selectedPrograms)) {
+      data.selectedPrograms.forEach(val => {
+        selectedPrograms.add(val);
+        const card = document.querySelector('#program-choices [data-val="' + val + '"]');
+        const chk = document.getElementById('chk-' + val);
+        if (card) card.classList.add('selected');
+        if (chk) chk.textContent = '\u2611';
       });
+      calculatePricing();
     }
-
-    // Load objectives
-    if (data.selectedObjectives) {
-      data.selectedObjectives.forEach(obj => {
-        selectedObjectives.add(obj);
-        const pills = document.querySelectorAll('#objectives-pills .pill-item');
-        pills.forEach(pill => {
-          if (pill.innerText.trim() === obj) pill.classList.add('active');
-        });
-      });
-    }
-
-    // Load founders list
-    if (data.founders && data.founders.length > 0) {
-      const container = document.getElementById('foundersList');
-      container.innerHTML = '';
-      founderCount = 0;
-      data.founders.forEach(f => {
-        addFounderCard();
-        const cards = document.querySelectorAll('.founder-card');
-        const currentCard = cards[cards.length - 1];
-        currentCard.querySelector('.founder-name').value = f.name || '';
-        currentCard.querySelector('.founder-email').value = f.email || '';
-        currentCard.querySelector('.founder-telegram').value = f.telegram || '';
-      });
-    }
-
-    // Load index
-    if (data.currentSlideIndex && data.currentSlideIndex < 11) {
+    if (data.currentSlideIndex && data.currentSlideIndex >= 1 && data.currentSlideIndex < 8) {
       goToSlide(data.currentSlideIndex);
     }
-    
-  } catch (e) {
-    console.error("Error reading saved session state", e);
-  }
+  } catch (e) { /* silent */ }
 }
 
 // ─────────────────────────────────────────────────────────────────
-// DATABASE LINK — Paste your Google Apps Script Web App URL here:
+// PAYLOAD COLLECTION
 // ─────────────────────────────────────────────────────────────────
-const SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycby9Jt9LINcDkqtDLH3FNMYaaphDH39ac8ajWdGiETEW_qqkYYrIgC2ZEVHpHMeZVE1U/exec';
-// Example: 'https://script.google.com/macros/s/AKfycbxxxxxxxxxxxxxxx/exec'
-// ─────────────────────────────────────────────────────────────────
+function collectFormPayload() {
+  const first = sanitizeHTML(document.getElementById('first_name').value.trim());
+  const last = sanitizeHTML(document.getElementById('last_name').value.trim());
 
-// Secure submit visualizer
-function submitApplication() {
-  const agreement = document.getElementById('securityAgreement');
-  if (!agreement.checked) {
-    showError(10, "You must review the details and check the security verification box to proceed.");
-    return;
-  }
-  
-  // Trigger overlay visualizer
-  const overlay = document.getElementById('securityOverlay');
-  overlay.classList.add('visible');
-  
-  runSecuritySimulation();
-}
+  let subtotal = 0;
+  selectedPrograms.forEach(k => subtotal += PROGRAM_PRICES[k] || 0);
+  const hasLevel1 = selectedPrograms.has('level1');
+  const hasLevel2 = selectedPrograms.has('level2');
+  const hasTrip = selectedPrograms.has('singapore') || selectedPrograms.has('silicon_valley');
+  const discountEligible = hasLevel1 && hasLevel2 && hasTrip;
+  const discountAmount = discountEligible ? 2000 : 0;
+  const total = subtotal - discountAmount;
 
-// Collect all form data into a structured payload object
-function collectFormPayload(confirmationId) {
   return {
-    confirmationId,
+    turnstileToken: turnstileToken,
+    confirmationId: 'PNP-VC-' + Date.now(),
     submittedAt: new Date().toISOString(),
-
-    // Section 1: Identity
-    startup_name: sanitizeHTML(document.getElementById('startup_name').value.trim()),
-    startup_oneliner: sanitizeHTML(document.getElementById('startup_oneliner').value.trim()),
-
-    // Section 2: Origins
-    founded_date: document.getElementById('founded_date').value,
-    startup_country: sanitizeHTML(document.getElementById('startup_country').value.trim()),
-    international_presence: selectedInternationalPresence || 'Not specified',
-
-    // Section 3: Stage & Scale
-    stage: selectedStage,
-    team_size: selectedTeamSize,
-
-    // Section 4: Overview & Assets
-    startup_overview: sanitizeHTML(document.getElementById('startup_overview').value.trim()),
-    logo_link: document.getElementById('logo_link').value.trim(),
-    pitch_deck_link: document.getElementById('pitch_deck_link').value.trim(),
-
-    // Section 5: Contact
-    headquarters: sanitizeHTML(document.getElementById('headquarters').value.trim()),
-    website: document.getElementById('website').value.trim(),
-    contact_email: document.getElementById('contact_email').value.trim(),
-    contact_phone: document.getElementById('contact_phone').value.trim(),
-    contact_telegram: document.getElementById('contact_telegram').value.trim(),
-
-    // Section 6: Founders
-    founders: getFoundersData().map(f => ({
-      name: sanitizeHTML(f.name),
-      email: f.email,
-      telegram: f.telegram
-    })),
-
-    // Section 7: Business Details
-    verticals: Array.from(selectedVerticals),
-    focus_areas: sanitizeHTML(document.getElementById('focus_areas').value.trim()),
-    current_clients: sanitizeHTML(document.getElementById('current_clients').value.trim()),
-
-    // Section 8: Funding
-    valuation: document.getElementById('valuation').value.replace(/,/g, ''),
-    round_size: document.getElementById('round_size').value.replace(/,/g, ''),
-    round_deadline: document.getElementById('round_deadline').value,
-    grants: sanitizeHTML(document.getElementById('grants').value.trim()),
-
-    // Section 9: Goals
-    objectives: Array.from(selectedObjectives),
-    expansion_targets: sanitizeHTML(document.getElementById('expansion_targets').value.trim()),
-    mentor_pref: sanitizeHTML(document.getElementById('mentor_pref').value.trim())
+    first_name: first,
+    last_name: last,
+    full_name: first + ' ' + last,
+    job_title: sanitizeHTML(document.getElementById('job_title').value.trim()),
+    company: sanitizeHTML(document.getElementById('company').value.trim()),
+    email: document.getElementById('email').value.trim(),
+    linkedin: document.getElementById('linkedin').value.trim(),
+    profile: selectedProfile,
+    programs: Array.from(selectedPrograms),
+    subtotal: subtotal,
+    discount_amount: discountAmount,
+    total: total,
+    primary_goal: sanitizeHTML(document.getElementById('primary_goal').value.trim()),
+    dietary: sanitizeHTML(document.getElementById('dietary').value.trim())
   };
 }
 
-// Send data to Google Sheets via Apps Script webhook
-async function sendToGoogleSheets(payload) {
-  // If no webhook URL is configured, skip silently (dev mode)
-  if (!SHEETS_WEBHOOK_URL || SHEETS_WEBHOOK_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
-    console.warn('[ATC Form] No Google Sheets webhook URL configured. Submission is in demo mode only.');
-    return { status: 'demo', message: 'Demo mode — no webhook configured.' };
+// ─────────────────────────────────────────────────────────────────
+// SUBMISSION FLOW
+// ─────────────────────────────────────────────────────────────────
+function submitApplication() {
+  const agreement = document.getElementById('securityAgreement');
+  if (!agreement || !agreement.checked) {
+    showError(7, 'Please agree to the terms before submitting.');
+    return;
   }
+  if (!turnstileToken) {
+    showError(7, 'Please complete the Cloudflare security check first.');
+    return;
+  }
+  runSecuritySimulation();
+}
 
+function runSecuritySimulation() {
+  const overlay = document.getElementById('securityOverlay');
+  const title = document.getElementById('securityOverlayTitle');
+  const matrix = document.getElementById('cipherMatrix');
+  const fill = document.getElementById('securityProgressFill');
+  const statusText = document.getElementById('securityStatusText');
+
+  overlay.classList.add('visible');
+
+  const steps = [
+    { title: 'Verifying Turnstile token...', desc: 'Cloudflare challenge response being validated' },
+    { title: 'Sanitizing submission data...', desc: 'Checking inputs for malicious content' },
+    { title: 'Encrypting payload...', desc: 'Preparing secure HTTPS transmission' },
+    { title: 'Transmitting to secure server...', desc: 'Sending to Google Apps Script backend' },
+    { title: 'Server-side validation running...', desc: 'Backend verifying fields and pricing' },
+    { title: 'Storing enrollment data...', desc: 'Writing verified data to Google Sheets' },
+    { title: 'Enrollment confirmed!', desc: 'All checks passed successfully' }
+  ];
+
+  let step = 0;
+  const interval = setInterval(() => {
+    if (step >= steps.length) {
+      clearInterval(interval);
+      const payload = collectFormPayload();
+      sendToGoogleSheets(payload).then(result => {
+        setTimeout(() => {
+          overlay.classList.remove('visible');
+          showSuccessScreen(payload);
+          sessionStorage.removeItem('pnp_vc_form');
+        }, 800);
+      });
+      return;
+    }
+    const s = steps[step];
+    title.textContent = s.title;
+    statusText.textContent = s.desc;
+    fill.style.width = ((step + 1) / steps.length * 100) + '%';
+    matrix.textContent = generateCipherText();
+    step++;
+  }, 700);
+}
+
+function generateCipherText() {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+  let out = '';
+  for (let i = 0; i < 80; i++) out += chars[Math.floor(Math.random() * chars.length)];
+  return out;
+}
+
+function showSuccessScreen(payload) {
+  const programNames = {
+    level1: 'Level 1 - Deal Origination',
+    level2: 'Level 2 - Deal Closing',
+    singapore: 'Singapore Immersion Trip',
+    silicon_valley: 'Silicon Valley Immersion Trip'
+  };
+  document.getElementById('ticket-name').textContent = payload.full_name;
+  document.getElementById('ticket-id').textContent = payload.confirmationId;
+  document.getElementById('ticket-programs').textContent = payload.programs.map(k => programNames[k]).join(', ');
+  document.getElementById('ticket-total').textContent = 'US$ ' + payload.total.toLocaleString();
+  document.getElementById('ticket-date').textContent = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  goToSlide(8);
+}
+
+// ─────────────────────────────────────────────────────────────────
+// GOOGLE SHEETS SUBMISSION
+// ─────────────────────────────────────────────────────────────────
+async function sendToGoogleSheets(payload) {
+  if (!SHEETS_WEBHOOK_URL || SHEETS_WEBHOOK_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+    console.warn('[PNP Form] No webhook URL configured.');
+    return { status: 'demo' };
+  }
   try {
-    const response = await fetch(SHEETS_WEBHOOK_URL, {
+    await fetch(SHEETS_WEBHOOK_URL, {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -772,140 +485,58 @@ async function sendToGoogleSheets(payload) {
     });
     return { status: 'sent' };
   } catch (err) {
-    console.error('[ATC Form] Failed to send data to Google Sheets:', err);
+    console.error('[PNP Form] Submission error:', err);
     return { status: 'error', message: err.message };
   }
 }
 
-
-function runSecuritySimulation() {
-  const steps = [
-    { title: "Securing local input buffers...", desc: "Sanitizing registration variables, scanning for XSS vectors" },
-    { title: "Generating client-side keypair...", desc: "Diffie-Hellman ephemeral key Exchange initialized" },
-    { title: "Encrypting startup profile data...", desc: "AES-256-GCM symmetric block cipher wrapping payload" },
-    { title: "Hashing private identities...", desc: "Generating SHA-256 fingerprint checks for emails" },
-    { title: "Establishing TLS 1.3 pipeline...", desc: "Negotiating cipher suites with ATC secure servers" },
-    { title: "Transmitting encrypted payload...", desc: "Routing encapsulated data package over secure channels" },
-    { title: "Validating submission receipt...", desc: "Awaiting remote host cryptographic sign-off" },
-    { title: "Transmission Complete!", desc: "Local session buffers purged successfully" }
-  ];
-  
-  const matrix = document.getElementById('cipherMatrix');
-  const fill = document.getElementById('securityProgressFill');
-  const statusText = document.getElementById('securityStatusText');
-  const title = document.getElementById('securityOverlayTitle');
-  const subtitle = document.querySelector('.visualizer-subtitle');
-
-  let currentSimStep = 0;
-  
-  // Matrix random text generator
-  const matrixInterval = setInterval(() => {
-    let rawStr = '';
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=!@#$%^&*()';
-    for (let i = 0; i < 200; i++) {
-      rawStr += chars.charAt(Math.floor(Math.random() * chars.length));
-      if (i > 0 && i % 40 === 0) rawStr += '\n';
-    }
-    matrix.innerText = rawStr;
-  }, 80);
-
-  // Simulation timeline loop
-  const runNextSimStep = () => {
-    if (currentSimStep >= steps.length) {
-      clearInterval(matrixInterval);
-      
-      // Complete! Clean up and load success slide
-      setTimeout(() => {
-        // Clear progress cache
-        sessionStorage.removeItem('atc_form_progress');
-        
-        // Generate confirmation ID
-        const confirmId = `ATC-2026-${Math.floor(100000 + Math.random() * 900000)}`;
-        const name = document.getElementById('startup_name').value;
-        const dateStr = new Date().toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit'
-        });
-
-        // ── SEND DATA TO GOOGLE SHEETS ──
-        const payload = collectFormPayload(confirmId);
-        sendToGoogleSheets(payload).then(result => {
-          console.log('[ATC Form] Submission result:', result);
-        });
-
-        // Populate the ticket on the success screen
-        document.getElementById('ticket-name').innerText = name;
-        document.getElementById('ticket-id').innerText = confirmId;
-        document.getElementById('ticket-date').innerText = dateStr;
-
-        // Hide overlay and show success slide
-        document.getElementById('securityOverlay').classList.remove('visible');
-        nextSlide();
-      }, 500);
-      return;
-    }
-
-    const currentData = steps[currentSimStep];
-    title.innerText = currentData.title;
-    subtitle.innerText = currentData.desc;
-    
-    // Update progress bar
-    const progressPercent = Math.round(((currentSimStep + 1) / steps.length) * 100);
-    fill.style.width = `${progressPercent}%`;
-    statusText.innerText = `Step ${currentSimStep + 1}/${steps.length}: ${currentData.title}`;
-
-    currentSimStep++;
-    
-    // Time spent on each step
-    const delay = currentSimStep === 3 || currentSimStep === 6 ? 800 : 400;
-    setTimeout(runNextSimStep, delay);
-  };
-  
-  runNextSimStep();
-}
-
+// ─────────────────────────────────────────────────────────────────
+// RESTART
+// ─────────────────────────────────────────────────────────────────
 function restartApplication() {
-  // Clear forms and state
-  document.getElementById('startup_name').value = '';
-  document.getElementById('startup_oneliner').value = '';
-  document.getElementById('founded_date').value = '';
-  document.getElementById('startup_country').value = '';
-  document.getElementById('startup_overview').value = '';
-  document.getElementById('logo_link').value = '';
-  document.getElementById('pitch_deck_link').value = '';
-  document.getElementById('headquarters').value = '';
-  document.getElementById('website').value = '';
-  document.getElementById('contact_email').value = '';
-  document.getElementById('contact_phone').value = '';
-  document.getElementById('contact_telegram').value = '';
-  document.getElementById('focus_areas').value = '';
-  document.getElementById('current_clients').value = '';
-  document.getElementById('valuation').value = '';
-  document.getElementById('round_size').value = '';
-  document.getElementById('round_deadline').value = '';
-  document.getElementById('grants').value = '';
-  document.getElementById('expansion_targets').value = '';
-  document.getElementById('mentor_pref').value = '';
-  
-  selectedStage = '';
-  selectedTeamSize = '';
-  selectedInternationalPresence = '';
-  selectedVerticals.clear();
-  selectedObjectives.clear();
-  
-  // Unselect active styles
-  document.querySelectorAll('.choice-card').forEach(item => item.classList.remove('selected'));
-  document.querySelectorAll('.pill-item').forEach(item => item.classList.remove('active'));
-  
-  // Re-initialize founder container
-  const container = document.getElementById('foundersList');
-  container.innerHTML = '';
-  founderCount = 0;
-  addFounderCard();
-  
-  // Return to slide 0
+  sessionStorage.removeItem('pnp_vc_form');
+  selectedProfile = null;
+  selectedPrograms = new Set();
+  turnstileToken = null;
+
+  // Reset all inputs
+  ['first_name','last_name','job_title','company','email','linkedin','primary_goal','dietary'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+
+  document.querySelectorAll('.choice-card').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('.choice-letter.program-letter').forEach(c => c.textContent = '\u2610');
+  ['chk-level1','chk-level2','chk-singapore','chk-silicon_valley'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = '\u2610';
+  });
+
+  const pricingCalc = document.getElementById('pricingCalculator');
+  if (pricingCalc) pricingCalc.style.display = 'none';
+
+  const agree = document.getElementById('securityAgreement');
+  if (agree) agree.checked = false;
+
+  // Reset Turnstile
+  if (window.turnstile) window.turnstile.reset();
+
   goToSlide(0);
 }
+
+// ─────────────────────────────────────────────────────────────────
+// INPUT AUTO-SAVE (attach to all inputs)
+// ─────────────────────────────────────────────────────────────────
+document.addEventListener('input', function(e) {
+  const targets = ['first_name','last_name','job_title','company','email','linkedin','primary_goal','dietary'];
+  if (targets.includes(e.target.id)) saveSessionProgress();
+});
+
+// ─────────────────────────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  loadSessionProgress();
+  updateProgressBar();
+  updateStepTracker();
+});

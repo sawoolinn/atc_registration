@@ -1,79 +1,73 @@
-/* ATC Startup Registration Form Stylesheet */
+/* Plug and Play VC Academy - Enrollment Portal Stylesheet */
 
 /* Fonts Definition */
 @font-face {
-  font-family: 'Nexa';
-  src: url('./fonts/Nexa-Regular.ttf') format('truetype');
+  font-family: 'Protipo';
+  src: url('./fonts/PNP Font - Protipo/Protipo-Regular.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Nexa';
-  src: url('./fonts/Nexa-Bold.ttf') format('truetype');
+  font-family: 'Protipo';
+  src: url('./fonts/PNP Font - Protipo/Protipo-Italic.otf') format('opentype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Protipo';
+  src: url('./fonts/PNP Font - Protipo/Protipo-Semibold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Protipo';
+  src: url('./fonts/PNP Font - Protipo/Protipo-SemiboldItalic.otf') format('opentype');
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Protipo';
+  src: url('./fonts/PNP Font - Protipo/Protipo-Bold.otf') format('opentype');
   font-weight: bold;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Nexa';
-  src: url('./fonts/Nexa-Light.ttf') format('truetype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Nexa';
-  src: url('./fonts/Nexa-Book.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Nexa';
-  src: url('./fonts/Nexa-Black.ttf') format('truetype');
-  font-weight: 900;
-  font-style: normal;
+  font-family: 'Protipo';
+  src: url('./fonts/PNP Font - Protipo/Protipo-BoldItalic.otf') format('opentype');
+  font-weight: bold;
+  font-style: italic;
   font-display: swap;
 }
 
 /* Color Variables and Tokens */
 :root {
-  --color-primary-dark: #013171;
-  /* ATC Pantone P 103-16 U */
-  --color-primary-blue: #1269A2;
-  /* ATC Pantone P 107-6 U */
-  --color-accent-blue-1: #2899D5;
-  /* ATC Pantone P 109-6 U */
-  --color-accent-blue-2: #74C0EB;
-  /* ATC Pantone P 112-4 U */
-  --color-orange: #EB6815;
-  /* ATC Pantone P 27-8 U */
-  --color-red: #E85A59;
-  /* ATC Pantone P 55-5 U */
-  --color-yellow: #FFC400;
-  /* ATC Pantone P 7-8 U */
-  --color-green: #5FB343;
-  /* ATC Pantone P 151-7 U */
-  --color-grey: #97999C;
-  /* ATC Pantone P 179-6 U */
-
-  --color-bg-main: #f8fafc;
+  --color-primary-red: #e21a22;
+  --color-primary-dark: #111827;
+  --color-primary-black: #030712;
+  --color-accent-red-hover: #b91c1c;
+  
+  --color-bg-main: #f9fafb;
   --color-card-bg: #ffffff;
-  --color-text-primary: #0f172a;
-  --color-text-secondary: #475569;
+  --color-text-primary: #111827;
+  --color-text-secondary: #4b5563;
   --color-text-light: #ffffff;
-  --color-input-border: #cbd5e1;
-  --color-input-focus: #1269A2;
-
-  --font-family-sans: 'Nexa', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --transition-smooth: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-  --shadow-premium: 0 10px 30px -10px rgba(1, 49, 113, 0.1);
-  --shadow-focus: 0 0 0 4px rgba(40, 153, 213, 0.25);
+  --color-input-border: #d1d5db;
+  --color-input-focus: #e21a22;
+  
+  --font-family-sans: 'Protipo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --transition-smooth: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+  --shadow-premium: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  --shadow-focus: 0 0 0 4px rgba(226, 26, 34, 0.15);
 }
 
 /* General Resets */
@@ -106,7 +100,7 @@ body {
 /* Left Brand Panel */
 .brand-panel {
   flex: 0 0 40%;
-  background: linear-gradient(135deg, var(--color-primary-dark) 0%, #001f4d 100%);
+  background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary-black) 100%);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -128,7 +122,7 @@ body {
   background-image: url('./assets/Screenshot 2026-06-26 at 3.22.16 PM.png');
   background-size: cover;
   background-position: center;
-  opacity: 0.25;
+  opacity: 0.12;
   mix-blend-mode: overlay;
   pointer-events: none;
 }
@@ -136,13 +130,24 @@ body {
 .brand-logo-container {
   position: relative;
   z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 18px;
 }
 
 .brand-logo {
-  height: auto;
-  width: 180px;
+  height: 32px;
+  width: auto;
   max-width: 100%;
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+  object-fit: contain;
+  filter: brightness(0) invert(1) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.brand-logo-divider {
+  width: 1px;
+  height: 24px;
+  background-color: rgba(255, 255, 255, 0.25);
+  flex-shrink: 0;
 }
 
 .brand-content {
@@ -154,20 +159,20 @@ body {
 
 .brand-content h1 {
   font-size: 2.2rem;
-  font-weight: 900;
-  line-height: 1.2;
+  font-weight: bold;
+  line-height: 1.25;
   margin-bottom: 20px;
-  background: linear-gradient(to right, #ffffff, var(--color-accent-blue-2));
+  background: linear-gradient(to right, #ffffff, #ffb3b5);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .brand-content p {
   font-size: 1.05rem;
-  font-weight: 300;
+  font-weight: normal;
   line-height: 1.6;
-  opacity: 0.9;
-  color: #e2e8f0;
+  opacity: 0.85;
+  color: #e5e7eb;
 }
 
 .brand-footer {
@@ -191,8 +196,8 @@ body {
 
 .square {
   position: absolute;
-  background-color: rgba(116, 192, 235, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: rgba(226, 26, 34, 0.06);
+  border: 1px solid rgba(226, 26, 34, 0.05);
   border-radius: 4px;
   animation: float 20s infinite ease-in-out;
 }
@@ -268,7 +273,7 @@ body {
 .progress-bar {
   height: 100%;
   width: 0%;
-  background: linear-gradient(to right, var(--color-primary-blue), var(--color-accent-blue-1));
+  background: var(--color-primary-red);
   transition: width 0.5s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
@@ -278,7 +283,7 @@ body {
   right: 30px;
   font-size: 0.85rem;
   font-weight: bold;
-  color: var(--color-primary-blue);
+  color: var(--color-primary-red);
   z-index: 20;
 }
 
@@ -340,7 +345,7 @@ body {
 .question-number {
   font-size: 1.1rem;
   font-weight: bold;
-  color: var(--color-primary-blue);
+  color: var(--color-primary-red);
   margin-bottom: 12px;
   display: flex;
   flex-wrap: wrap;
@@ -407,7 +412,7 @@ body {
   left: 0;
   height: 2px;
   width: 0;
-  background-color: var(--color-accent-blue-1);
+  background-color: var(--color-primary-red);
   transition: var(--transition-smooth);
 }
 
@@ -460,15 +465,15 @@ body {
 }
 
 .choice-card:hover {
-  border-color: var(--color-primary-blue);
-  background-color: rgba(18, 105, 162, 0.02);
+  border-color: var(--color-primary-red);
+  background-color: rgba(226, 26, 34, 0.01);
   transform: translateY(-1px);
 }
 
 .choice-card.selected {
-  border-color: var(--color-primary-blue);
-  background-color: rgba(18, 105, 162, 0.05);
-  box-shadow: 0 4px 12px rgba(18, 105, 162, 0.1);
+  border-color: var(--color-primary-red);
+  background-color: rgba(226, 26, 34, 0.04);
+  box-shadow: 0 4px 12px rgba(226, 26, 34, 0.08);
 }
 
 .choice-letter {
@@ -488,8 +493,8 @@ body {
 }
 
 .choice-card.selected .choice-letter {
-  background-color: var(--color-primary-blue);
-  border-color: var(--color-primary-blue);
+  background-color: var(--color-primary-red);
+  border-color: var(--color-primary-red);
   color: #ffffff;
 }
 
@@ -527,15 +532,15 @@ body {
 }
 
 .pill-item:hover {
-  border-color: var(--color-primary-blue);
-  color: var(--color-primary-blue);
+  border-color: var(--color-primary-red);
+  color: var(--color-primary-red);
 }
 
 .pill-item.active {
-  background-color: var(--color-primary-blue);
-  border-color: var(--color-primary-blue);
+  background-color: var(--color-primary-red);
+  border-color: var(--color-primary-red);
   color: #ffffff;
-  box-shadow: 0 4px 10px rgba(18, 105, 162, 0.2);
+  box-shadow: 0 4px 10px rgba(226, 26, 34, 0.15);
 }
 
 /* Dynamic Founders section */
@@ -580,7 +585,7 @@ body {
 .founder-title {
   font-size: 1rem;
   font-weight: bold;
-  color: var(--color-primary-blue);
+  color: var(--color-primary-red);
 }
 
 .btn-remove-founder {
@@ -638,7 +643,7 @@ body {
 }
 
 .mini-input:focus {
-  border-color: var(--color-primary-blue);
+  border-color: var(--color-primary-red);
   box-shadow: var(--shadow-focus);
 }
 
@@ -648,9 +653,9 @@ body {
   justify-content: center;
   padding: 10px 20px;
   border-radius: 6px;
-  border: 1px dashed var(--color-primary-blue);
+  border: 1px dashed var(--color-primary-red);
   background-color: transparent;
-  color: var(--color-primary-blue);
+  color: var(--color-primary-red);
   font-weight: bold;
   cursor: pointer;
   transition: var(--transition-smooth);
@@ -658,7 +663,7 @@ body {
 }
 
 .btn-secondary:hover {
-  background-color: rgba(18, 105, 162, 0.05);
+  background-color: rgba(226, 26, 34, 0.05);
 }
 
 /* Button Layout & Navigation Controls */
@@ -673,7 +678,7 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-primary-blue);
+  background-color: var(--color-primary-red);
   color: #ffffff;
   border: none;
   padding: 14px 28px;
@@ -681,15 +686,15 @@ body {
   font-weight: bold;
   border-radius: 8px;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(18, 105, 162, 0.25);
+  box-shadow: 0 4px 14px rgba(226, 26, 34, 0.2);
   transition: var(--transition-smooth);
   font-family: var(--font-family-sans);
 }
 
 .btn-primary:hover {
-  background-color: var(--color-primary-dark);
+  background-color: var(--color-accent-red-hover);
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(1, 49, 113, 0.3);
+  box-shadow: 0 6px 20px rgba(226, 26, 34, 0.25);
 }
 
 .btn-primary:active {
@@ -730,8 +735,8 @@ body {
 
 .welcome-badge {
   display: inline-block;
-  background-color: rgba(40, 153, 213, 0.12);
-  color: var(--color-primary-dark);
+  background-color: rgba(226, 26, 34, 0.08);
+  color: var(--color-primary-red);
   font-weight: bold;
   font-size: 0.85rem;
   padding: 6px 16px;
@@ -761,7 +766,7 @@ body {
 .error-msg {
   display: flex;
   align-items: center;
-  color: var(--color-red);
+  color: #ef4444;
   font-size: 0.9rem;
   font-weight: bold;
   margin-top: -15px;
@@ -824,7 +829,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 16px 20px;
-  background-color: rgba(18, 105, 162, 0.02);
+  background-color: rgba(226, 26, 34, 0.01);
   cursor: pointer;
   font-weight: bold;
   font-size: 1rem;
@@ -834,7 +839,7 @@ body {
 }
 
 .review-header:hover {
-  background-color: rgba(18, 105, 162, 0.05);
+  background-color: rgba(226, 26, 34, 0.03);
 }
 
 .review-body {
@@ -876,7 +881,7 @@ body {
 
 .review-edit-indicator {
   font-size: 0.8rem;
-  color: var(--color-accent-blue-1);
+  color: var(--color-primary-red);
   text-decoration: underline;
 }
 
@@ -917,7 +922,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(1, 49, 113, 0.95);
+  background: rgba(17, 24, 39, 0.97);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1196,8 +1201,8 @@ body {
 
 /* Completed step state */
 .step-item.completed .step-dot {
-  background-color: var(--color-accent-blue-2);
-  border-color: var(--color-accent-blue-2);
+  background-color: var(--color-primary-red);
+  border-color: var(--color-primary-red);
 }
 
 .step-item.completed .step-dot::after {
@@ -1214,9 +1219,9 @@ body {
 
 /* Active step state */
 .step-item.active-step .step-dot {
-  background-color: var(--color-orange);
-  border-color: var(--color-orange);
-  box-shadow: 0 0 0 4px rgba(235, 104, 21, 0.3);
+  background-color: var(--color-primary-red);
+  border-color: var(--color-primary-red);
+  box-shadow: 0 0 0 4px rgba(226, 26, 34, 0.25);
   transform: scale(1.15);
 }
 
@@ -1227,7 +1232,7 @@ body {
 
 /* Completed line override */
 .step-item.completed::after {
-  background-color: rgba(116, 192, 235, 0.35);
+  background-color: rgba(226, 26, 34, 0.25);
 }
 
 /* Welcome Stats Strip */
@@ -1236,8 +1241,8 @@ body {
   align-items: center;
   justify-content: center;
   gap: 0;
-  background: #f1f7fd;
-  border: 1px solid #e2edf7;
+  background: #fdf5f5;
+  border: 1px solid #ffe3e3;
   border-radius: 12px;
   padding: 18px 30px;
   margin: 0 auto 32px auto;
@@ -1254,7 +1259,7 @@ body {
 .stat-num {
   font-size: 1.8rem;
   font-weight: 900;
-  color: var(--color-primary-dark);
+  color: var(--color-primary-red);
   line-height: 1;
   margin-bottom: 4px;
 }
@@ -1270,6 +1275,108 @@ body {
 .stat-divider {
   width: 1px;
   height: 40px;
-  background-color: #dae5ef;
+  background-color: #ffd6d6;
   margin: 0 20px;
+}
+
+/* ─── PNP Logo Text ─── */
+.pnp-logo-text {
+  font-family: var(--font-family-sans);
+  font-weight: bold;
+  font-size: 1.05rem;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  text-transform: lowercase;
+  line-height: 1;
+  padding: 4px 0;
+  white-space: nowrap;
+}
+
+/* ─── Pricing Calculator ─── */
+.pricing-calculator {
+  margin-top: 20px;
+  background-color: #f9fafb;
+  border: 1px solid var(--color-input-border);
+  border-radius: 10px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pricing-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+}
+
+.pricing-row.discount-row {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.pricing-row.pricing-total {
+  font-size: 1.05rem;
+  font-weight: bold;
+  color: var(--color-text-primary);
+  border-top: 1px solid var(--color-input-border);
+  padding-top: 10px;
+  margin-top: 2px;
+}
+
+/* ─── Cloudflare Turnstile ─── */
+.cf-turnstile {
+  display: inline-block;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* ─── Security agreement box updated color ─── */
+.security-agreement-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background-color: rgba(226, 26, 34, 0.03);
+  border: 1px dashed rgba(226, 26, 34, 0.3);
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  margin-top: 16px;
+}
+
+.security-agreement-box input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  accent-color: var(--color-primary-red);
+  margin-top: 2px;
+  cursor: pointer;
+}
+
+.security-agreement-box label {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+/* ─── Mobile responsive ─── */
+@media (max-width: 768px) {
+  .brand-panel {
+    display: none;
+  }
+  .form-panel {
+    width: 100%;
+  }
+  .pnp-logo-text {
+    font-size: 0.9rem;
+  }
+  .welcome-title {
+    font-size: 2rem;
+  }
+  .pricing-calculator {
+    padding: 12px 15px;
+  }
 }
