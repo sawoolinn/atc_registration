@@ -116,7 +116,7 @@ function focusActiveInput() {
 // ─────────────────────────────────────────────────────────────────
 // KEYBOARD NAVIGATION
 // ─────────────────────────────────────────────────────────────────
-document.addEventListener('keydown', function(e) {
+document.addEventListener('keydown', function (e) {
   if (currentSlideIndex === 0 && e.key === 'Enter') { nextSlide(); return; }
   if (currentSlideIndex >= 1 && currentSlideIndex <= 6 && e.key === 'Enter') {
     const fns = [null, validateSlide1, validateSlide2, validateSlide3, validateSlide4, validateSlide5, validateSlide6];
@@ -500,14 +500,14 @@ function restartApplication() {
   turnstileToken = null;
 
   // Reset all inputs
-  ['first_name','last_name','job_title','company','email','linkedin','primary_goal','dietary'].forEach(id => {
+  ['first_name', 'last_name', 'job_title', 'company', 'email', 'linkedin', 'primary_goal', 'dietary'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = '';
   });
 
   document.querySelectorAll('.choice-card').forEach(c => c.classList.remove('selected'));
   document.querySelectorAll('.choice-letter.program-letter').forEach(c => c.textContent = '\u2610');
-  ['chk-level1','chk-level2','chk-singapore','chk-silicon_valley'].forEach(id => {
+  ['chk-level1', 'chk-level2', 'chk-singapore', 'chk-silicon_valley'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.textContent = '\u2610';
   });
@@ -527,16 +527,17 @@ function restartApplication() {
 // ─────────────────────────────────────────────────────────────────
 // INPUT AUTO-SAVE (attach to all inputs)
 // ─────────────────────────────────────────────────────────────────
-document.addEventListener('input', function(e) {
-  const targets = ['first_name','last_name','job_title','company','email','linkedin','primary_goal','dietary'];
+document.addEventListener('input', function (e) {
+  const targets = ['first_name', 'last_name', 'job_title', 'company', 'email', 'linkedin', 'primary_goal', 'dietary'];
   if (targets.includes(e.target.id)) saveSessionProgress();
 });
 
 // ─────────────────────────────────────────────────────────────────
 // INIT
 // ─────────────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   loadSessionProgress();
   updateProgressBar();
   updateStepTracker();
 });
+
