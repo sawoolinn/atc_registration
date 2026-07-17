@@ -1,32 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Plug and Play VC Academy - Enrollment Portal. Secure registration for the flagship venture capital training program.">
+  <meta name="description"
+    content="Plug and Play VC Academy - Enrollment Portal. Secure registration for the flagship venture capital training program.">
   <title>Plug and Play VC Academy | Enrollment Portal</title>
   <link rel="stylesheet" href="styles.css">
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
+
 <body>
   <div class="app-container">
     <div class="brand-panel">
       <div class="brand-logo-container">
-        <img src="assets/PNP Cambodia - Logo/2023-Logos_LOCATIONS_W_PNP-Cambodia.png" alt="Plug and Play Cambodia" class="brand-logo">
+        <img src="assets/PNP Cambodia - Logo/2023-Logos_LOCATIONS_W_PNP-Cambodia.png" alt="Plug and Play Cambodia"
+          class="brand-logo">
         <div class="brand-logo-divider"></div>
         <img src="assets/ATC_Reserse_11.png" alt="AUPP Technology Center" class="brand-logo">
       </div>
       <div class="brand-content">
         <h1>VC Academy<br>Enrollment</h1>
-        <p>Join the flagship venture capital training program designed to equip you with the knowledge, network, and practical tools needed to drive startup investments.</p>
+        <p>Join the flagship venture capital training program designed to equip you with the knowledge, network, and
+          practical tools needed to drive startup investments.</p>
         <div class="step-tracker" id="stepTracker">
-          <div class="step-item" data-step="1"><div class="step-dot"></div><span>Your Name</span></div>
-          <div class="step-item" data-step="2"><div class="step-dot"></div><span>Professional Details</span></div>
-          <div class="step-item" data-step="3"><div class="step-dot"></div><span>Contact Info</span></div>
-          <div class="step-item" data-step="4"><div class="step-dot"></div><span>Attendee Profile</span></div>
-          <div class="step-item" data-step="5"><div class="step-dot"></div><span>Program Selection</span></div>
-          <div class="step-item" data-step="6"><div class="step-dot"></div><span>Goals</span></div>
-          <div class="step-item" data-step="7"><div class="step-dot"></div><span>Review &amp; Submit</span></div>
+          <div class="step-item" data-step="1">
+            <div class="step-dot"></div><span>Your Name</span>
+          </div>
+          <div class="step-item" data-step="2">
+            <div class="step-dot"></div><span>Professional Details</span>
+          </div>
+          <div class="step-item" data-step="3">
+            <div class="step-dot"></div><span>Contact Info</span>
+          </div>
+          <div class="step-item" data-step="4">
+            <div class="step-dot"></div><span>Attendee Profile</span>
+          </div>
+          <div class="step-item" data-step="5">
+            <div class="step-dot"></div><span>Program Selection</span>
+          </div>
+          <div class="step-item" data-step="6">
+            <div class="step-dot"></div><span>Goals</span>
+          </div>
+          <div class="step-item" data-step="7">
+            <div class="step-dot"></div><span>Review &amp; Submit</span>
+          </div>
         </div>
       </div>
       <div class="brand-footer">&copy; 2026 Plug and Play &amp; AUPP Technology Center. All rights reserved.</div>
@@ -39,7 +58,9 @@
     </div>
 
     <div class="form-panel">
-      <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+      <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
       <div class="progress-text" id="progressText">0% Complete</div>
 
       <div class="slides-wrapper" id="slidesWrapper">
@@ -49,21 +70,27 @@
           <div class="slide-content-card welcome-slide">
             <span class="welcome-badge">&#x2726; INAUGURAL BATCH 2026</span>
             <h2 class="welcome-title">Plug and Play<br>VC Academy</h2>
-            <p class="welcome-subtitle">This program equips you with the knowledge, network, and practical tools needed to drive startup investments. Complete the form below to secure your spot.</p>
+            <p class="welcome-subtitle">This program equips you with the knowledge, network, and practical tools needed
+              to drive startup investments. Complete the form below to secure your spot.</p>
             <div class="welcome-stats-strip">
               <div class="stat-item"><span class="stat-num">4</span><span class="stat-label">Programs</span></div>
               <div class="stat-divider"></div>
               <div class="stat-item"><span class="stat-num">7</span><span class="stat-label">Steps</span></div>
               <div class="stat-divider"></div>
-              <div class="stat-item"><span class="stat-num">5 min</span><span class="stat-label">To complete</span></div>
+              <div class="stat-item"><span class="stat-num">5 min</span><span class="stat-label">To complete</span>
+              </div>
             </div>
             <div class="nav-controls" style="justify-content: center;">
               <button class="btn-primary" id="btn-start" onclick="nextSlide()">
                 Start Enrollment
-                <svg width="18" height="18" style="margin-left:8px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                <svg width="18" height="18" style="margin-left:8px;" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
               </button>
             </div>
-            <p style="font-size:0.8rem;color:var(--color-text-secondary);margin-top:15px;">Progress auto-saves in your browser session</p>
+            <p style="font-size:0.8rem;color:var(--color-text-secondary);margin-top:15px;">Progress auto-saves in your
+              browser session</p>
           </div>
         </div>
 
@@ -74,20 +101,28 @@
             <h2 class="question-label">What is your name?<span class="required-star">*</span></h2>
             <p class="question-desc">Please provide your full legal name as it appears on official documents.</p>
             <div class="input-wrapper">
-              <input type="text" class="form-input-text" id="first_name" placeholder="First name" required autocomplete="given-name" maxlength="80">
+              <input type="text" class="form-input-text" id="first_name" placeholder="First name" required
+                autocomplete="given-name" maxlength="80">
               <span class="input-focus-bar"></span>
             </div>
             <div class="input-wrapper" style="margin-top:24px;">
-              <input type="text" class="form-input-text" id="last_name" placeholder="Last name" required autocomplete="family-name" maxlength="80">
+              <input type="text" class="form-input-text" id="last_name" placeholder="Last name" required
+                autocomplete="family-name" maxlength="80">
               <span class="input-focus-bar"></span>
             </div>
             <div class="error-msg" id="error-slide-1">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
               <span>Please enter both your first and last name.</span>
             </div>
             <div class="nav-controls">
               <button class="btn-back-arrow" onclick="prevSlide()">&larr;</button>
-              <button class="btn-primary" onclick="validateSlide1()">Next <span class="keyboard-hint">press Enter &#x21B5;</span></button>
+              <button class="btn-primary" onclick="validateSlide1()">Next <span class="keyboard-hint">press Enter
+                  &#x21B5;</span></button>
             </div>
           </div>
         </div>
@@ -99,20 +134,29 @@
             <h2 class="question-label">What is your current role?<span class="required-star">*</span></h2>
             <p class="question-desc">Tell us about your professional position and where you work.</p>
             <div class="input-wrapper">
-              <input type="text" class="form-input-text" id="job_title" placeholder="Job Title (e.g. Investment Manager, CFO...)" required autocomplete="organization-title" maxlength="120">
+              <input type="text" class="form-input-text" id="job_title"
+                placeholder="Job Title (e.g. Investment Manager, CFO...)" required autocomplete="organization-title"
+                maxlength="120">
               <span class="input-focus-bar"></span>
             </div>
             <div class="input-wrapper" style="margin-top:24px;">
-              <input type="text" class="form-input-text" id="company" placeholder="Company / Organization" required autocomplete="organization" maxlength="120">
+              <input type="text" class="form-input-text" id="company" placeholder="Company / Organization" required
+                autocomplete="organization" maxlength="120">
               <span class="input-focus-bar"></span>
             </div>
             <div class="error-msg" id="error-slide-2">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
               <span>Please enter your job title and company name.</span>
             </div>
             <div class="nav-controls">
               <button class="btn-back-arrow" onclick="prevSlide()">&larr;</button>
-              <button class="btn-primary" onclick="validateSlide2()">Next <span class="keyboard-hint">press Enter &#x21B5;</span></button>
+              <button class="btn-primary" onclick="validateSlide2()">Next <span class="keyboard-hint">press Enter
+                  &#x21B5;</span></button>
             </div>
           </div>
         </div>
@@ -124,22 +168,31 @@
             <h2 class="question-label">How can we reach you?<span class="required-star">*</span></h2>
             <p class="question-desc">We will use your professional email to send confirmation and program updates.</p>
             <div class="input-wrapper">
-              <input type="email" class="form-input-text" id="email" placeholder="Professional Email Address" required autocomplete="email" maxlength="200">
+              <input type="email" class="form-input-text" id="email" placeholder="Professional Email Address" required
+                autocomplete="email" maxlength="200">
               <span class="input-focus-bar"></span>
             </div>
-            <h2 class="question-label" style="margin-top:36px;">LinkedIn Profile URL<span class="required-star">*</span></h2>
+            <h2 class="question-label" style="margin-top:36px;">LinkedIn Profile URL<span class="required-star">*</span>
+            </h2>
             <p class="question-desc">Share your LinkedIn so we can learn more about your background.</p>
             <div class="input-wrapper">
-              <input type="url" class="form-input-text" id="linkedin" placeholder="https://linkedin.com/in/your-name" required autocomplete="url" maxlength="300">
+              <input type="url" class="form-input-text" id="linkedin" placeholder="https://linkedin.com/in/your-name"
+                required autocomplete="url" maxlength="300">
               <span class="input-focus-bar"></span>
             </div>
             <div class="error-msg" id="error-slide-3">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
               <span>Please enter a valid email and a linkedin.com profile URL.</span>
             </div>
             <div class="nav-controls">
               <button class="btn-back-arrow" onclick="prevSlide()">&larr;</button>
-              <button class="btn-primary" onclick="validateSlide3()">Next <span class="keyboard-hint">press Enter &#x21B5;</span></button>
+              <button class="btn-primary" onclick="validateSlide3()">Next <span class="keyboard-hint">press Enter
+                  &#x21B5;</span></button>
             </div>
           </div>
         </div>
@@ -149,36 +202,48 @@
           <div class="slide-content-card">
             <div class="question-number"><span>04</span> &#x2192; ATTENDEE PROFILE</div>
             <h2 class="question-label">Which profile best describes you?<span class="required-star">*</span></h2>
-            <p class="question-desc">Select the one option that best matches your current role. This helps us tailor the learning experience.</p>
+            <p class="question-desc">Select the one option that best matches your current role. This helps us tailor the
+              learning experience.</p>
             <div class="choices-grid" id="profile-choices">
               <div class="choice-card" data-val="corporate" onclick="selectChoiceSingle('profile', this)">
                 <div class="choice-letter">A</div>
-                <div class="choice-label"><strong>Corporate Innovation &amp; Venture Professional</strong> &mdash; Driving startup investments and corporate innovation within my company.</div>
+                <div class="choice-label"><strong>Corporate Innovation &amp; Venture Professional</strong> &mdash;
+                  Driving startup investments and corporate innovation within my company.</div>
               </div>
               <div class="choice-card" data-val="angel" onclick="selectChoiceSingle('profile', this)">
                 <div class="choice-letter">B</div>
-                <div class="choice-label"><strong>Angel Investor, HNWI</strong> &mdash; Seeking to professionalise investing in startups.</div>
+                <div class="choice-label"><strong>Angel Investor, HNWI</strong> &mdash; Seeking to professionalise
+                  investing in startups.</div>
               </div>
               <div class="choice-card" data-val="family_office" onclick="selectChoiceSingle('profile', this)">
                 <div class="choice-letter">C</div>
-                <div class="choice-label"><strong>Family Office, Businesses</strong> &mdash; Seeking to understand how professional institutions invest.</div>
+                <div class="choice-label"><strong>Family Office, Businesses</strong> &mdash; Seeking to understand how
+                  professional institutions invest.</div>
               </div>
               <div class="choice-card" data-val="aspiring_vc" onclick="selectChoiceSingle('profile', this)">
                 <div class="choice-letter">D</div>
-                <div class="choice-label"><strong>Aspiring Investor or Venture Capitalist</strong> &mdash; Seeking deeper insights into emerging tech and startup ecosystems.</div>
+                <div class="choice-label"><strong>Aspiring Investor or Venture Capitalist</strong> &mdash; Seeking
+                  deeper insights into emerging tech and startup ecosystems.</div>
               </div>
               <div class="choice-card" data-val="business_pro" onclick="selectChoiceSingle('profile', this)">
                 <div class="choice-letter">E</div>
-                <div class="choice-label"><strong>Business Professional or Strategist</strong> &mdash; Eager to gain hands-on experience in investment processes.</div>
+                <div class="choice-label"><strong>Business Professional or Strategist</strong> &mdash; Eager to gain
+                  hands-on experience in investment processes.</div>
               </div>
             </div>
             <div class="error-msg" id="error-slide-4">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
               <span>Please select the profile that best describes you.</span>
             </div>
             <div class="nav-controls">
               <button class="btn-back-arrow" onclick="prevSlide()">&larr;</button>
-              <button class="btn-primary" onclick="validateSlide4()">Next <span class="keyboard-hint">press Enter &#x21B5;</span></button>
+              <button class="btn-primary" onclick="validateSlide4()">Next <span class="keyboard-hint">press Enter
+                  &#x21B5;</span></button>
             </div>
           </div>
         </div>
@@ -188,38 +253,52 @@
           <div class="slide-content-card">
             <div class="question-number"><span>05</span> &#x2192; PROGRAM SELECTION</div>
             <h2 class="question-label">Select your enrollment option(s)<span class="required-star">*</span></h2>
-            <p class="question-desc">Choose one or more programs. Selecting both Level 1 &amp; Level 2 workshops <strong>plus</strong> at least one immersion trip qualifies you for a <strong style="color:var(--color-primary-red)">50% inaugural discount</strong> on workshop fees.</p>
+            <p class="question-desc">Choose one or more programs. Selecting both Level 1 &amp; Level 2 workshops
+              <strong>plus</strong> at least one immersion trip qualifies you for a <strong
+                style="color:var(--color-primary-red)">50% inaugural discount</strong> on workshop fees.</p>
             <div class="choices-grid" id="program-choices" style="gap:12px;">
-              <div class="choice-card program-card" data-val="level1" data-price="2000" onclick="toggleProgramOption(this)">
+              <div class="choice-card program-card" data-val="level1" data-price="2000"
+                onclick="toggleProgramOption(this)">
                 <div class="choice-letter" id="chk-level1">&#x2610;</div>
                 <div class="choice-label">
                   <strong>Option 1: Level 1 &mdash; Deal Origination</strong>
-                  <div style="font-size:0.85rem;color:var(--color-text-secondary);margin-top:4px;">Foundational workshop: VC business model, investment process, deal sourcing &amp; instruments.</div>
-                  <div style="font-size:1rem;font-weight:bold;color:var(--color-primary-red);margin-top:6px;">US$ 2,000</div>
+                  <div style="font-size:0.85rem;color:var(--color-text-secondary);margin-top:4px;">Foundational
+                    workshop: VC business model, investment process, deal sourcing &amp; instruments.</div>
+                  <div style="font-size:1rem;font-weight:bold;color:var(--color-primary-red);margin-top:6px;">US$ 2,000
+                  </div>
                 </div>
               </div>
-              <div class="choice-card program-card" data-val="level2" data-price="2000" onclick="toggleProgramOption(this)">
+              <div class="choice-card program-card" data-val="level2" data-price="2000"
+                onclick="toggleProgramOption(this)">
                 <div class="choice-letter" id="chk-level2">&#x2610;</div>
                 <div class="choice-label">
                   <strong>Option 2: Level 2 &mdash; Deal Closing</strong>
-                  <div style="font-size:0.85rem;color:var(--color-text-secondary);margin-top:4px;">Advanced workshop: closing deals, due diligence, venture deal terms &amp; legal DD.</div>
-                  <div style="font-size:1rem;font-weight:bold;color:var(--color-primary-red);margin-top:6px;">US$ 2,000</div>
+                  <div style="font-size:0.85rem;color:var(--color-text-secondary);margin-top:4px;">Advanced workshop:
+                    closing deals, due diligence, venture deal terms &amp; legal DD.</div>
+                  <div style="font-size:1rem;font-weight:bold;color:var(--color-primary-red);margin-top:6px;">US$ 2,000
+                  </div>
                 </div>
               </div>
-              <div class="choice-card program-card" data-val="singapore" data-price="3000" onclick="toggleProgramOption(this)">
+              <div class="choice-card program-card" data-val="singapore" data-price="3000"
+                onclick="toggleProgramOption(this)">
                 <div class="choice-letter" id="chk-singapore">&#x2610;</div>
                 <div class="choice-label">
                   <strong>Option 3: Singapore Immersion Trip</strong>
-                  <div style="font-size:0.85rem;color:var(--color-text-secondary);margin-top:4px;">Oct 26&ndash;30, 2026 &middot; PNP APAC Summit, VC &amp; tech giant visits, ground transport included.</div>
-                  <div style="font-size:1rem;font-weight:bold;color:var(--color-primary-red);margin-top:6px;">US$ 3,000</div>
+                  <div style="font-size:0.85rem;color:var(--color-text-secondary);margin-top:4px;">Oct 26&ndash;30, 2026
+                    &middot; PNP APAC Summit, VC &amp; tech giant visits, ground transport included.</div>
+                  <div style="font-size:1rem;font-weight:bold;color:var(--color-primary-red);margin-top:6px;">US$ 3,000
+                  </div>
                 </div>
               </div>
-              <div class="choice-card program-card" data-val="silicon_valley" data-price="6000" onclick="toggleProgramOption(this)">
+              <div class="choice-card program-card" data-val="silicon_valley" data-price="6000"
+                onclick="toggleProgramOption(this)">
                 <div class="choice-letter" id="chk-silicon_valley">&#x2610;</div>
                 <div class="choice-label">
                   <strong>Option 4: Silicon Valley Immersion Trip</strong>
-                  <div style="font-size:0.85rem;color:var(--color-text-secondary);margin-top:4px;">Nov 16&ndash;20, 2026 &middot; PNP Summit, VC &amp; tech giant visits, ground transport included.</div>
-                  <div style="font-size:1rem;font-weight:bold;color:var(--color-primary-red);margin-top:6px;">US$ 6,000</div>
+                  <div style="font-size:0.85rem;color:var(--color-text-secondary);margin-top:4px;">Nov 16&ndash;20, 2026
+                    &middot; PNP Summit, VC &amp; tech giant visits, ground transport included.</div>
+                  <div style="font-size:1rem;font-weight:bold;color:var(--color-primary-red);margin-top:6px;">US$ 6,000
+                  </div>
                 </div>
               </div>
             </div>
@@ -230,15 +309,22 @@
                 <span id="price-discount" style="color:#16a34a;">-US$ 0</span>
               </div>
               <div class="pricing-row pricing-total"><span>Total</span><span id="price-total">US$ 0</span></div>
-              <div id="discount-notice" style="display:none;font-size:0.82rem;color:#16a34a;margin-top:8px;">&#x1F389; You qualify for the 50% inaugural batch discount on workshop fees!</div>
+              <div id="discount-notice" style="display:none;font-size:0.82rem;color:#16a34a;margin-top:8px;">&#x1F389;
+                You qualify for the 50% inaugural batch discount on workshop fees!</div>
             </div>
             <div class="error-msg" id="error-slide-5">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
               <span>Please select at least one program option.</span>
             </div>
             <div class="nav-controls">
               <button class="btn-back-arrow" onclick="prevSlide()">&larr;</button>
-              <button class="btn-primary" onclick="validateSlide5()">Next <span class="keyboard-hint">press Enter &#x21B5;</span></button>
+              <button class="btn-primary" onclick="validateSlide5()">Next <span class="keyboard-hint">press Enter
+                  &#x21B5;</span></button>
             </div>
           </div>
         </div>
@@ -249,17 +335,26 @@
             <div class="question-number"><span>06</span> &#x2192; GOALS &amp; EXPECTATIONS</div>
             <h2 class="question-label">What is your primary goal?<span class="required-star">*</span></h2>
             <p class="question-desc">What do you hope to gain from attending the VC Academy?</p>
-            <textarea class="form-textarea" id="primary_goal" placeholder="Share your main objective for joining the program..." rows="3" maxlength="1000"></textarea>
+            <textarea class="form-textarea" id="primary_goal"
+              placeholder="Share your main objective for joining the program..." rows="3" maxlength="1000"></textarea>
             <h2 class="question-label" style="margin-top:36px;">Dietary or accessibility requirements</h2>
-            <p class="question-desc">Any dietary restrictions or special needs for in-person events? Leave blank if none.</p>
-            <textarea class="form-textarea" id="dietary" placeholder="e.g. Vegetarian, Wheelchair access needed..." rows="2" maxlength="500"></textarea>
+            <p class="question-desc">Any dietary restrictions or special needs for in-person events? Leave blank if
+              none.</p>
+            <textarea class="form-textarea" id="dietary" placeholder="e.g. Vegetarian, Wheelchair access needed..."
+              rows="2" maxlength="500"></textarea>
             <div class="error-msg" id="error-slide-6">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
               <span>Please share your primary goal for attending.</span>
             </div>
             <div class="nav-controls">
               <button class="btn-back-arrow" onclick="prevSlide()">&larr;</button>
-              <button class="btn-primary" onclick="validateSlide6()">Review Enrollment <span class="keyboard-hint">press Enter &#x21B5;</span></button>
+              <button class="btn-primary" onclick="validateSlide6()">Review Enrollment <span class="keyboard-hint">press
+                  Enter &#x21B5;</span></button>
             </div>
           </div>
         </div>
@@ -277,12 +372,30 @@
                   <span class="review-edit-indicator" onclick="goToSlide(1); event.stopPropagation();">Edit</span>
                 </div>
                 <div class="review-body open" id="review-sec-1">
-                  <div class="review-row"><div class="review-label">Full Name:</div><div class="review-val" id="rev-name">-</div></div>
-                  <div class="review-row"><div class="review-label">Job Title:</div><div class="review-val" id="rev-title">-</div></div>
-                  <div class="review-row"><div class="review-label">Company:</div><div class="review-val" id="rev-company">-</div></div>
-                  <div class="review-row"><div class="review-label">Email:</div><div class="review-val" id="rev-email">-</div></div>
-                  <div class="review-row"><div class="review-label">LinkedIn:</div><div class="review-val" id="rev-linkedin">-</div></div>
-                  <div class="review-row"><div class="review-label">Profile:</div><div class="review-val" id="rev-profile">-</div></div>
+                  <div class="review-row">
+                    <div class="review-label">Full Name:</div>
+                    <div class="review-val" id="rev-name">-</div>
+                  </div>
+                  <div class="review-row">
+                    <div class="review-label">Job Title:</div>
+                    <div class="review-val" id="rev-title">-</div>
+                  </div>
+                  <div class="review-row">
+                    <div class="review-label">Company:</div>
+                    <div class="review-val" id="rev-company">-</div>
+                  </div>
+                  <div class="review-row">
+                    <div class="review-label">Email:</div>
+                    <div class="review-val" id="rev-email">-</div>
+                  </div>
+                  <div class="review-row">
+                    <div class="review-label">LinkedIn:</div>
+                    <div class="review-val" id="rev-linkedin">-</div>
+                  </div>
+                  <div class="review-row">
+                    <div class="review-label">Profile:</div>
+                    <div class="review-val" id="rev-profile">-</div>
+                  </div>
                 </div>
               </div>
               <div class="review-section">
@@ -291,10 +404,23 @@
                   <span class="review-edit-indicator" onclick="goToSlide(5); event.stopPropagation();">Edit</span>
                 </div>
                 <div class="review-body open" id="review-sec-2">
-                  <div class="review-row"><div class="review-label">Programs:</div><div class="review-val" id="rev-programs">-</div></div>
-                  <div class="review-row"><div class="review-label">Subtotal:</div><div class="review-val" id="rev-subtotal">-</div></div>
-                  <div class="review-row" id="rev-discount-row" style="display:none;"><div class="review-label">50% Discount:</div><div class="review-val" id="rev-discount" style="color:#16a34a;">-</div></div>
-                  <div class="review-row"><div class="review-label"><strong>Total Due:</strong></div><div class="review-val" id="rev-total" style="font-weight:bold;color:var(--color-primary-red);">-</div></div>
+                  <div class="review-row">
+                    <div class="review-label">Programs:</div>
+                    <div class="review-val" id="rev-programs">-</div>
+                  </div>
+                  <div class="review-row">
+                    <div class="review-label">Subtotal:</div>
+                    <div class="review-val" id="rev-subtotal">-</div>
+                  </div>
+                  <div class="review-row" id="rev-discount-row" style="display:none;">
+                    <div class="review-label">50% Discount:</div>
+                    <div class="review-val" id="rev-discount" style="color:#16a34a;">-</div>
+                  </div>
+                  <div class="review-row">
+                    <div class="review-label"><strong>Total Due:</strong></div>
+                    <div class="review-val" id="rev-total" style="font-weight:bold;color:var(--color-primary-red);">-
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="review-section">
@@ -303,34 +429,48 @@
                   <span class="review-edit-indicator" onclick="goToSlide(6); event.stopPropagation();">Edit</span>
                 </div>
                 <div class="review-body" id="review-sec-3">
-                  <div class="review-row"><div class="review-label">Primary Goal:</div><div class="review-val" id="rev-goal">-</div></div>
-                  <div class="review-row"><div class="review-label">Dietary/Access:</div><div class="review-val" id="rev-dietary">None</div></div>
+                  <div class="review-row">
+                    <div class="review-label">Primary Goal:</div>
+                    <div class="review-val" id="rev-goal">-</div>
+                  </div>
+                  <div class="review-row">
+                    <div class="review-label">Dietary/Access:</div>
+                    <div class="review-val" id="rev-dietary">None</div>
+                  </div>
                 </div>
               </div>
             </div>
             <div style="margin:24px 0 8px 0;">
-              <p style="font-size:0.9rem;color:var(--color-text-secondary);margin-bottom:12px;">Please complete the security verification below:</p>
-              <div class="cf-turnstile" id="turnstileWidget"
-                data-sitekey="YOUR_TURNSTILE_SITE_KEY"
-                data-callback="onTurnstileSuccess"
-                data-expired-callback="onTurnstileExpired"
-                data-theme="light"
+              <p style="font-size:0.9rem;color:var(--color-text-secondary);margin-bottom:12px;">Please complete the
+                security verification below:</p>
+              <div class="cf-turnstile" id="turnstileWidget" data-sitekey="0x4AAAAAAD3oMjybecldeQb7"
+                data-callback="onTurnstileSuccess" data-expired-callback="onTurnstileExpired" data-theme="light"
                 data-size="normal">
               </div>
             </div>
             <div class="security-agreement-box">
               <input type="checkbox" id="securityAgreement">
-              <label for="securityAgreement">I confirm that all information provided is accurate. I understand that my data will be processed securely and used solely for the Plug and Play VC Academy enrollment process.</label>
+              <label for="securityAgreement">I confirm that all information provided is accurate. I understand that my
+                data will be processed securely and used solely for the Plug and Play VC Academy enrollment
+                process.</label>
             </div>
             <div class="error-msg" id="error-slide-7">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
               <span>Please complete the security check and agree to the terms.</span>
             </div>
             <div class="nav-controls">
               <button class="btn-back-arrow" onclick="prevSlide()">&larr;</button>
               <button class="btn-primary" id="btn-submit" onclick="submitApplication()">
                 Submit Registration
-                <svg width="16" height="16" style="margin-left:8px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <svg width="16" height="16" style="margin-left:8px;" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
               </button>
             </div>
           </div>
@@ -340,21 +480,32 @@
         <div class="slide" id="slide-8">
           <div class="slide-content-card success-slide">
             <div class="success-check-container">
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
             </div>
             <h2 class="success-title">Enrollment Submitted!</h2>
-            <p class="success-desc">Thank you for enrolling in the Plug and Play VC Academy. Your registration has been received. You will receive a confirmation email shortly.</p>
+            <p class="success-desc">Thank you for enrolling in the Plug and Play VC Academy. Your registration has been
+              received. You will receive a confirmation email shortly.</p>
             <div class="success-summary-card">
-              <div class="success-row"><span class="success-label">Name:</span><span class="success-val" id="ticket-name">-</span></div>
-              <div class="success-row"><span class="success-label">Confirmation ID:</span><span class="success-val" id="ticket-id">-</span></div>
-              <div class="success-row"><span class="success-label">Programs:</span><span class="success-val" id="ticket-programs">-</span></div>
-              <div class="success-row"><span class="success-label">Total Due:</span><span class="success-val" id="ticket-total" style="font-weight:bold;color:var(--color-primary-red);">-</span></div>
-              <div class="success-row"><span class="success-label">Submitted On:</span><span class="success-val" id="ticket-date">-</span></div>
-              <div class="success-row"><span class="success-label">Next Step:</span><span class="success-val" style="color:#16a34a;">Our team will contact you within 2 business days.</span></div>
+              <div class="success-row"><span class="success-label">Name:</span><span class="success-val"
+                  id="ticket-name">-</span></div>
+              <div class="success-row"><span class="success-label">Confirmation ID:</span><span class="success-val"
+                  id="ticket-id">-</span></div>
+              <div class="success-row"><span class="success-label">Programs:</span><span class="success-val"
+                  id="ticket-programs">-</span></div>
+              <div class="success-row"><span class="success-label">Total Due:</span><span class="success-val"
+                  id="ticket-total" style="font-weight:bold;color:var(--color-primary-red);">-</span></div>
+              <div class="success-row"><span class="success-label">Submitted On:</span><span class="success-val"
+                  id="ticket-date">-</span></div>
+              <div class="success-row"><span class="success-label">Next Step:</span><span class="success-val"
+                  style="color:#16a34a;">Our team will contact you within 2 business days.</span></div>
             </div>
             <div class="nav-controls" style="justify-content:center;">
               <button class="btn-primary" onclick="window.print()">Print Receipt</button>
-              <button class="btn-secondary" onclick="restartApplication()" style="border-style:solid;font-weight:normal;margin-left:10px;">New Registration</button>
+              <button class="btn-secondary" onclick="restartApplication()"
+                style="border-style:solid;font-weight:normal;margin-left:10px;">New Registration</button>
             </div>
           </div>
         </div>
@@ -364,12 +515,17 @@
       <!-- Submission Overlay -->
       <div class="security-overlay" id="securityOverlay">
         <div class="shield-icon-container">
-          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
         </div>
         <div class="visualizer-title" id="securityOverlayTitle">Verifying Security...</div>
         <div class="visualizer-subtitle">Completing Cloudflare Turnstile and server-side validation</div>
         <div class="cipher-matrix" id="cipherMatrix">Initializing secure submission pipeline...</div>
-        <div class="security-progress"><div class="security-progress-fill" id="securityProgressFill"></div></div>
+        <div class="security-progress">
+          <div class="security-progress-fill" id="securityProgressFill"></div>
+        </div>
         <div class="security-status-text" id="securityStatusText">Preparing submission...</div>
       </div>
 
@@ -377,4 +533,5 @@
   </div>
   <script src="app.js"></script>
 </body>
+
 </html>
