@@ -1455,6 +1455,10 @@ body {
     align-items: flex-start;
   }
 
+  .welcome-badge {
+    display: none;
+  }
+
   .form-panel {
     width: 100%;
     max-width: 100%;
