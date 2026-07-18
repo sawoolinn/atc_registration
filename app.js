@@ -217,7 +217,9 @@ function validateSlide3() {
   const email = document.getElementById('email').value.trim();
   const linkedin = document.getElementById('linkedin').value.trim();
   if (!isValidEmail(email)) { showError(3, 'Please enter a valid professional email address.'); return; }
-  if (!isValidLinkedIn(linkedin)) { showError(3, 'Please enter a valid LinkedIn URL (e.g. https://linkedin.com/in/your-name).'); return; }
+  // Only validate if user entered something
+   if (linkedin !== '' && !isValidLinkedIn(linkedin)) {
+    showError(3, 'Please enter a valid LinkedIn URL (e.g. https://linkedin.com/in/your-name).'); return; }
   nextSlide();
 }
 
@@ -248,7 +250,7 @@ function populateReview() {
   document.getElementById('rev-title').textContent = document.getElementById('job_title').value.trim();
   document.getElementById('rev-company').textContent = document.getElementById('company').value.trim();
   document.getElementById('rev-email').textContent = document.getElementById('email').value.trim();
-  document.getElementById('rev-linkedin').textContent = document.getElementById('linkedin').value.trim();
+  document.getElementById('rev-linkedin').textContent = document.getElementById('linkedin').value.trim() || 'Not Provided';
   document.getElementById('rev-profile').textContent = PROFILE_LABELS[selectedProfile] || '-';
   document.getElementById('rev-goal').textContent = document.getElementById('primary_goal').value.trim();
   document.getElementById('rev-dietary').textContent = document.getElementById('dietary').value.trim() || 'None';
