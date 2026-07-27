@@ -1440,67 +1440,21 @@ body {
   cursor: pointer;
 }
 
-/* ─── Payment Slide ─── */
-.payment-total-banner {
-  background: linear-gradient(135deg, #013171, #1269A2);
-  color: white;
-  border-radius: 10px;
-  padding: 14px 20px;
-  font-size: 1rem;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.payment-total-banner strong {
-  font-size: 1.4rem;
-  margin-left: 8px;
-}
-
-/* ─── Simple Payment Card ─── */
-.payment-qr-card {
+/* ─── Original Payment JPG Display ─── */
+.payment-qr-container {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 14px;
-  padding: 20px;
   margin-bottom: 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
-.payment-qr-full-img {
+.payment-original-img {
   width: 100%;
-  max-width: 280px;
+  max-width: 360px;
   height: auto;
-  border-radius: 10px;
-  border: 1px solid #e2e8f0;
-  object-fit: contain;
-  margin-bottom: 16px;
-}
-
-.bank-simple-details {
-  width: 100%;
-  max-width: 320px;
-  background: #f8fafc;
-  border: 1px solid #f1f5f9;
-  border-radius: 8px;
-  padding: 12px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.bank-simple-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.9rem;
-  color: #64748b;
-}
-
-.bank-simple-row strong {
-  color: #0f172a;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  display: block;
 }
 
 /* ─── File Upload ─── */
