@@ -260,8 +260,15 @@ function updatePaymentDisplay() {
 function handleReceiptUpload(input) {
   const file = input.files[0];
   if (!file) return;
+  const isJpg = file.type === 'image/jpeg' || file.name.toLowerCase().endsWith('.jpg') || file.name.toLowerCase().endsWith('.jpeg');
+  if (!isJpg) {
+    showError(7, 'Please upload a JPG or JPEG image file only.');
+    input.value = '';
+    return;
+  }
   if (file.size > 5 * 1024 * 1024) {
     showError(7, 'File too large. Please upload a file smaller than 5MB.');
+    input.value = '';
     return;
   }
   receiptFileName = file.name;
@@ -273,13 +280,8 @@ function handleReceiptUpload(input) {
   const reader = new FileReader();
   reader.onload = function(e) {
     receiptDataUrl = e.target.result;
-    if (file.type.startsWith('image/')) {
-      if (preview) { preview.src = e.target.result; preview.style.display = 'block'; }
-      if (icon) icon.style.display = 'none';
-    } else {
-      if (preview) preview.style.display = 'none';
-      if (icon) icon.style.display = 'none';
-    }
+    if (preview) { preview.src = e.target.result; preview.style.display = 'block'; }
+    if (icon) icon.style.display = 'none';
   };
   reader.readAsDataURL(file);
 

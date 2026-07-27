@@ -348,7 +348,7 @@
             <!-- Receipt Upload -->
             <div class="receipt-upload-section">
               <h3 class="upload-title">Upload Payment Receipt <span class="required-star">*</span></h3>
-              <p class="question-desc" style="margin-bottom:10px;">Upload a screenshot or photo of your payment confirmation (JPG, PNG, PDF — max 5MB).</p>
+              <p class="question-desc" style="margin-bottom:10px;">Upload a screenshot or photo of your payment confirmation (JPG / JPEG — max 5MB).</p>
               <label class="file-upload-area" id="receiptUploadArea" for="receiptInput">
                 <div class="file-upload-icon" id="receiptUploadIcon">
                   <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -357,12 +357,12 @@
                     <line x1="12" y1="3" x2="12" y2="15"/>
                   </svg>
                   <span>Click to upload or drag &amp; drop</span>
-                  <span class="file-upload-hint">JPG, PNG, PDF &mdash; max 5MB</span>
+                  <span class="file-upload-hint">JPG / JPEG &mdash; max 5MB</span>
                 </div>
                 <img id="receiptPreviewImg" class="receipt-preview-img" style="display:none;" alt="Receipt preview">
                 <div id="receiptFileName" class="receipt-filename" style="display:none;"></div>
               </label>
-              <input type="file" id="receiptInput" accept="image/*,.pdf" style="display:none;" onchange="handleReceiptUpload(this)">
+              <input type="file" id="receiptInput" accept=".jpg,.jpeg,image/jpeg" style="display:none;" onchange="handleReceiptUpload(this)">
             </div>
 
             <div class="error-msg" id="error-slide-7">
@@ -389,10 +389,10 @@
             <div class="review-container">
               <div class="review-section">
                 <div class="review-header" onclick="toggleAccordion('review-sec-1')">
-                  <span>1. Participant Information</span>
+                  <span>1. Participant Details</span>
                   <span class="review-edit-indicator" onclick="goToSlide(1); event.stopPropagation();">Edit</span>
                 </div>
-                <div class="review-body open" id="review-sec-1">
+                <div class="review-body" id="review-sec-1">
                   <div class="review-row">
                     <div class="review-label">Full Name:</div>
                     <div class="review-val" id="rev-name">-</div>
@@ -424,7 +424,7 @@
                   <span>2. Programs &amp; Pricing</span>
                   <span class="review-edit-indicator" onclick="goToSlide(5); event.stopPropagation();">Edit</span>
                 </div>
-                <div class="review-body open" id="review-sec-2">
+                <div class="review-body" id="review-sec-2">
                   <div class="review-row">
                     <div class="review-label">Programs:</div>
                     <div class="review-val" id="rev-programs">-</div>
