@@ -328,16 +328,90 @@
             </div>
             <div class="nav-controls">
               <button class="btn-back-arrow" onclick="prevSlide()">&larr;</button>
-              <button class="btn-primary" onclick="validateSlide6()">Review Enrollment <span class="keyboard-hint">press
-                  Enter &#x21B5;</span></button>
+              <button class="btn-primary" onclick="validateSlide6()">Next: Payment <span class="keyboard-hint">press Enter &#x21B5;</span></button>
             </div>
           </div>
         </div>
 
-        <!-- Slide 7: Review & Submit -->
+        <!-- Slide 7: Payment -->
         <div class="slide" id="slide-7">
           <div class="slide-content-card">
-            <div class="question-number"><span>07</span> &#x2192; REVIEW &amp; SUBMIT</div>
+            <div class="question-number"><span>07</span> &#x2192; PAYMENT</div>
+            <h2 class="question-label">Complete Your Payment</h2>
+            <p class="question-desc">Please transfer the exact amount to our bank account below, then upload your payment receipt.</p>
+
+            <!-- Total Amount Banner -->
+            <div class="payment-total-banner">
+              Amount Due: <strong id="payment-amount-display">US$ —</strong>
+            </div>
+
+            <!-- Bank Info + QR Code -->
+            <div class="payment-info-grid">
+              <div class="bank-info-card">
+                <div class="bank-info-title">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                  Bank Transfer Details
+                </div>
+                <div class="bank-info-row">
+                  <span class="bank-info-label">Bank</span>
+                  <span class="bank-info-value">ABA Bank</span>
+                </div>
+                <div class="bank-info-row">
+                  <span class="bank-info-label">Account Name</span>
+                  <span class="bank-info-value">Oo Lin SAW</span>
+                </div>
+                <div class="bank-info-row">
+                  <span class="bank-info-label">Account Number</span>
+                  <span class="bank-info-value bank-account-num">016 430 204</span>
+                </div>
+              </div>
+              <div class="qr-code-container">
+                <p class="qr-label">Scan to Pay</p>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://pay.ababank.com/oRF8/lok4hm3e&bgcolor=ffffff&color=013171"
+                  alt="ABA Bank QR Code" class="qr-code-img">
+                <p class="qr-sublabel">ABA Bank</p>
+              </div>
+            </div>
+
+            <!-- Receipt Upload -->
+            <div class="receipt-upload-section">
+              <h3 class="upload-title">Upload Payment Receipt <span class="required-star">*</span></h3>
+              <p class="question-desc" style="margin-bottom:10px;">Upload a screenshot or photo of your payment confirmation (JPG, PNG, PDF — max 5MB).</p>
+              <label class="file-upload-area" id="receiptUploadArea" for="receiptInput">
+                <div class="file-upload-icon" id="receiptUploadIcon">
+                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="17 8 12 3 7 8"/>
+                    <line x1="12" y1="3" x2="12" y2="15"/>
+                  </svg>
+                  <span>Click to upload or drag &amp; drop</span>
+                  <span class="file-upload-hint">JPG, PNG, PDF &mdash; max 5MB</span>
+                </div>
+                <img id="receiptPreviewImg" class="receipt-preview-img" style="display:none;" alt="Receipt preview">
+                <div id="receiptFileName" class="receipt-filename" style="display:none;"></div>
+              </label>
+              <input type="file" id="receiptInput" accept="image/*,.pdf" style="display:none;" onchange="handleReceiptUpload(this)">
+            </div>
+
+            <div class="error-msg" id="error-slide-7">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span>Please upload your payment receipt to continue.</span>
+            </div>
+            <div class="nav-controls">
+              <button class="btn-back-arrow" onclick="prevSlide()">&larr;</button>
+              <button class="btn-primary" onclick="validateSlide7()">Review Enrollment <span class="keyboard-hint">press Enter &#x21B5;</span></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 8: Review & Submit -->
+        <div class="slide" id="slide-8">
+          <div class="slide-content-card">
+            <div class="question-number"><span>08</span> &#x2192; REVIEW &amp; SUBMIT</div>
             <h2 class="question-label">Review your enrollment</h2>
             <p class="question-desc">Please confirm the details below before submitting.</p>
             <div class="review-container">
@@ -414,6 +488,21 @@
                   </div>
                 </div>
               </div>
+              <div class="review-section">
+                <div class="review-header" onclick="toggleAccordion('review-sec-4')">
+                  <span>4. Payment Receipt</span>
+                  <span class="review-edit-indicator" onclick="goToSlide(7); event.stopPropagation();">Edit</span>
+                </div>
+                <div class="review-body" id="review-sec-4">
+                  <div class="review-row">
+                    <div class="review-label">Receipt File:</div>
+                    <div class="review-val" id="rev-receipt-name">-</div>
+                  </div>
+                  <div style="margin-top:10px;">
+                    <img id="rev-receipt-img" style="display:none;max-width:100%;max-height:200px;border-radius:8px;border:1px solid #e2e8f0;" alt="Payment Receipt">
+                  </div>
+                </div>
+              </div>
             </div>
             <div style="margin:24px 0 8px 0;">
               <p style="font-size:0.9rem;color:var(--color-text-secondary);margin-bottom:12px;">Please complete the
@@ -429,7 +518,7 @@
                 data will be processed securely and used solely for the Plug and Play VC Academy enrollment
                 process.</label>
             </div>
-            <div class="error-msg" id="error-slide-7">
+            <div class="error-msg" id="error-slide-8">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10"></circle>
@@ -451,8 +540,8 @@
           </div>
         </div>
 
-        <!-- Slide 8: Success -->
-        <div class="slide" id="slide-8">
+        <!-- Slide 9: Success -->
+        <div class="slide" id="slide-9">
           <div class="slide-content-card success-slide">
             <div class="success-check-container">
               <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"

@@ -8,7 +8,7 @@ const SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycby9Jt9LINcDk
 // ─────────────────────────────────────────────────────────────────
 // FORM STATE
 // ─────────────────────────────────────────────────────────────────
-const TOTAL_SLIDES = 9; // 0-8 (0=welcome, 8=success)
+const TOTAL_SLIDES = 10; // 0-9 (0=welcome, 9=success)
 const PROGRAM_PRICES = { level1: 2000, level2: 2000, singapore: 3000, silicon_valley: 6000 };
 const PROFILE_LABELS = {
   corporate: 'Corporate Innovation & Venture Professional',
@@ -22,6 +22,8 @@ let currentSlideIndex = 0;
 let selectedProfile = null;
 let selectedPrograms = new Set();
 let turnstileToken = null;
+let receiptDataUrl = null;
+let receiptFileName = '';
 
 // ─────────────────────────────────────────────────────────────────
 // TURNSTILE CALLBACKS (called by Cloudflare's script)
@@ -236,6 +238,58 @@ function validateSlide5() {
 function validateSlide6() {
   const goal = document.getElementById('primary_goal').value.trim();
   if (!goal || goal.length < 10) { showError(6, 'Please share your primary goal (at least 10 characters).'); return; }
+  updatePaymentDisplay();
+  nextSlide();
+}
+
+// ─────────────────────────────────────────────────────────────────
+// PAYMENT SLIDE
+// ─────────────────────────────────────────────────────────────────
+function updatePaymentDisplay() {
+  let subtotal = 0;
+  selectedPrograms.forEach(k => subtotal += PROGRAM_PRICES[k] || 0);
+  const hasLevel1 = selectedPrograms.has('level1');
+  const hasLevel2 = selectedPrograms.has('level2');
+  const hasTrip = selectedPrograms.has('singapore') || selectedPrograms.has('silicon_valley');
+  const discountEligible = hasLevel1 && hasLevel2 && hasTrip;
+  const total = subtotal - (discountEligible ? 2000 : 0);
+  const el = document.getElementById('payment-amount-display');
+  if (el) el.textContent = 'US$ ' + total.toLocaleString();
+}
+
+function handleReceiptUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) {
+    showError(7, 'File too large. Please upload a file smaller than 5MB.');
+    return;
+  }
+  receiptFileName = file.name;
+  const area = document.getElementById('receiptUploadArea');
+  const icon = document.getElementById('receiptUploadIcon');
+  const preview = document.getElementById('receiptPreviewImg');
+  const nameEl = document.getElementById('receiptFileName');
+  if (file.type.startsWith('image/')) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      receiptDataUrl = e.target.result;
+      if (preview) { preview.src = e.target.result; preview.style.display = 'block'; }
+      if (icon) icon.style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  } else {
+    receiptDataUrl = 'pdf';
+    if (icon) icon.style.display = 'none';
+  }
+  if (area) area.classList.add('has-file');
+  if (nameEl) { nameEl.textContent = '\u2713 ' + file.name; nameEl.style.display = 'block'; }
+}
+
+function validateSlide7() {
+  if (!receiptDataUrl) {
+    showError(7, 'Please upload your payment receipt to continue.');
+    return;
+  }
   populateReview();
   nextSlide();
 }
@@ -284,6 +338,19 @@ function populateReview() {
     discRow.style.display = 'grid';
   } else {
     discRow.style.display = 'none';
+  }
+
+  // Receipt
+  const receiptNameEl = document.getElementById('rev-receipt-name');
+  const receiptImgEl = document.getElementById('rev-receipt-img');
+  if (receiptNameEl) receiptNameEl.textContent = receiptFileName || 'Not uploaded';
+  if (receiptImgEl) {
+    if (receiptDataUrl && receiptDataUrl !== 'pdf') {
+      receiptImgEl.src = receiptDataUrl;
+      receiptImgEl.style.display = 'block';
+    } else {
+      receiptImgEl.style.display = 'none';
+    }
   }
 }
 
@@ -346,7 +413,7 @@ function loadSessionProgress() {
       });
       calculatePricing();
     }
-    if (data.currentSlideIndex && data.currentSlideIndex >= 1 && data.currentSlideIndex < 8) {
+    if (data.currentSlideIndex && data.currentSlideIndex >= 1 && data.currentSlideIndex < 9) {
       goToSlide(data.currentSlideIndex);
     }
   } catch (e) { /* silent */ }
@@ -385,7 +452,8 @@ function collectFormPayload() {
     discount_amount: discountAmount,
     total: total,
     primary_goal: sanitizeHTML(document.getElementById('primary_goal').value.trim()),
-    dietary: sanitizeHTML(document.getElementById('dietary').value.trim())
+    dietary: sanitizeHTML(document.getElementById('dietary').value.trim()),
+    receipt_filename: receiptFileName || ''
   };
 }
 
@@ -395,11 +463,11 @@ function collectFormPayload() {
 function submitApplication() {
   const agreement = document.getElementById('securityAgreement');
   if (!agreement || !agreement.checked) {
-    showError(7, 'Please agree to the terms before submitting.');
+    showError(8, 'Please agree to the terms before submitting.');
     return;
   }
   if (!turnstileToken) {
-    showError(7, 'Please complete the Cloudflare security check first.');
+    showError(8, 'Please complete the Cloudflare security check first.');
     return;
   }
 
@@ -430,7 +498,7 @@ function showSuccessScreen(payload) {
   document.getElementById('ticket-programs').textContent = payload.programs.map(k => programNames[k]).join(', ');
   document.getElementById('ticket-total').textContent = 'US$ ' + payload.total.toLocaleString();
   document.getElementById('ticket-date').textContent = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-  goToSlide(8);
+  goToSlide(9);
 }
 
 // ─────────────────────────────────────────────────────────────────
@@ -486,6 +554,20 @@ function restartApplication() {
 
   // Reset Turnstile
   if (window.turnstile) window.turnstile.reset();
+
+  // Reset receipt upload
+  receiptDataUrl = null;
+  receiptFileName = '';
+  const area = document.getElementById('receiptUploadArea');
+  if (area) area.classList.remove('has-file');
+  const preview = document.getElementById('receiptPreviewImg');
+  if (preview) { preview.src = ''; preview.style.display = 'none'; }
+  const nameEl = document.getElementById('receiptFileName');
+  if (nameEl) nameEl.style.display = 'none';
+  const icon = document.getElementById('receiptUploadIcon');
+  if (icon) icon.style.display = 'flex';
+  const input = document.getElementById('receiptInput');
+  if (input) input.value = '';
 
   goToSlide(0);
 }

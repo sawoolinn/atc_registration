@@ -1440,6 +1440,184 @@ body {
   cursor: pointer;
 }
 
+/* ─── Payment Slide ─── */
+.payment-total-banner {
+  background: linear-gradient(135deg, #013171, #1269A2);
+  color: white;
+  border-radius: 10px;
+  padding: 14px 20px;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.payment-total-banner strong {
+  font-size: 1.4rem;
+  margin-left: 8px;
+}
+
+.payment-info-grid {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  align-items: stretch;
+}
+
+.bank-info-card {
+  flex: 1;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+
+.bank-info-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: #013171;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.bank-info-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.bank-info-label {
+  font-size: 0.72rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.bank-info-value {
+  font-size: 0.95rem;
+  color: #0f172a;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.bank-account-num {
+  font-size: 1.1rem;
+  color: #013171;
+  letter-spacing: 0.04em;
+}
+
+.qr-code-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  min-width: 160px;
+}
+
+.qr-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #013171;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+  margin-top: 0;
+}
+
+.qr-code-img {
+  width: 155px;
+  height: 155px;
+  border-radius: 8px;
+  border: 2px solid #e2e8f0;
+}
+
+.qr-sublabel {
+  font-size: 0.72rem;
+  color: #64748b;
+  margin-top: 6px;
+  margin-bottom: 0;
+}
+
+/* ─── File Upload ─── */
+.receipt-upload-section {
+  margin-bottom: 20px;
+}
+
+.upload-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 4px 0;
+}
+
+.file-upload-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 24px 16px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  background: #f8fafc;
+  min-height: 130px;
+}
+
+.file-upload-area:hover {
+  border-color: #1269A2;
+  background: #eff6ff;
+}
+
+.file-upload-area.has-file {
+  border-color: #16a34a;
+  background: #f0fdf4;
+}
+
+.file-upload-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #64748b;
+  text-align: center;
+}
+
+.file-upload-icon span {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1269A2;
+}
+
+.file-upload-hint {
+  font-size: 0.76rem !important;
+  font-weight: 400 !important;
+  color: #94a3b8 !important;
+}
+
+.receipt-preview-img {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.receipt-filename {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: #16a34a;
+  font-weight: 600;
+  text-align: center;
+}
+
 /* ── Mobile (≤480px) ─────────────────────────────────────────── */
 @media (max-width: 480px) {
   html, body {
@@ -1628,6 +1806,14 @@ body {
 
   .review-body {
     padding: 12px 15px;
+  }
+
+  .payment-info-grid {
+    flex-direction: column;
+  }
+
+  .qr-code-container {
+    min-width: 100%;
   }
 }
 
