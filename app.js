@@ -269,18 +269,20 @@ function handleReceiptUpload(input) {
   const icon = document.getElementById('receiptUploadIcon');
   const preview = document.getElementById('receiptPreviewImg');
   const nameEl = document.getElementById('receiptFileName');
-  if (file.type.startsWith('image/')) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      receiptDataUrl = e.target.result;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    receiptDataUrl = e.target.result;
+    if (file.type.startsWith('image/')) {
       if (preview) { preview.src = e.target.result; preview.style.display = 'block'; }
       if (icon) icon.style.display = 'none';
-    };
-    reader.readAsDataURL(file);
-  } else {
-    receiptDataUrl = 'pdf';
-    if (icon) icon.style.display = 'none';
-  }
+    } else {
+      if (preview) preview.style.display = 'none';
+      if (icon) icon.style.display = 'none';
+    }
+  };
+  reader.readAsDataURL(file);
+
   if (area) area.classList.add('has-file');
   if (nameEl) { nameEl.textContent = '\u2713 ' + file.name; nameEl.style.display = 'block'; }
 }
@@ -453,7 +455,8 @@ function collectFormPayload() {
     total: total,
     primary_goal: sanitizeHTML(document.getElementById('primary_goal').value.trim()),
     dietary: sanitizeHTML(document.getElementById('dietary').value.trim()),
-    receipt_filename: receiptFileName || ''
+    receipt_filename: receiptFileName || '',
+    receipt_data_url: receiptDataUrl || ''
   };
 }
 
