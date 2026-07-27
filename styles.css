@@ -1456,94 +1456,51 @@ body {
   margin-left: 8px;
 }
 
-.payment-info-grid {
+/* ─── Simple Payment Card ─── */
+.payment-qr-card {
   display: flex;
-  gap: 16px;
+  flex-direction: column;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 20px;
   margin-bottom: 24px;
-  align-items: stretch;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
-.bank-info-card {
-  flex: 1;
-  background: #f8fafc;
+.payment-qr-full-img {
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  border-radius: 10px;
   border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 16px 18px;
+  object-fit: contain;
+  margin-bottom: 16px;
 }
 
-.bank-info-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 700;
-  font-size: 0.88rem;
-  color: #013171;
-  margin-bottom: 14px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #e2e8f0;
-}
-
-.bank-info-row {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 10px;
-}
-
-.bank-info-label {
-  font-size: 0.72rem;
-  color: #64748b;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 600;
-}
-
-.bank-info-value {
-  font-size: 0.95rem;
-  color: #0f172a;
-  font-weight: 600;
-  margin-top: 2px;
-}
-
-.bank-account-num {
-  font-size: 1.1rem;
-  color: #013171;
-  letter-spacing: 0.04em;
-}
-
-.qr-code-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+.bank-simple-details {
+  width: 100%;
+  max-width: 320px;
   background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 16px;
-  min-width: 160px;
-}
-
-.qr-label {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #013171;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 8px;
-  margin-top: 0;
-}
-
-.qr-code-img {
-  width: 155px;
-  height: 155px;
+  border: 1px solid #f1f5f9;
   border-radius: 8px;
-  border: 2px solid #e2e8f0;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.qr-sublabel {
-  font-size: 0.72rem;
+.bank-simple-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
   color: #64748b;
-  margin-top: 6px;
-  margin-bottom: 0;
+}
+
+.bank-simple-row strong {
+  color: #0f172a;
 }
 
 /* ─── File Upload ─── */
@@ -1806,14 +1763,6 @@ body {
 
   .review-body {
     padding: 12px 15px;
-  }
-
-  .payment-info-grid {
-    flex-direction: column;
-  }
-
-  .qr-code-container {
-    min-width: 100%;
   }
 }
 

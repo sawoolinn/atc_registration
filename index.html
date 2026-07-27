@@ -345,31 +345,13 @@
               Amount Due: <strong id="payment-amount-display">US$ —</strong>
             </div>
 
-            <!-- Bank Info + QR Code -->
-            <div class="payment-info-grid">
-              <div class="bank-info-card">
-                <div class="bank-info-title">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-                  Bank Transfer Details
-                </div>
-                <div class="bank-info-row">
-                  <span class="bank-info-label">Bank</span>
-                  <span class="bank-info-value">ABA Bank</span>
-                </div>
-                <div class="bank-info-row">
-                  <span class="bank-info-label">Account Name</span>
-                  <span class="bank-info-value">Oo Lin SAW</span>
-                </div>
-                <div class="bank-info-row">
-                  <span class="bank-info-label">Account Number</span>
-                  <span class="bank-info-value bank-account-num">016 430 204</span>
-                </div>
-              </div>
-              <div class="qr-code-container">
-                <p class="qr-label">Scan to Pay</p>
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://pay.ababank.com/oRF8/lok4hm3e&bgcolor=ffffff&color=013171"
-                  alt="ABA Bank QR Code" class="qr-code-img">
-                <p class="qr-sublabel">ABA Bank</p>
+            <!-- Simple Bank QR Display -->
+            <div class="payment-qr-card">
+              <img src="assets/bank_qr.jpeg" alt="ABA Bank Payment QR Code" class="payment-qr-full-img">
+              <div class="bank-simple-details">
+                <div class="bank-simple-row"><span>Bank:</span> <strong>ABA Bank</strong></div>
+                <div class="bank-simple-row"><span>Account Name:</span> <strong>Oo Lin SAW</strong></div>
+                <div class="bank-simple-row"><span>Account Number:</span> <strong class="bank-account-num">016 430 204</strong></div>
               </div>
             </div>
 
