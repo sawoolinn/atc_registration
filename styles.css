@@ -110,7 +110,7 @@ body {
 /* Right Form Slider Panel */
 .form-panel {
   width: 100%;
-  max-width: 800px;
+  max-width: 1500px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -175,7 +175,7 @@ body {
 
 /* Slide Content formatting */
 .slide-content-card {
-  max-width: 800px;
+  max-width: 1000px;
   /* Expand naturally */
   width: 100%;
   margin: auto;
