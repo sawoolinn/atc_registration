@@ -15,7 +15,7 @@
 <body>
   <div class="app-container">
     <div class="form-panel">
-      
+
       <!-- Centered Header with White Logos -->
       <div class="global-header">
         <div class="header-logo-container">
@@ -132,10 +132,11 @@
               <span class="input-focus-bar"></span>
             </div>
             <h2 class="question-label" style="margin-top:36px;">LinkedIn Profile URL</h2>
-            <p class="question-desc">Share your LinkedIn profile (optional)so we can learn more about your background.</p>
+            <p class="question-desc">Share your LinkedIn profile (optional)so we can learn more about your background.
+            </p>
             <div class="input-wrapper">
               <input type="url" class="form-input-text" id="linkedin" placeholder="https://linkedin.com/in/your-name"
-                 autocomplete="url" maxlength="300">
+                autocomplete="url" maxlength="300">
               <span class="input-focus-bar"></span>
             </div>
             <div class="error-msg" id="error-slide-3">
@@ -214,7 +215,8 @@
             <p class="question-desc">The VC Academy offers flexible attendance formats. Please select your preferred
               enrollment option
               <br>
-              <strong style="color:var(--color-primary-blue)">(a 50% inaugural batch discount will be applied to workshop
+              <strong style="color:var(--color-primary-blue)">(a 50% inaugural batch discount will be applied to
+                workshop
                 fees if both level 1 and 2 workshops and immersion
                 trips are selected)</strong>
             </p>
@@ -328,7 +330,8 @@
             </div>
             <div class="nav-controls">
               <button class="btn-back-arrow" onclick="prevSlide()">&larr;</button>
-              <button class="btn-primary" onclick="validateSlide6()">Next: Payment <span class="keyboard-hint">press Enter &#x21B5;</span></button>
+              <button class="btn-primary" onclick="validateSlide6()">Next: Payment <span class="keyboard-hint">press
+                  Enter &#x21B5;</span></button>
             </div>
           </div>
         </div>
@@ -338,7 +341,8 @@
           <div class="slide-content-card">
             <div class="question-number"><span>07</span> &#x2192; PAYMENT METHOD</div>
             <h2 class="question-label">Choose your payment method<span class="required-star">*</span></h2>
-            <p class="question-desc">Please choose <strong>one payment option</strong> below to proceed with your enrollment.</p>
+            <p class="question-desc">Please choose <strong>one payment option</strong> below to proceed with your
+              enrollment.</p>
 
             <div class="choices-grid" id="payment-choices">
               <div class="choice-card" data-val="aba_qr" onclick="selectPaymentMethod('aba_qr', this)">
@@ -350,7 +354,8 @@
                   </div>
                 </div>
               </div>
-              <div class="choice-card" data-val="finance_officer" onclick="selectPaymentMethod('finance_officer', this)">
+              <div class="choice-card" data-val="finance_officer"
+                onclick="selectPaymentMethod('finance_officer', this)">
                 <div class="choice-letter">B</div>
                 <div class="choice-label">
                   <strong>Option 2: Pay Through Finance Officer</strong>
@@ -365,7 +370,8 @@
             <div id="payment-option-aba" class="payment-option-panel" style="display:none; margin-top:24px;">
               <h3 class="upload-title" style="font-size:1.1rem; margin-bottom:8px;">ABA QR Code Payment</h3>
               <p class="question-desc" style="margin-bottom:16px;">
-                Total Amount Due: <strong id="payment-amount-display" style="color:var(--color-primary-blue);">US$ 0</strong>.
+                Total Amount Due: <strong id="payment-amount-display" style="color:var(--color-primary-blue);">US$
+                  0</strong>.
                 Please scan the ABA QR code below to complete your payment, then upload your payment screenshot.
               </p>
 
@@ -375,13 +381,15 @@
 
               <div class="receipt-upload-section">
                 <h3 class="upload-title">Upload Payment Screenshot <span class="required-star">*</span></h3>
-                <p class="question-desc" style="margin-bottom:10px;">Upload a screenshot or photo of your payment confirmation (JPG / JPEG — max 5MB).</p>
+                <p class="question-desc" style="margin-bottom:10px;">Upload a screenshot or photo of your payment
+                  confirmation (JPG / JPEG — max 5MB).</p>
                 <label class="file-upload-area" id="receiptUploadArea" for="receiptInput">
                   <div class="file-upload-icon" id="receiptUploadIcon">
-                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                      <polyline points="17 8 12 3 7 8"/>
-                      <line x1="12" y1="3" x2="12" y2="15"/>
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <polyline points="17 8 12 3 7 8" />
+                      <line x1="12" y1="3" x2="12" y2="15" />
                     </svg>
                     <span>Click to upload or drag &amp; drop</span>
                     <span class="file-upload-hint">JPG / JPEG &mdash; max 5MB</span>
@@ -389,7 +397,8 @@
                   <img id="receiptPreviewImg" class="receipt-preview-img" style="display:none;" alt="Receipt preview">
                   <div id="receiptFileName" class="receipt-filename" style="display:none;"></div>
                 </label>
-                <input type="file" id="receiptInput" accept=".jpg,.jpeg,image/jpeg" style="display:none;" onchange="handleReceiptUpload(this)">
+                <input type="file" id="receiptInput" accept=".jpg,.jpeg,image/jpeg" style="display:none;"
+                  onchange="handleReceiptUpload(this)">
               </div>
             </div>
 
@@ -397,28 +406,33 @@
             <div id="payment-option-finance" class="payment-option-panel" style="display:none; margin-top:24px;">
               <h3 class="upload-title" style="font-size:1.1rem; margin-bottom:8px;">Pay Through Finance Officer</h3>
               <p class="question-desc" style="margin-bottom:20px;">
-                If you prefer to pay directly through our Finance Officer, please provide your Telegram contact details below. Our Finance Officer will contact you to complete the payment process.
+                If you prefer to pay directly through our Finance Officer, please provide your Telegram contact details
+                below. Our Finance Officer will contact you to complete the payment process.
               </p>
 
               <div class="input-wrapper">
-                <input type="text" class="form-input-text" id="telegram_username" placeholder="Telegram Username (e.g. @username)" required autocomplete="off" maxlength="80">
+                <input type="text" class="form-input-text" id="telegram_username"
+                  placeholder="Telegram Username (e.g. @username)" required autocomplete="off" maxlength="80">
                 <span class="input-focus-bar"></span>
               </div>
 
               <div class="input-wrapper" style="margin-top:24px;">
-                <input type="tel" class="form-input-text" id="telegram_phone" placeholder="Telegram Phone Number (e.g. +855 12 345 678)" required autocomplete="tel" maxlength="40">
+                <input type="tel" class="form-input-text" id="telegram_phone"
+                  placeholder="Telegram Phone Number (e.g. +855 12 345 678)" required autocomplete="tel" maxlength="40">
                 <span class="input-focus-bar"></span>
               </div>
 
               <div class="finance-info-card">
                 <div class="finance-info-title">Finance Officer Contact</div>
                 <div class="finance-info-row"><strong>Name:</strong> Plug and Play VC Academy Finance Team</div>
-                <div class="finance-info-row"><strong>Telegram/Phone:</strong> Contact via Telegram after submission</div>
+                <div class="finance-info-row"><strong>Telegram/Phone:</strong> Contact via Telegram after submission
+                </div>
               </div>
             </div>
 
             <div class="error-msg" id="error-slide-7">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10"></circle>
                 <line x1="12" y1="8" x2="12" y2="12"></line>
                 <line x1="12" y1="16" x2="12.01" y2="16"></line>
@@ -428,7 +442,8 @@
 
             <div class="nav-controls">
               <button class="btn-back-arrow" onclick="prevSlide()">&larr;</button>
-              <button class="btn-primary" onclick="validateSlide7()">Review Enrollment <span class="keyboard-hint">press Enter &#x21B5;</span></button>
+              <button class="btn-primary" onclick="validateSlide7()">Review Enrollment <span class="keyboard-hint">press
+                  Enter &#x21B5;</span></button>
             </div>
           </div>
         </div>
@@ -530,7 +545,9 @@
                       <div class="review-val" id="rev-receipt-name">-</div>
                     </div>
                     <div style="margin-top:10px;">
-                      <img id="rev-receipt-img" style="display:none;max-width:100%;max-height:200px;border-radius:8px;border:1px solid #e2e8f0;" alt="Payment Receipt">
+                      <img id="rev-receipt-img"
+                        style="display:none;max-width:100%;max-height:200px;border-radius:8px;border:1px solid #e2e8f0;"
+                        alt="Payment Receipt">
                     </div>
                   </div>
                   <!-- Option Finance -->
