@@ -8,7 +8,7 @@
     content="Plug and Play VC Academy - Enrollment Portal. Secure registration for the flagship venture capital training program.">
   <title>Plug and Play VC Academy | Enrollment Portal</title>
   <link rel="stylesheet" href="styles.css">
-  <link rel="icon" type="image/.png" href="assets/atc.png">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 
@@ -214,7 +214,7 @@
             <p class="question-desc">The VC Academy offers flexible attendance formats. Please select your preferred
               enrollment option
               <br>
-              <strong style="color:var(--color-primary-red)">(a 50% inaugural batch discount will be applied to workshop
+              <strong style="color:var(--color-primary-blue)">(a 50% inaugural batch discount will be applied to workshop
                 fees if both level 1 and 2 workshops and immersion
                 trips are selected)</strong>
             </p>
@@ -228,7 +228,7 @@
                     Foundational workshop series covering the VC business model, investment process, deal sourcing, and
                     investment instruments.
                   </div>
-                  <div style="font-size:1rem;font-weight:bold;color:var(--color-primary-red);margin-top:6px;">US$ 2,000
+                  <div style="font-size:1rem;font-weight:bold;color:var(--color-primary-blue);margin-top:6px;">US$ 2,000
                   </div>
                 </div>
               </div>
@@ -241,7 +241,7 @@
                     Level 2 workshop series covering the process of closing investment deals, due diligence, venture
                     deal terms and legal due diligence
                   </div>
-                  <div style="font-size:1rem;font-weight:bold;color:var(--color-primary-red);margin-top:6px;">US$ 2,000
+                  <div style="font-size:1rem;font-weight:bold;color:var(--color-primary-blue);margin-top:6px;">US$ 2,000
                   </div>
                 </div>
               </div>
@@ -256,7 +256,7 @@
                     and networking mixers and visits to VCs and tech giants. Ground transportation between venues will
                     be covered
                   </div>
-                  <div style="font-size:1rem;font-weight:bold;color:var(--color-primary-red);margin-top:6px;">US$ 3,000
+                  <div style="font-size:1rem;font-weight:bold;color:var(--color-primary-blue);margin-top:6px;">US$ 3,000
                   </div>
                 </div>
               </div>
@@ -271,7 +271,7 @@
                     and networking mixers and visits to VCs and tech giants. Ground transportation between venues will
                     be covered
                   </div>
-                  <div style="font-size:1rem;font-weight:bold;color:var(--color-primary-red);margin-top:6px;">US$ 6,000
+                  <div style="font-size:1rem;font-weight:bold;color:var(--color-primary-blue);margin-top:6px;">US$ 6,000
                   </div>
                 </div>
               </div>
@@ -336,33 +336,85 @@
         <!-- Slide 7: Payment -->
         <div class="slide" id="slide-7">
           <div class="slide-content-card">
-            <div class="question-number"><span>07</span> &#x2192; PAYMENT</div>
-            <h2 class="question-label">Complete Your Payment</h2>
-            <p class="question-desc">Please transfer the exact amount to our bank account below, then upload your payment receipt.</p>
+            <div class="question-number"><span>07</span> &#x2192; PAYMENT METHOD</div>
+            <h2 class="question-label">Choose your payment method<span class="required-star">*</span></h2>
+            <p class="question-desc">Please choose <strong>one payment option</strong> below to proceed with your enrollment.</p>
 
-            <!-- Original Uploaded Bank QR Image -->
-            <div class="payment-qr-container">
-              <img src="assets/bank_qr.png" alt="Payment QR Code" class="payment-original-img">
+            <div class="choices-grid" id="payment-choices">
+              <div class="choice-card" data-val="aba_qr" onclick="selectPaymentMethod('aba_qr', this)">
+                <div class="choice-letter">A</div>
+                <div class="choice-label">
+                  <strong>Option 1: Pay Online (ABA QR Payment)</strong>
+                  <div style="font-size:0.85rem;color:var(--color-text-secondary);margin-top:4px;">
+                    Scan the ABA QR code and upload your payment screenshot as proof of payment.
+                  </div>
+                </div>
+              </div>
+              <div class="choice-card" data-val="finance_officer" onclick="selectPaymentMethod('finance_officer', this)">
+                <div class="choice-letter">B</div>
+                <div class="choice-label">
+                  <strong>Option 2: Pay Through Finance Officer</strong>
+                  <div style="font-size:0.85rem;color:var(--color-text-secondary);margin-top:4px;">
+                    Pay directly through our Finance Officer. Provide your Telegram contact details for follow up.
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <!-- Receipt Upload -->
-            <div class="receipt-upload-section">
-              <h3 class="upload-title">Upload Payment Receipt <span class="required-star">*</span></h3>
-              <p class="question-desc" style="margin-bottom:10px;">Upload a screenshot or photo of your payment confirmation (JPG / JPEG — max 5MB).</p>
-              <label class="file-upload-area" id="receiptUploadArea" for="receiptInput">
-                <div class="file-upload-icon" id="receiptUploadIcon">
-                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                    <polyline points="17 8 12 3 7 8"/>
-                    <line x1="12" y1="3" x2="12" y2="15"/>
-                  </svg>
-                  <span>Click to upload or drag &amp; drop</span>
-                  <span class="file-upload-hint">JPG / JPEG &mdash; max 5MB</span>
-                </div>
-                <img id="receiptPreviewImg" class="receipt-preview-img" style="display:none;" alt="Receipt preview">
-                <div id="receiptFileName" class="receipt-filename" style="display:none;"></div>
-              </label>
-              <input type="file" id="receiptInput" accept=".jpg,.jpeg,image/jpeg" style="display:none;" onchange="handleReceiptUpload(this)">
+            <!-- Option 1 Container: ABA QR Code & Upload -->
+            <div id="payment-option-aba" class="payment-option-panel" style="display:none; margin-top:24px;">
+              <h3 class="upload-title" style="font-size:1.1rem; margin-bottom:8px;">ABA QR Code Payment</h3>
+              <p class="question-desc" style="margin-bottom:16px;">
+                Total Amount Due: <strong id="payment-amount-display" style="color:var(--color-primary-blue);">US$ 0</strong>.
+                Please scan the ABA QR code below to complete your payment, then upload your payment screenshot.
+              </p>
+
+              <div class="payment-qr-container">
+                <img src="assets/bank_qr.png" alt="Payment QR Code" class="payment-original-img">
+              </div>
+
+              <div class="receipt-upload-section">
+                <h3 class="upload-title">Upload Payment Screenshot <span class="required-star">*</span></h3>
+                <p class="question-desc" style="margin-bottom:10px;">Upload a screenshot or photo of your payment confirmation (JPG / JPEG — max 5MB).</p>
+                <label class="file-upload-area" id="receiptUploadArea" for="receiptInput">
+                  <div class="file-upload-icon" id="receiptUploadIcon">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                      <polyline points="17 8 12 3 7 8"/>
+                      <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                    <span>Click to upload or drag &amp; drop</span>
+                    <span class="file-upload-hint">JPG / JPEG &mdash; max 5MB</span>
+                  </div>
+                  <img id="receiptPreviewImg" class="receipt-preview-img" style="display:none;" alt="Receipt preview">
+                  <div id="receiptFileName" class="receipt-filename" style="display:none;"></div>
+                </label>
+                <input type="file" id="receiptInput" accept=".jpg,.jpeg,image/jpeg" style="display:none;" onchange="handleReceiptUpload(this)">
+              </div>
+            </div>
+
+            <!-- Option 2 Container: Finance Officer Details -->
+            <div id="payment-option-finance" class="payment-option-panel" style="display:none; margin-top:24px;">
+              <h3 class="upload-title" style="font-size:1.1rem; margin-bottom:8px;">Pay Through Finance Officer</h3>
+              <p class="question-desc" style="margin-bottom:20px;">
+                If you prefer to pay directly through our Finance Officer, please provide your Telegram contact details below. Our Finance Officer will contact you to complete the payment process.
+              </p>
+
+              <div class="input-wrapper">
+                <input type="text" class="form-input-text" id="telegram_username" placeholder="Telegram Username (e.g. @username)" required autocomplete="off" maxlength="80">
+                <span class="input-focus-bar"></span>
+              </div>
+
+              <div class="input-wrapper" style="margin-top:24px;">
+                <input type="tel" class="form-input-text" id="telegram_phone" placeholder="Telegram Phone Number (e.g. +855 12 345 678)" required autocomplete="tel" maxlength="40">
+                <span class="input-focus-bar"></span>
+              </div>
+
+              <div class="finance-info-card">
+                <div class="finance-info-title">Finance Officer Contact</div>
+                <div class="finance-info-row"><strong>Name:</strong> Plug and Play VC Academy Finance Team</div>
+                <div class="finance-info-row"><strong>Telegram/Phone:</strong> Contact via Telegram after submission</div>
+              </div>
             </div>
 
             <div class="error-msg" id="error-slide-7">
@@ -371,8 +423,9 @@
                 <line x1="12" y1="8" x2="12" y2="12"></line>
                 <line x1="12" y1="16" x2="12.01" y2="16"></line>
               </svg>
-              <span>Please upload your payment receipt to continue.</span>
+              <span>Please select a payment method and complete the required information.</span>
             </div>
+
             <div class="nav-controls">
               <button class="btn-back-arrow" onclick="prevSlide()">&larr;</button>
               <button class="btn-primary" onclick="validateSlide7()">Review Enrollment <span class="keyboard-hint">press Enter &#x21B5;</span></button>
@@ -439,7 +492,7 @@
                   </div>
                   <div class="review-row">
                     <div class="review-label"><strong>Total Due:</strong></div>
-                    <div class="review-val" id="rev-total" style="font-weight:bold;color:var(--color-primary-red);">-
+                    <div class="review-val" id="rev-total" style="font-weight:bold;color:var(--color-primary-blue);">-
                     </div>
                   </div>
                 </div>
@@ -462,16 +515,34 @@
               </div>
               <div class="review-section">
                 <div class="review-header" onclick="toggleAccordion('review-sec-4')">
-                  <span>4. Payment Receipt</span>
+                  <span>4. Payment Details</span>
                   <span class="review-edit-indicator" onclick="goToSlide(7); event.stopPropagation();">Edit</span>
                 </div>
                 <div class="review-body" id="review-sec-4">
                   <div class="review-row">
-                    <div class="review-label">Receipt File:</div>
-                    <div class="review-val" id="rev-receipt-name">-</div>
+                    <div class="review-label">Payment Method:</div>
+                    <div class="review-val" id="rev-payment-method">-</div>
                   </div>
-                  <div style="margin-top:10px;">
-                    <img id="rev-receipt-img" style="display:none;max-width:100%;max-height:200px;border-radius:8px;border:1px solid #e2e8f0;" alt="Payment Receipt">
+                  <!-- Option ABA -->
+                  <div id="rev-aba-container" style="display:none;">
+                    <div class="review-row" style="margin-top:8px;">
+                      <div class="review-label">Receipt File:</div>
+                      <div class="review-val" id="rev-receipt-name">-</div>
+                    </div>
+                    <div style="margin-top:10px;">
+                      <img id="rev-receipt-img" style="display:none;max-width:100%;max-height:200px;border-radius:8px;border:1px solid #e2e8f0;" alt="Payment Receipt">
+                    </div>
+                  </div>
+                  <!-- Option Finance -->
+                  <div id="rev-finance-container" style="display:none;">
+                    <div class="review-row" style="margin-top:8px;">
+                      <div class="review-label">Telegram Username:</div>
+                      <div class="review-val" id="rev-telegram-user">-</div>
+                    </div>
+                    <div class="review-row">
+                      <div class="review-label">Telegram Phone:</div>
+                      <div class="review-val" id="rev-telegram-phone">-</div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -532,7 +603,7 @@
               <div class="success-row"><span class="success-label">Programs:</span><span class="success-val"
                   id="ticket-programs">-</span></div>
               <div class="success-row"><span class="success-label">Total Due:</span><span class="success-val"
-                  id="ticket-total" style="font-weight:bold;color:var(--color-primary-red);">-</span></div>
+                  id="ticket-total" style="font-weight:bold;color:var(--color-primary-blue);">-</span></div>
               <div class="success-row"><span class="success-label">Submitted On:</span><span class="success-val"
                   id="ticket-date">-</span></div>
               <div class="success-row"><span class="success-label">Next Step:</span><span class="success-val"
@@ -551,7 +622,7 @@
 
     </div>
   </div>
-  <script src="app.js"></script>
+  <script type="module" src="js/app.js"></script>
 </body>
 
 </html>

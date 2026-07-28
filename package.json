@@ -1,6 +1,7 @@
 {
   "name": "atc-registration-website",
   "version": "1.0.0",
+  "type": "module",
   "description": "Secure Startup Registration Portal - AUPP Technology Center",
   "main": "index.html",
   "scripts": {
