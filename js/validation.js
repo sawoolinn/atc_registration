@@ -1,7 +1,6 @@
 import { formState } from './state.js';
 import { isValidEmail, isValidLinkedIn, showError } from './utils.js';
 import { nextSlide } from './navigation.js';
-import { updatePaymentDisplay } from './payment.js';
 import { populateReview } from './submission.js';
 
 export function validateSlide1() {
@@ -68,33 +67,6 @@ export function validateSlide6() {
     showError(6, 'Please share your primary goal.');
     return;
   }
-  updatePaymentDisplay();
-  nextSlide();
-}
-
-export function validateSlide7() {
-  if (!formState.paymentMethod) {
-    showError(7, 'Please select a payment option (ABA QR Code or Finance Officer).');
-    return;
-  }
-
-  if (formState.paymentMethod === 'aba_qr') {
-    if (!formState.receipt.dataUrl) {
-      showError(7, 'Please upload your payment screenshot/receipt.');
-      return;
-    }
-  } else if (formState.paymentMethod === 'finance_officer') {
-    const tgUser = document.getElementById('telegram_username')?.value.trim();
-    const tgPhone = document.getElementById('telegram_phone')?.value.trim();
-
-    if (!tgUser || !tgPhone) {
-      showError(7, 'Please enter both your Telegram username and Telegram phone number.');
-      return;
-    }
-    formState.telegramUsername = tgUser;
-    formState.telegramPhone = tgPhone;
-  }
-
   populateReview();
   nextSlide();
 }

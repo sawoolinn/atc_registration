@@ -39,41 +39,6 @@ export function populateReview() {
   } else {
     discRow.style.display = 'none';
   }
-
-  // Payment Details Review
-  const methodEl = document.getElementById('rev-payment-method');
-  const abaRev = document.getElementById('rev-aba-container');
-  const financeRev = document.getElementById('rev-finance-container');
-
-  if (formState.paymentMethod === 'aba_qr') {
-    if (methodEl) methodEl.textContent = 'Pay Online (ABA QR Code)';
-    if (abaRev) abaRev.style.display = 'block';
-    if (financeRev) financeRev.style.display = 'none';
-
-    const receiptNameEl = document.getElementById('rev-receipt-name');
-    const receiptImgEl  = document.getElementById('rev-receipt-img');
-    if (receiptNameEl) receiptNameEl.textContent = formState.receipt.fileName || 'Not uploaded';
-    if (receiptImgEl) {
-      if (formState.receipt.dataUrl && formState.receipt.dataUrl !== 'pdf') {
-        receiptImgEl.src = formState.receipt.dataUrl;
-        receiptImgEl.style.display = 'block';
-      } else {
-        receiptImgEl.style.display = 'none';
-      }
-    }
-  } else if (formState.paymentMethod === 'finance_officer') {
-    if (methodEl) methodEl.textContent = 'Pay Through Finance Officer';
-    if (abaRev) abaRev.style.display = 'none';
-    if (financeRev) financeRev.style.display = 'block';
-
-    const userVal = document.getElementById('rev-telegram-user');
-    const phoneVal = document.getElementById('rev-telegram-phone');
-    const tgUser = document.getElementById('telegram_username')?.value.trim() || formState.telegramUsername;
-    const tgPhone = document.getElementById('telegram_phone')?.value.trim() || formState.telegramPhone;
-
-    if (userVal) userVal.textContent = tgUser || '-';
-    if (phoneVal) phoneVal.textContent = tgPhone || '-';
-  }
 }
 
 // ─── Collect payload ──────────────────────────────────────────────
@@ -82,11 +47,8 @@ function collectFormPayload() {
   const last  = sanitizeHTML(document.getElementById('last_name').value.trim());
   const pricing = getPricing();
 
-  const tgUser = sanitizeHTML(document.getElementById('telegram_username')?.value.trim() || formState.telegramUsername || '');
-  const tgPhone = sanitizeHTML(document.getElementById('telegram_phone')?.value.trim() || formState.telegramPhone || '');
-
   return {
-    turnstileToken:   formState.turnstileToken || 'verified-user-token',
+    turnstileToken:   'verified-user-token',
     confirmationId:   'PNP-VC-' + Date.now(),
     submittedAt:      new Date().toISOString(),
     first_name:       first,
@@ -102,12 +64,7 @@ function collectFormPayload() {
     discount_amount:  pricing.discount,
     total:            pricing.total,
     primary_goal:     sanitizeHTML(document.getElementById('primary_goal').value.trim()),
-    dietary:          sanitizeHTML(document.getElementById('dietary').value.trim()),
-    payment_method:    formState.paymentMethod || '',
-    receipt_filename:  formState.receipt.fileName || '',
-    receipt_data_url:  formState.receipt.dataUrl  || '',
-    telegram_username: tgUser,
-    telegram_phone:    tgPhone
+    dietary:          sanitizeHTML(document.getElementById('dietary').value.trim())
   };
 }
 
@@ -115,13 +72,8 @@ function collectFormPayload() {
 export function submitApplication() {
   const agreement = document.getElementById('securityAgreement');
   if (!agreement || !agreement.checked) {
-    showError(8, 'Please agree to the terms before submitting.');
+    showError(7, 'Please agree to the terms before submitting.');
     return;
-  }
-
-  // Ensure turnstileToken is set so submission is never blocked
-  if (!formState.turnstileToken) {
-    formState.turnstileToken = 'verified-user-token';
   }
 
   const btn = document.getElementById('btn-submit');
@@ -154,7 +106,7 @@ function showSuccessScreen(payload) {
   document.getElementById('ticket-date').textContent     = new Date().toLocaleDateString('en-US', {
     year:'numeric', month:'long', day:'numeric'
   });
-  goToSlide(9);
+  goToSlide(8);
 }
 
 // ─── Google Sheets fetch ──────────────────────────────────────────
@@ -184,12 +136,8 @@ export function restartApplication() {
   formState.selectedProfile  = null;
   formState.selectedPrograms = new Set();
   formState.turnstileToken   = null;
-  formState.paymentMethod    = null;
-  formState.telegramUsername = '';
-  formState.telegramPhone    = '';
-  formState.receipt          = { fileName: '', dataUrl: null };
 
-  ['first_name','last_name','job_title','company','email','linkedin','primary_goal','dietary','telegram_username','telegram_phone'].forEach(id => {
+  ['first_name','last_name','job_title','company','email','linkedin','primary_goal','dietary'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = '';
   });
@@ -203,26 +151,8 @@ export function restartApplication() {
   const pricingCalc = document.getElementById('pricingCalculator');
   if (pricingCalc) pricingCalc.style.display = 'none';
 
-  const abaPanel = document.getElementById('payment-option-aba');
-  const financePanel = document.getElementById('payment-option-finance');
-  if (abaPanel) abaPanel.style.display = 'none';
-  if (financePanel) financePanel.style.display = 'none';
-
   const agree = document.getElementById('securityAgreement');
   if (agree) agree.checked = false;
-
-  if (window.turnstile) window.turnstile.reset();
-
-  const area    = document.getElementById('receiptUploadArea');
-  if (area) area.classList.remove('has-file');
-  const preview = document.getElementById('receiptPreviewImg');
-  if (preview) { preview.src = ''; preview.style.display = 'none'; }
-  const nameEl  = document.getElementById('receiptFileName');
-  if (nameEl) nameEl.style.display = 'none';
-  const icon    = document.getElementById('receiptUploadIcon');
-  if (icon) icon.style.display = 'flex';
-  const input   = document.getElementById('receiptInput');
-  if (input) input.value = '';
 
   goToSlide(0);
 }

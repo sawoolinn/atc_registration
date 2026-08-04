@@ -6,10 +6,8 @@ import { goToSlide, nextSlide, prevSlide } from './navigation.js';
 import {
   validateSlide1, validateSlide2, validateSlide3,
   validateSlide4, validateSlide5, validateSlide6,
-  validateSlide7,
 } from './validation.js';
 import { toggleProgramOption, updatePricingUI } from './pricing.js';
-import { handleReceiptUpload, selectPaymentMethod } from './payment.js';
 import { loadSessionProgress, saveSessionProgress } from './storage.js';
 import { submitApplication, restartApplication, populateReview } from './submission.js';
 
@@ -23,11 +21,8 @@ window.validateSlide3    = validateSlide3;
 window.validateSlide4    = validateSlide4;
 window.validateSlide5    = validateSlide5;
 window.validateSlide6    = validateSlide6;
-window.validateSlide7    = validateSlide7;
 window.toggleProgramOption  = toggleProgramOption;
 window.selectChoiceSingle   = selectChoiceSingle;
-window.selectPaymentMethod  = selectPaymentMethod;
-window.handleReceiptUpload  = handleReceiptUpload;
 window.submitApplication    = submitApplication;
 window.restartApplication   = restartApplication;
 window.toggleAccordion      = toggleAccordion;
@@ -62,8 +57,7 @@ document.addEventListener('keydown', function (e) {
   const fns = [
     null,
     validateSlide1, validateSlide2, validateSlide3,
-    validateSlide4, validateSlide5, validateSlide6,
-    validateSlide7
+    validateSlide4, validateSlide5, validateSlide6
   ];
   if (fns[i]) fns[i]();
 });
@@ -72,8 +66,7 @@ document.addEventListener('keydown', function (e) {
 document.addEventListener('input', function (e) {
   const targets = [
     'first_name','last_name','job_title','company',
-    'email','linkedin','primary_goal','dietary',
-    'telegram_username','telegram_phone'
+    'email','linkedin','primary_goal','dietary'
   ];
   if (targets.includes(e.target.id)) saveSessionProgress();
 });
@@ -86,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (formState.selectedPrograms.size > 0) updatePricingUI();
 
   // Restore slide position (use goToSlide only if needed to avoid animation on first load)
-  if (savedSlide && savedSlide >= 1 && savedSlide < 9) {
+  if (savedSlide && savedSlide >= 1 && savedSlide < 8) {
     goToSlide(savedSlide);
   }
 });

@@ -44,7 +44,7 @@ export function nextSlide() { goToSlide(formState.currentSlide + 1); }
 export function prevSlide() { goToSlide(formState.currentSlide - 1); }
 
 function updateProgressBar() {
-  const percent = Math.round((formState.currentSlide / 7) * 100);
+  const percent = Math.round((formState.currentSlide / 6) * 100);
   const bar  = document.getElementById('progressBar');
   const text = document.getElementById('progressText');
   if (bar)  bar.style.width  = Math.min(percent, 100) + '%';

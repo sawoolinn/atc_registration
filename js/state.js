@@ -23,17 +23,6 @@ export const formState = {
 
     selectedPrograms: new Set(),
 
-    turnstileToken: null,
-
-    paymentMethod: null, // 'aba_qr' | 'finance_officer'
-
-    telegramUsername: '',
-
-    telegramPhone: '',
-
-    receipt: {
-        fileName: "",
-        dataUrl: null
-    }
+    turnstileToken: null
 
 };

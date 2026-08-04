@@ -1,5 +1,4 @@
 import { formState } from './state.js';
-import { selectPaymentMethod } from './payment.js';
 
 const SESSION_KEY = 'pnp_vc_form';
 
@@ -16,10 +15,7 @@ export function saveSessionProgress() {
       email:         getValue('email'),
       linkedin:      getValue('linkedin'),
       primary_goal:  getValue('primary_goal'),
-      dietary:       getValue('dietary'),
-      paymentMethod: formState.paymentMethod,
-      telegram_username: getValue('telegram_username'),
-      telegram_phone:    getValue('telegram_phone')
+      dietary:       getValue('dietary')
     };
     sessionStorage.setItem(SESSION_KEY, JSON.stringify(state));
   } catch (e) { /* silent */ }
@@ -36,7 +32,7 @@ export function loadSessionProgress() {
     if (!raw) return;
     const data = JSON.parse(raw);
 
-    ['first_name','last_name','job_title','company','email','linkedin','primary_goal','dietary','telegram_username','telegram_phone']
+    ['first_name','last_name','job_title','company','email','linkedin','primary_goal','dietary']
       .forEach(id => {
         const el = document.getElementById(id);
         if (el && data[id]) el.value = data[id];
@@ -56,10 +52,6 @@ export function loadSessionProgress() {
         if (card) card.classList.add('selected');
         if (chk)  chk.textContent = '\u2611';
       });
-    }
-
-    if (data.paymentMethod) {
-      selectPaymentMethod(data.paymentMethod);
     }
 
     return data.currentSlide || 0;
